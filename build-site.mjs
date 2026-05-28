@@ -670,6 +670,145 @@ const seoulDistricts = [
   { slug: "gwanak-gu", ko: "관악구", title: "관악구 출장마사지 | 신림·봉천·서울대입구 방문 관리 안내", desc: "관악구 출장마사지 가능 권역과 신림, 봉천, 서울대입구 주변 예약 전 확인사항을 안내합니다.", hubs: "신림, 봉천, 서울대입구, 낙성대, 난곡", movement: "관악구는 신림 상권과 봉천·낙성대 주거권, 언덕 지형이 섞여 주차와 골목 접근 확인이 필요합니다.", audience: "신림 숙소 이용 고객, 봉천 자택에서 쉬려는 고객, 장시간 앉아 공부·업무한 뒤 목과 허리가 무거운 고객", visit: "언덕길 접근, 공동현관, 주차 가능 지점을 미리 확인합니다.", focus: "상체 피로는 딥티슈, 조용한 휴식은 스웨디시, 하체 무거움은 림프마사지가 어울립니다.", rows: [["신림", "상권·숙소 이용", "스웨디시"], ["봉천·낙성대", "자택 휴식", "딥티슈"], ["난곡", "언덕 이동 확인", "림프마사지"]] }
 ];
 
+const adminAreaGroups = {
+  gyeonggi: { label: "경기", intro: "경기는 시·군·구와 생활권 간 거리가 넓어 행정구역 단위의 이동 조건을 먼저 확인해야 합니다.", units: [
+    ["suwon", "수원시", "장안구, 권선구, 팔달구, 영통구, 광교, 인계", "수원시는 도청·상권·신도시 생활권이 섞여 주차와 아파트 방문 등록 확인이 중요합니다."],
+    ["seongnam", "성남시", "수정구, 중원구, 분당구, 판교, 야탑, 위례", "성남시는 분당·판교 업무권과 구도심 주거권의 예약 시간이 다르게 움직입니다."],
+    ["yongin", "용인시", "처인구, 기흥구, 수지구, 보정, 죽전, 동백", "용인시는 권역이 넓어 같은 시 안에서도 이동 시간이 크게 달라지는 지역입니다."],
+    ["goyang", "고양시", "덕양구, 일산동구, 일산서구, 화정, 백석, 대화", "고양시는 일산 숙소권과 덕양 주거권의 접근 동선이 달라 출입 조건 확인이 필요합니다."],
+    ["bucheon", "부천시", "원미, 소사, 오정, 중동, 상동, 역곡", "부천시는 역세권 오피스텔과 주거권 문의가 많아 공동현관과 주차 확인이 중요합니다."],
+    ["ansan", "안산시", "상록구, 단원구, 고잔, 중앙, 초지, 반월", "안산시는 산업권과 주거권이 함께 있어 근무 종료 시간과 방문 동선을 나눠 봅니다."],
+    ["anyang", "안양시", "만안구, 동안구, 평촌, 범계, 인덕원, 안양일번가", "안양시는 평촌 업무·주거권과 만안 구도심의 이동 조건이 다릅니다."],
+    ["hwaseong", "화성시", "동탄, 병점, 향남, 봉담, 남양, 송산", "화성시는 동탄 신도시와 서부권 이동 거리가 커 추가 출장비 확인이 필요한 지역입니다."],
+    ["namyangju", "남양주시", "다산, 별내, 평내호평, 진접, 오남, 와부", "남양주시는 신도시와 외곽 주거권이 넓어 시간대별 이동 가능성을 따로 확인합니다."],
+    ["pyeongtaek", "평택시", "고덕, 비전, 소사벌, 팽성, 안중, 포승", "평택시는 산업단지와 숙소 문의가 많아 주차와 근무 종료 시간을 함께 확인합니다."],
+    ["uijeongbu", "의정부시", "의정부동, 민락, 호원, 가능, 녹양, 장암", "의정부시는 북부 역세권과 주거권 이동이 많아 공동현관과 주차 안내가 중요합니다."],
+    ["siheung", "시흥시", "배곧, 정왕, 은행, 대야, 장현, 월곶", "시흥시는 배곧·정왕권과 내륙 주거권의 이동 조건이 달라 권역 확인이 필요합니다."],
+    ["paju", "파주시", "운정, 금촌, 문산, 야당, 교하, 탄현", "파주시는 운정 신도시와 북부권 거리가 달라 방문 가능 시간을 보수적으로 확인합니다."],
+    ["gimpo", "김포시", "장기, 구래, 운양, 사우, 풍무, 통진", "김포시는 한강신도시와 북부권 이동 시간이 달라 세부 동 확인이 중요합니다."],
+    ["gwangmyeong", "광명시", "철산, 하안, 소하, 광명동, 일직, KTX광명", "광명시는 역세권 숙소와 주거권 문의가 섞여 주차와 건물 출입을 확인합니다."],
+    ["gwangju-gyeonggi", "광주시", "경안, 태전, 오포, 초월, 곤지암, 송정", "광주시는 외곽 주거지와 도로 이동이 많아 도착 가능 시간을 따로 봅니다."],
+    ["gunpo", "군포시", "산본, 금정, 당정, 부곡, 대야미, 군포역", "군포시는 산본 주거권과 금정 환승권 중심으로 방문 등록을 확인합니다."],
+    ["hanam", "하남시", "미사, 풍산, 덕풍, 신장, 감일, 위례", "하남시는 미사·감일 신도시와 원도심의 접근 방식이 다릅니다."],
+    ["osan", "오산시", "오산동, 원동, 세교, 궐동, 누읍, 가장", "오산시는 세교 주거권과 산업 이동권이 함께 있어 시간대 확인이 필요합니다."],
+    ["icheon", "이천시", "창전, 증포, 부발, 마장, 장호원, 신둔", "이천시는 물류·산업권과 주거권 이동이 나뉘어 근무 종료 시간을 확인합니다."],
+    ["yangju", "양주시", "옥정, 덕정, 회천, 고읍, 백석, 광적", "양주시는 신도시와 외곽 읍면 이동이 넓어 배정 가능 시간을 먼저 안내합니다."],
+    ["guri", "구리시", "수택, 인창, 갈매, 교문, 토평, 아천", "구리시는 소형 주거권과 갈매 신도시 이동 조건이 다릅니다."],
+    ["anseong", "안성시", "공도, 대덕, 금광, 죽산, 원곡, 안성동", "안성시는 공도·원곡 산업 이동과 시내권 문의가 구분됩니다."],
+    ["uiwang", "의왕시", "내손, 오전, 포일, 청계, 고천, 부곡", "의왕시는 인덕원·포일권과 부곡 이동권이 달라 주차 확인이 중요합니다."],
+    ["pocheon", "포천시", "소흘, 신읍, 선단, 군내, 영북, 일동", "포천시는 군 단위 이동과 외곽 도로 조건을 확인해야 하는 북부권입니다."],
+    ["yangpyeong", "양평군", "양평읍, 용문, 강상, 양서, 서종, 옥천", "양평군은 펜션·전원주택 방문이 있어 차량 접근과 숙소 규정 확인이 필요합니다."],
+    ["yeoju", "여주시", "여흥, 중앙, 오학, 가남, 대신, 북내", "여주시는 시내권과 읍면권 이동 거리가 있어 방문 가능 시간을 따로 봅니다."],
+    ["dongducheon", "동두천시", "생연, 지행, 송내, 보산, 상패, 소요", "동두천시는 북부 주거권과 역세권 이동이 중심인 지역입니다."],
+    ["gwacheon", "과천시", "중앙, 별양, 부림, 과천, 문원, 갈현", "과천시는 청사·주거권이 가까워도 주차와 아파트 출입 확인이 필요합니다."],
+    ["gapyeong", "가평군", "가평읍, 청평, 설악, 상면, 조종, 북면", "가평군은 관광 숙소와 펜션 이용이 많아 도로 상황과 숙소 규정을 확인합니다."],
+    ["yeoncheon", "연천군", "전곡, 연천읍, 청산, 백학, 미산, 군남", "연천군은 북부 외곽 이동권으로 당일 배정과 출장비 확인이 먼저입니다."]
+  ] },
+  incheon: { label: "인천", intro: "인천은 공항권, 송도·청라 신도시, 원도심 주거권의 이용 목적이 분명히 나뉩니다.", units: [
+    ["jung-gu-incheon", "중구", "영종, 운서, 인천공항, 신포, 월미, 차이나타운", "인천 중구는 공항 일정과 원도심 관광권이 함께 있어 비행 시간과 숙소 규정 확인이 중요합니다."],
+    ["dong-gu-incheon", "동구", "송림, 송현, 화수, 만석, 금창, 배다리", "인천 동구는 원도심 골목과 주거권 방문이 많아 차량 접근을 확인합니다."],
+    ["michuhol-gu", "미추홀구", "주안, 도화, 용현, 숭의, 학익, 관교", "미추홀구는 역세권 오피스텔과 주거권이 섞여 공동현관과 주차가 중요합니다."],
+    ["yeonsu-gu", "연수구", "송도, 연수, 동춘, 옥련, 청학, 선학", "연수구는 송도 레지던스와 연수 주거권의 방문 규정이 다릅니다."],
+    ["namdong-gu", "남동구", "구월, 논현, 만수, 간석, 서창, 남촌", "남동구는 구월 상권과 논현·서창 주거권의 예약 시간이 다르게 움직입니다."],
+    ["bupyeong-gu", "부평구", "부평, 삼산, 산곡, 청천, 갈산, 십정", "부평구는 부평역 상권과 주거권 이동이 많아 야간 정차 조건을 확인합니다."],
+    ["gyeyang-gu", "계양구", "계산, 작전, 효성, 병방, 임학, 귤현", "계양구는 계양산 인접 주거권과 역세권 이동 조건을 함께 봅니다."],
+    ["seo-gu-incheon", "서구", "청라, 가정, 검암, 마전, 불로, 석남", "인천 서구는 청라 신도시와 검단·석남권 이동이 달라 세부 동 확인이 필요합니다."],
+    ["ganghwa-gun", "강화군", "강화읍, 선원, 길상, 화도, 내가, 양도", "강화군은 섬·관광 숙소 이동권으로 도로 상황과 출장비를 먼저 확인합니다."],
+    ["ongjin-gun", "옹진군", "영흥, 백령, 대청, 덕적, 자월, 연평", "옹진군은 선박 이동이 필요한 권역은 일반 방문 기준과 달라 사전 상담이 필수입니다."]
+  ] },
+  busan: { label: "부산", intro: "부산은 해안 관광권, 서면 업무권, 서부산 산업권의 이동 조건이 크게 다릅니다.", units: [
+    ["haeundae-gu", "해운대구", "해운대, 센텀, 우동, 좌동, 중동, 반여", "해운대구는 호텔·리조트 숙소가 많아 객실 방문 규정과 성수기 교통을 확인합니다."],
+    ["suyeong-gu", "수영구", "광안, 민락, 남천, 수영, 망미, 광안리", "수영구는 광안리 숙소와 상권 이동이 많아 주차·정차 조건이 중요합니다."],
+    ["busanjin-gu", "부산진구", "서면, 전포, 부전, 범천, 양정, 가야", "부산진구는 서면 숙소와 업무권 예약이 많아 야간 이동 시간을 확인합니다."],
+    ["jung-gu-busan", "중구", "남포, 중앙, 광복, 대청, 보수, 영주", "부산 중구는 원도심 호텔과 관광 동선이 섞여 객실 규정을 확인합니다."],
+    ["dong-gu-busan", "동구", "부산역, 초량, 수정, 범일, 좌천, 범곡", "부산 동구는 부산역 이동 전후 문의가 많아 열차 시간과 숙소 위치를 함께 봅니다."],
+    ["seo-gu-busan", "서구", "송도, 암남, 충무, 부민, 동대신, 서대신", "부산 서구는 송도 해안 숙소와 원도심 주거권의 접근성이 다릅니다."],
+    ["yeongdo-gu", "영도구", "남항, 영선, 청학, 동삼, 봉래, 신선", "영도구는 해안 이동과 다리 접근 조건을 확인해야 하는 권역입니다."],
+    ["dongnae-gu", "동래구", "온천, 명륜, 사직, 안락, 낙민, 수안", "동래구는 온천장 숙소와 주거권 문의가 함께 있어 주차를 확인합니다."],
+    ["nam-gu-busan", "남구", "대연, 용호, 문현, 감만, 우암, 용당", "부산 남구는 대학가·주거권·항만 이동이 섞여 시간대 확인이 필요합니다."],
+    ["buk-gu-busan", "북구", "화명, 덕천, 만덕, 구포, 금곡, 수정", "부산 북구는 덕천 상권과 화명 주거권의 방문 조건이 다릅니다."],
+    ["saha-gu", "사하구", "하단, 다대, 괴정, 장림, 신평, 감천", "사하구는 서부산 주거권과 해안 이동권이 함께 있어 거리 확인이 중요합니다."],
+    ["geumjeong-gu", "금정구", "부산대, 장전, 구서, 남산, 서동, 금사", "금정구는 부산대 상권과 북부 주거권의 예약 목적이 다릅니다."],
+    ["gangseo-gu-busan", "강서구", "명지, 녹산, 대저, 가덕, 신호, 지사", "부산 강서구는 서부산 외곽과 산업권 이동이 넓어 출장비 확인이 필요합니다."],
+    ["yeonje-gu", "연제구", "연산, 거제, 시청, 물만골, 과정, 토곡", "연제구는 시청·연산 업무권과 주거권이 가까워도 주차 확인이 필요합니다."],
+    ["sasang-gu", "사상구", "사상, 괘법, 감전, 주례, 모라, 엄궁", "사상구는 터미널·산업권 문의가 많아 이동 후 피로 상담이 많습니다."],
+    ["gijang-gun", "기장군", "기장, 정관, 일광, 장안, 철마, 오시리아", "기장군은 관광 숙소와 외곽 이동이 많아 성수기 도로 상황을 확인합니다."]
+  ] },
+  gyeongsang: { label: "경상도", intro: "경상도는 대구·부산·울산 주변 생활권과 경북·경남 시군 이동권을 구분해 안내해야 합니다.", units: [
+    ["changwon", "창원시", "성산, 의창, 마산합포, 마산회원, 진해, 중앙", "창원시는 산업권과 주거권이 넓게 분포해 근무 종료 시간과 숙소 위치를 확인합니다."],
+    ["gimhae", "김해시", "장유, 내외, 북부, 삼계, 진영, 주촌", "김해시는 부산 인접 생활권과 산업단지 이동이 함께 있습니다."],
+    ["yangsan", "양산시", "물금, 증산, 덕계, 서창, 평산, 동면", "양산시는 부산 생활권과 신도시 주거권이 이어져 이동 시간 확인이 필요합니다."],
+    ["jinju", "진주시", "평거, 초전, 충무공, 가좌, 상대, 상봉", "진주시는 혁신도시와 구도심 이동권이 나뉘어 숙소 위치가 중요합니다."],
+    ["geoje", "거제시", "고현, 옥포, 장평, 아주, 능포, 장승포", "거제시는 조선·해안 숙소권이 많아 도로 상황과 주차를 확인합니다."],
+    ["tongyeong", "통영시", "무전, 광도, 중앙, 미수, 도남, 산양", "통영시는 관광 숙소와 해안 이동이 많아 객실 규정을 확인합니다."],
+    ["sacheon", "사천시", "사천읍, 삼천포, 정동, 용현, 벌리, 향촌", "사천시는 산업권과 해안권 이동 조건이 다릅니다."],
+    ["miryang", "밀양시", "내이, 삼문, 가곡, 부북, 상남, 하남", "밀양시는 시내권과 읍면 이동 거리가 있어 방문 가능 시간을 따로 봅니다."],
+    ["pohang", "포항시", "남구, 북구, 효자, 양덕, 장성, 오천", "포항시는 산업권과 해안 숙소권이 섞여 근무 종료 시간과 주차 확인이 필요합니다."],
+    ["gumi", "구미시", "인동, 진미, 송정, 형곡, 상모, 산동", "구미시는 산업단지 근무 후 문의가 많아 상체·하체 피로를 함께 확인합니다."],
+    ["gyeongju", "경주시", "황리단길, 보문, 동천, 용강, 외동, 감포", "경주시는 관광 숙소와 산업권 이동이 함께 있어 차량 접근이 중요합니다."],
+    ["gyeongsan", "경산시", "중방, 사동, 옥산, 하양, 진량, 압량", "경산시는 대구 인접 생활권과 대학가·산업권 문의가 섞입니다."],
+    ["andong", "안동시", "옥동, 송현, 용상, 태화, 풍천, 도청신도시", "안동시는 도청신도시와 구도심 이동 조건을 구분해야 합니다."],
+    ["gimcheon", "김천시", "율곡, 평화, 대신, 자산, 아포, 감천", "김천시는 혁신도시 숙소와 시내권 문의가 나뉩니다."],
+    ["yeongju", "영주시", "가흥, 휴천, 영주동, 풍기, 안정, 문수", "영주시는 시내권과 읍면권 이동이 달라 배정 가능 시간을 확인합니다."],
+    ["sangju", "상주시", "남원, 동문, 계림, 함창, 사벌, 낙동", "상주시는 넓은 읍면 이동권으로 상세 주소 확인이 중요합니다."],
+    ["mungyeong", "문경시", "점촌, 문경읍, 가은, 산양, 마성, 영순", "문경시는 관광 숙소와 시내권 이동이 나뉘어 도로 상황을 봅니다."],
+    ["yeongcheon", "영천시", "완산, 중앙, 동부, 금호, 청통, 화산", "영천시는 대구 인접 이동과 시내권 방문 조건이 다릅니다."],
+    ["hapcheon", "합천군", "합천읍, 가야, 야로, 초계, 삼가, 대병", "합천군은 군 단위 외곽 이동권으로 출장비와 가능 시간을 먼저 확인합니다."],
+    ["geochang", "거창군", "거창읍, 가조, 위천, 마리, 남상, 웅양", "거창군은 산간 이동과 숙소 접근 조건이 예약 판단에 중요합니다."]
+  ] }
+};
+
+function adminAreaPage(parentSlug, group, unit) {
+  const [slug, ko, hubs, movement] = unit;
+  const hubList = hubs.split(", ");
+  const title = `${ko} 출장마사지 | ${hubList.slice(0, 3).join("·")} 방문 관리 안내`;
+  const description = `${ko} 출장마사지 예약 전 ${hubList.slice(0, 4).join(", ")} 권역의 방문 조건, 행정동 커버리지, 이용 전 확인사항을 안내합니다.`;
+  const body = `<main>
+    <section class="sub-hero">
+      <p class="eyebrow">${group.label} Administrative Area</p>
+      <h1>${ko} 출장마사지 서비스 안내</h1>
+      <p>${movement} ${ko} 페이지는 행정구역 이름만 반복하지 않고 실제 예약 전 확인해야 할 권역, 행정동, 숙소·자택 방문 조건을 기준으로 정리했습니다.</p>
+      <a class="button solid" href="tel:${phone.replaceAll("-", "")}">${ko} 예약 문의</a>
+    </section>
+    <article class="long-copy area-detail">
+      <h2>${ko} 출장마사지 이용 안내</h2>
+      <p>${ko}는 ${hubs} 권역을 중심으로 문의가 나뉩니다. ${group.intro} 같은 시·군·구 안에서도 역세권 숙소, 신도시 아파트, 산업단지 인근 숙소, 관광지 펜션은 방문 방식이 다르기 때문에 주소와 건물 유형을 먼저 확인합니다.</p>
+      <p>${hubList[0]} 인근은 이동과 업무 일정 이후 문의가 많고, ${hubList[1]} 권역은 자택 또는 숙소 휴식 목적이 자주 들어옵니다. ${hubList[2]} 주변은 주차와 공동현관 안내가 중요할 수 있어 예약 전에 출입 조건을 함께 확인합니다.</p>
+      <p>서비스는 스웨디시, 아로마테라피, 딥티슈, 타이마사지, 스포츠마사지, 림프마사지 중 고객 컨디션과 목적에 맞춰 상담합니다. 의학적 치료나 회복 보장을 표현하지 않고, 건전한 휴식 관리 범위에서 압 강도와 피해야 할 부위를 조절합니다.</p>
+      <h2>행정동·생활권 커버리지</h2>
+      <div class="table-wrap"><table><thead><tr><th>구분</th><th>주요 행정동·읍면</th><th>예약 전 확인</th></tr></thead><tbody><tr><td>중심권</td><td>${hubList.slice(0, 2).join(", ")}</td><td>역세권, 호텔, 오피스텔 출입 조건</td></tr><tr><td>주거권</td><td>${hubList.slice(2, 4).join(", ")}</td><td>공동현관, 방문 등록, 주차 위치</td></tr><tr><td>외곽·이동권</td><td>${hubList.slice(4).join(", ")}</td><td>이동 시간, 추가 출장비, 도로 상황</td></tr></tbody></table></div>
+      <h2>예약 전 확인사항</h2>
+      <p>${ko} 예약은 세부 행정동, 희망 시간, 관리 종류, 관리 시간, 주차 가능 여부, 건물 출입 방법을 함께 확인해야 정확합니다. 호텔과 레지던스는 객실 방문 규정이 다를 수 있고, 아파트 단지는 방문 차량 등록이나 공동현관 호출 방식이 필요할 수 있습니다.</p>
+      <p>추가 출장비는 거리만으로 정하지 않습니다. ${movement} 이 조건에 예약이 몰리는 시간대, 관리사 배정 가능 여부, 숙소 접근성을 함께 보고 총 금액을 사전에 안내합니다.</p>
+      <h2>${ko}에서 선택할 수 있는 관리</h2>
+      <p>업무 후 목과 어깨가 무겁다면 딥티슈나 스포츠마사지, 조용한 전신 휴식이 목적이면 스웨디시나 아로마테라피를 상담할 수 있습니다. 이동이나 보행이 많아 다리와 몸이 무겁게 느껴지는 경우에는 림프마사지가 어울릴 수 있으며, 몸이 뻣뻣한 고객은 타이마사지 방향을 상담합니다.</p>
+      <h2>이용 전 준비사항</h2>
+      <p>관리받을 공간을 미리 확보하고, 샤워나 간단한 정돈을 마친 뒤 이용하면 진행이 부드럽습니다. 과식이나 음주 직후 이용은 피하는 것이 좋고, 피부가 민감하거나 특정 오일과 향이 부담스러운 경우 예약 단계에서 미리 알려주세요.</p>
+      <h2>자주 묻는 질문</h2>
+      <div class="faq service-faq"><details><summary>${hubList[0]} 주변도 방문 가능한가요?</summary><p>${hubList[0]} 권역은 시간대와 건물 출입 조건을 기준으로 가능 여부를 확인합니다.</p></details><details><summary>${hubList[1]}·${hubList[2]} 쪽은 추가 출장비가 있나요?</summary><p>이동 거리, 교통 흐름, 예약 현황에 따라 달라질 수 있어 상담 단계에서 총 금액을 안내합니다.</p></details><details><summary>행정동만 알려도 예약이 가능한가요?</summary><p>행정동만으로는 부족할 수 있습니다. 건물 유형, 주차, 출입 방법까지 함께 알려주시면 더 정확합니다.</p></details></div>
+      <h2>예약 문의</h2>
+      <p>${ko} 문의는 “${hubList[0]} 인근, 90분 희망”처럼 행정동과 시간을 함께 남기면 빠릅니다. ${brand}는 대량 복제 페이지가 아니라 실제 이용 전 확인할 조건을 기준으로 지역 콘텐츠를 운영합니다.</p>
+      <p class="byline">작성 기준: ${brand} 고객센터가 확인한 ${group.label} ${ko} 권역별 이동 조건, ${hubList[0]} 상담 항목, 행정동·숙소·자택 방문 전 확인사항을 바탕으로 2026년 5월 28일 검수했습니다.</p>
+    </article>
+    <section class="cta"><h2>${ko} 상담이 필요하신가요?</h2><p>희망 행정동과 방문 시간을 알려주시면 가능 여부와 예상 비용을 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
+  </main>`;
+  return layout({
+    title,
+    description,
+    canonical: districtCanonical(parentSlug, slug),
+    body,
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: `${ko} 출장마사지 서비스 안내`,
+      provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
+      areaServed: `${group.label} ${ko}`,
+      serviceType: "출장마사지 상담 및 웰니스 관리 안내",
+      url: districtCanonical(parentSlug, slug)
+    }
+  });
+}
+
 function districtPage(district) {
   const body = `<main>
     <section class="sub-hero">
@@ -724,7 +863,12 @@ function districtPage(district) {
 function regionPage([slug, ko, en, context, customer]) {
   const detail = regionDetail(slug, ko);
   const copy = regionEditorial[slug] || regionEditorial.seoul;
-  const districtLinks = slug === "seoul" ? `<h2>서울 행정구별 상세 안내</h2><p>서울은 25개 구별로 이동 동선, 숙소 유형, 주차와 출입 조건이 달라 별도 상세 페이지를 제공합니다.</p><div class="area-grid district-grid">${seoulDistricts.map((district) => `<a href="${districtHref("seoul", district.slug)}"><strong>${district.ko}</strong><span>${district.hubs}</span></a>`).join("")}</div>` : "";
+  const adminGroup = adminAreaGroups[slug];
+  const districtLinks = slug === "seoul"
+    ? `<h2>서울 행정구별 상세 안내</h2><p>서울은 25개 구별로 이동 동선, 숙소 유형, 주차와 출입 조건이 달라 별도 상세 페이지를 제공합니다.</p><div class="area-grid district-grid">${seoulDistricts.map((district) => `<a href="${districtHref("seoul", district.slug)}"><strong>${district.ko}</strong><span>${district.hubs}</span></a>`).join("")}</div>`
+    : adminGroup
+      ? `<h2>${adminGroup.label} 행정구역별 상세 안내</h2><p>${adminGroup.intro} 행정동·읍면은 개별 얇은 페이지로 만들지 않고, 시·군·구 상세 페이지 안에서 실제 커버리지와 예약 조건으로 안내합니다.</p><div class="area-grid district-grid">${adminGroup.units.map(([unitSlug, unitKo, hubs]) => `<a href="${districtHref(slug, unitSlug)}"><strong>${unitKo}</strong><span>${hubs}</span></a>`).join("")}</div>`
+      : "";
   const body = `<main>
     <section class="sub-hero">
       <p class="eyebrow">Service Area · ${en}</p>
@@ -993,6 +1137,13 @@ for (const district of seoulDistricts) {
   fs.mkdirSync(path.join("areas", "seoul", district.slug), { recursive: true });
   fs.writeFileSync(path.join("areas", "seoul", district.slug, "index.html"), districtPage(district));
 }
+for (const [parentSlug, group] of Object.entries(adminAreaGroups)) {
+  for (const unit of group.units) {
+    const [unitSlug] = unit;
+    fs.mkdirSync(path.join("areas", parentSlug, unitSlug), { recursive: true });
+    fs.writeFileSync(path.join("areas", parentSlug, unitSlug, "index.html"), adminAreaPage(parentSlug, group, unit));
+  }
+}
 for (const service of services) {
   if (service[0] === "swedish-massage") {
     fs.mkdirSync(path.join("services", "swedish-massage"), { recursive: true });
@@ -1021,5 +1172,6 @@ fs.writeFileSync(path.join("services", "swedish.html"), `<!doctype html>
 </html>`);
 const serviceUrls = [...new Set([...services.map(([slug]) => slug), ...serviceDropdown.map(([slug]) => slug)])];
 const districtUrls = seoulDistricts.map(({ slug }) => districtCanonical("seoul", slug));
-fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${serviceCanonical(slug)}</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${areaCanonical(slug)}</loc></url>`).join("\n")}\n${districtUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`);
+const adminAreaUrls = Object.entries(adminAreaGroups).flatMap(([parentSlug, group]) => group.units.map(([unitSlug]) => districtCanonical(parentSlug, unitSlug)));
+fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${serviceCanonical(slug)}</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${areaCanonical(slug)}</loc></url>`).join("\n")}\n${districtUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n${adminAreaUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`);
