@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://guhara1.github.io/gugumassage/sitemap.xml
