@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const siteUrl = "https://guhara1.github.io/gugumassage";
+const siteUrl = "https://gugumassage.pages.dev";
 const phone = "010-3915-2498";
 const brand = "구구마사지";
 
@@ -34,11 +34,11 @@ const services = [
 ];
 
 const nav = `<nav aria-label="주요 메뉴">
-  <a href="/gugumassage/#services">서비스</a>
-  <a href="/gugumassage/#areas">지역안내</a>
-  <a href="/gugumassage/#pricing">가격안내</a>
-  <a href="/gugumassage/#faq">자주묻는질문</a>
-  <a href="/gugumassage/#contact">예약문의</a>
+  <a href="/#services">서비스</a>
+  <a href="/#areas">지역안내</a>
+  <a href="/#pricing">가격안내</a>
+  <a href="/#faq">자주묻는질문</a>
+  <a href="/#contact">예약문의</a>
 </nav>`;
 
 function layout({ title, description, canonical, body, schema }) {
@@ -55,12 +55,12 @@ function layout({ title, description, canonical, body, schema }) {
   <meta property="og:description" content="${description}">
   <meta property="og:image" content="${siteUrl}/assets/og-image.svg">
   <meta property="og:url" content="${canonical}">
-  <link rel="stylesheet" href="/gugumassage/styles.css">
+  <link rel="stylesheet" href="/styles.css">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="/gugumassage/" aria-label="${brand} 홈">
+    <a class="brand" href="/" aria-label="${brand} 홈">
       <span>GUGU</span>
       <small>Premium Massage</small>
     </a>
@@ -79,14 +79,14 @@ function layout({ title, description, canonical, body, schema }) {
         <strong class="footer-logo">GUGU</strong>
         <p>${brand}는 전국 출장마사지 상담과 방문 관리를 안내하는 프리미엄 케어 브랜드입니다. 모든 안내는 과장보다 확인 가능한 정보, 예약 전 설명, 이용 후 피드백을 기준으로 정리합니다.</p>
       </div>
-      <div><h2>서비스</h2>${services.slice(0, 4).map(([s]) => `<a href="/gugumassage/#services">${s}</a>`).join("")}</div>
-      <div><h2>지역</h2>${regions.slice(0, 6).map(([slug, ko]) => `<a href="/gugumassage/regions/${slug}.html">${ko}</a>`).join("")}</div>
-      <div><h2>고객센터</h2><a href="/gugumassage/#faq">자주묻는질문</a><a href="/gugumassage/#pricing">가격안내</a><a href="tel:${phone.replaceAll("-", "")}">${phone}</a></div>
+      <div><h2>서비스</h2>${services.slice(0, 4).map(([s]) => `<a href="/#services">${s}</a>`).join("")}</div>
+      <div><h2>지역</h2>${regions.slice(0, 6).map(([slug, ko]) => `<a href="/regions/${slug}.html">${ko}</a>`).join("")}</div>
+      <div><h2>고객센터</h2><a href="/#faq">자주묻는질문</a><a href="/#pricing">가격안내</a><a href="tel:${phone.replaceAll("-", "")}">${phone}</a></div>
     </div>
     <p class="business">상호명: ${brand} | 대표 책임자: 고객센터 운영팀 | 이메일: contact@gugumassage.example | 건전한 휴식 관리 안내, 의료 행위 아님.</p>
     <p class="copyright">© 2026 ${brand}</p>
   </footer>
-  <script src="/gugumassage/script.js"></script>
+  <script src="/script.js"></script>
 </body>
 </html>`;
 }
@@ -113,7 +113,7 @@ function home() {
       <div><strong>예약 전</strong><span>총 금액 고지</span></div><div><strong>전국</strong><span>지역별 상담</span></div><div><strong>6종</strong><span>대표 관리</span></div><div><strong>24/7</strong><span>상담 접수</span></div>
     </section>
     <section class="section" id="services"><p class="eyebrow">Our Services</p><h2>프리미엄 마사지 서비스</h2><p class="lead">목적과 컨디션에 맞춰 부드러운 릴랙스부터 집중 케어까지 선택할 수 있습니다.</p><div class="card-grid">${services.map(([name, desc]) => `<article class="service-card"><span>✦</span><h3>${name}</h3><p>${desc}</p></article>`).join("")}</div></section>
-    <section class="section band" id="areas"><p class="eyebrow">Service Areas</p><h2>전국 서비스 지역</h2><p class="lead">지역명만 나열하지 않고, 권역별 이동 특성과 이용 상황을 반영한 안내 페이지를 제공합니다.</p><div class="area-grid">${regions.map(([slug, ko, en]) => `<a href="/gugumassage/regions/${slug}.html"><strong>${ko}</strong><span>${en}</span></a>`).join("")}</div></section>
+    <section class="section band" id="areas"><p class="eyebrow">Service Areas</p><h2>전국 서비스 지역</h2><p class="lead">지역명만 나열하지 않고, 권역별 이동 특성과 이용 상황을 반영한 안내 페이지를 제공합니다.</p><div class="area-grid">${regions.map(([slug, ko, en]) => `<a href="/regions/${slug}.html"><strong>${ko}</strong><span>${en}</span></a>`).join("")}</div></section>
     <section class="section"><p class="eyebrow">Why Choose Us</p><h2>${brand}를 선택하는 이유</h2><div class="reason-grid">${["예약 전 금액과 코스 범위를 먼저 설명합니다.","서비스 범위를 벗어나는 요청은 받지 않습니다.","지역별 이동 가능 시간을 무리하게 약속하지 않습니다.","고객 피드백을 반영해 안내 문구와 운영 기준을 갱신합니다."].map((t, i) => `<article><b>0${i + 1}</b><h3>${t}</h3><p>확인 가능한 정보와 현장 경험을 기준으로 안내해 처음 이용하는 고객도 절차를 쉽게 이해할 수 있게 돕습니다.</p></article>`).join("")}</div></section>
     <section class="section band" id="pricing"><p class="eyebrow">Pricing</p><h2>서비스 가격 안내</h2><p class="lead">아래 금액은 기본 안내이며 지역, 시간, 관리 구성에 따라 상담 시 최종 확인합니다.</p><div class="price-grid">${[["Basic","80,000원","60분","기본 릴랙스 관리"],["Premium","110,000원","90분","아로마 포함 추천 코스"],["Royal","140,000원","120분","전신 집중 맞춤 관리"]].map((p, i) => `<article class="${i === 1 ? "featured" : ""}"><h3>${p[0]} 코스</h3><strong>${p[1]}</strong><span>${p[2]}</span><p>${p[3]}</p><a class="button outline" href="tel:${phone.replaceAll("-", "")}">예약 문의</a></article>`).join("")}</div></section>
     <section class="section faq" id="faq"><p class="eyebrow">FAQ</p><h2>자주 묻는 질문</h2>${["출장마사지 예약은 어떻게 하나요?","서비스 가격은 어떻게 되나요?","어떤 마사지 종류가 있나요?","운영 시간은 어떻게 되나요?"].map((q, i) => `<details ${i === 0 ? "open" : ""}><summary>${q}</summary><p>전화 또는 문자로 지역, 희망 시간, 관리 목적을 알려주시면 가능 여부와 예상 비용을 확인해 안내합니다. 예약 확정 전 총 금액과 준비 사항을 다시 설명합니다.</p></details>`).join("")}</section>
