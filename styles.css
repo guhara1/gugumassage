@@ -325,6 +325,24 @@ details[open] summary::after { content: "-"; }
 }
 .long-copy li { margin: 8px 0; }
 .service-detail h2 { margin-top: 54px; }
+.area-detail h2 { margin-top: 54px; }
+.service-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0 34px;
+}
+.service-summary section {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 22px;
+}
+.service-summary h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+.service-summary p { margin: 0; }
+.service-summary a { color: var(--text); }
 .table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -461,6 +479,7 @@ thead th {
   .reason-grid,
   .price-grid,
   .fee-notes,
+  .service-summary,
   .info-grid,
   .footer-grid { grid-template-columns: 1fr; }
   .metrics { gap: 24px; }
