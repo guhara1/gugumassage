@@ -204,7 +204,7 @@ function districtCanonical(parentSlug, districtSlug) {
   return `${siteUrl}/areas/${parentSlug}/${districtSlug}/`;
 }
 
-function layout({ title, description, canonical, body, schema }) {
+function layout({ title, description, canonical, body, schema, robots }) {
   return `<!doctype html>
 <html lang="ko">
 <head>
@@ -212,6 +212,7 @@ function layout({ title, description, canonical, body, schema }) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title}</title>
   <meta name="description" content="${description}">
+  ${robots ? `<meta name="robots" content="${robots}">` : ""}
   <link rel="canonical" href="${canonical}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${title}">
@@ -248,7 +249,7 @@ function layout({ title, description, canonical, body, schema }) {
       <div><h2>출장 가능 지역</h2>${navRegions.slice(0, 6).map(([slug, ko]) => `<a href="${areaHref(slug)}">${ko}</a>`).join("")}</div>
       <div><h2>고객센터</h2><a href="/#faq">FAQ</a><a href="/#pricing">요금 안내</a><a href="tel:${phone.replaceAll("-", "")}">${phone}</a></div>
     </div>
-    <p class="business">상호명: ${brand} | 대표 책임자: 고객센터 운영팀 | 이메일: contact@gugumassage.example | 건전한 휴식 관리 안내, 의료 행위 아님.</p>
+    <p class="business">상호명: ${brand} | 대표 책임자: 고객센터 운영팀 | 고객센터: ${phone} | 건전한 휴식 관리 안내, 의료 행위 아님.</p>
     <p class="copyright">© 2026 ${brand}</p>
   </footer>
   <script src="/script.js"></script>
@@ -293,7 +294,7 @@ function home() {
     body,
     schema: {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": "Organization",
       name: brand,
       url: `${siteUrl}/`,
       telephone: phone,
@@ -796,12 +797,13 @@ function adminAreaPage(parentSlug, group, unit) {
     title,
     description,
     canonical: districtCanonical(parentSlug, slug),
+    robots: "noindex,follow",
     body,
     schema: {
       "@context": "https://schema.org",
       "@type": "Service",
       name: `${ko} 출장마사지 서비스 안내`,
-      provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
+      provider: { "@type": "Organization", name: brand, telephone: phone },
       areaServed: `${group.label} ${ko}`,
       serviceType: "출장마사지 상담 및 웰니스 관리 안내",
       url: districtCanonical(parentSlug, slug)
@@ -852,7 +854,7 @@ function districtPage(district) {
       "@context": "https://schema.org",
       "@type": "Service",
       name: `${district.ko} 출장마사지 서비스 안내`,
-      provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
+      provider: { "@type": "Organization", name: brand, telephone: phone },
       areaServed: `서울 ${district.ko}`,
       serviceType: "출장마사지 상담 및 웰니스 관리 안내",
       url: districtCanonical("seoul", district.slug)
@@ -910,7 +912,7 @@ function regionPage([slug, ko, en, context, customer]) {
       "@context": "https://schema.org",
       "@type": "Service",
       name: `${ko} 출장마사지 서비스 안내`,
-      provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
+      provider: { "@type": "Organization", name: brand, telephone: phone },
       areaServed: ko,
       serviceType: "출장마사지 상담 및 웰니스 관리 안내",
       url: areaCanonical(slug)
@@ -1008,7 +1010,7 @@ function swedishMassagePage() {
       "@context": "https://schema.org",
       "@type": "Service",
       name: "스웨디시 출장마사지",
-      provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
+      provider: { "@type": "Organization", name: brand, telephone: phone },
       serviceType: "스웨디시 출장마사지 서비스",
       url: `${siteUrl}/services/swedish-massage/`
     }
@@ -1067,7 +1069,7 @@ function detailedDropdownServicePage(service) {
       "@context": "https://schema.org",
       "@type": "Service",
       name: detail.h1,
-      provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
+      provider: { "@type": "Organization", name: brand, telephone: phone },
       serviceType: `${name} 출장마사지 서비스`,
       url: serviceCanonical(slug)
     }
@@ -1103,7 +1105,7 @@ function servicePage(service) {
       "@context": "https://schema.org",
       "@type": "Service",
       name: `${brand} ${name}`,
-      provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
+      provider: { "@type": "Organization", name: brand, telephone: phone },
       serviceType: `${name} 출장마사지 상담 및 웰니스 관리 안내`,
       url: serviceCanonical(slug)
     }
@@ -1172,6 +1174,6 @@ fs.writeFileSync(path.join("services", "swedish.html"), `<!doctype html>
 </html>`);
 const serviceUrls = [...new Set([...services.map(([slug]) => slug), ...serviceDropdown.map(([slug]) => slug)])];
 const districtUrls = seoulDistricts.map(({ slug }) => districtCanonical("seoul", slug));
-const adminAreaUrls = Object.entries(adminAreaGroups).flatMap(([parentSlug, group]) => group.units.map(([unitSlug]) => districtCanonical(parentSlug, unitSlug)));
-fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${serviceCanonical(slug)}</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${areaCanonical(slug)}</loc></url>`).join("\n")}\n${districtUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n${adminAreaUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`);
+fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${serviceCanonical(slug)}</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${areaCanonical(slug)}</loc></url>`).join("\n")}\n${districtUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`);
+
