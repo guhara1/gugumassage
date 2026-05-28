@@ -25,16 +25,16 @@ const regions = [
 ];
 
 const services = [
-  ["스웨디시", "부드러운 압과 긴 호흡으로 전신 긴장을 낮추는 릴랙스 관리"],
-  ["아로마테라피", "피부 자극이 적은 오일을 사용해 향과 터치로 안정감을 더하는 관리"],
-  ["딥티슈", "등, 어깨, 하체처럼 뭉침이 잦은 부위를 천천히 풀어 주는 집중 관리"],
-  ["타이마사지", "스트레칭과 지압을 조합해 굳은 움직임을 부드럽게 만드는 관리"],
-  ["스포츠마사지", "활동량이 많은 고객의 근육 피로와 회복 리듬을 돕는 관리"],
-  ["림프마사지", "가벼운 압과 일정한 방향의 터치로 붓기와 무거움을 덜어 주는 관리"],
+  ["swedish", "스웨디시", "부드러운 압과 긴 호흡으로 전신 긴장을 낮추는 릴랙스 관리", "조용한 휴식, 수면 전 안정감, 처음 이용하는 고객", "강한 압보다 일정한 리듬과 편안한 터치감을 우선합니다."],
+  ["aroma", "아로마테라피", "피부 자극이 적은 오일을 사용해 향과 터치로 안정감을 더하는 관리", "건조함, 긴장감, 향을 통한 휴식 분위기가 필요한 고객", "오일 선호도와 향 민감도를 확인한 뒤 진행합니다."],
+  ["deep-tissue", "딥티슈", "등, 어깨, 하체처럼 뭉침이 잦은 부위를 천천히 풀어 주는 집중 관리", "장시간 앉아 있거나 특정 부위가 무겁게 느껴지는 고객", "불편 부위를 중심으로 압 강도를 단계적으로 조절합니다."],
+  ["thai", "타이마사지", "스트레칭과 지압을 조합해 굳은 움직임을 부드럽게 만드는 관리", "몸이 뻣뻣하거나 가벼운 스트레칭을 원하는 고객", "무리한 꺾기보다 호흡에 맞춘 움직임을 기준으로 합니다."],
+  ["sports", "스포츠마사지", "활동량이 많은 고객의 근육 피로와 회복 리듬을 돕는 관리", "운동 후 피로, 출장 이동, 현장 업무로 몸이 무거운 고객", "활동량과 피로 부위를 확인해 회복 중심으로 안내합니다."],
+  ["lymph", "림프마사지", "가벼운 압과 일정한 방향의 터치로 붓기와 무거움을 덜어 주는 관리", "오래 서 있거나 다리와 몸이 무겁게 느껴지는 고객", "강한 자극보다 부드러운 흐름과 편안함을 우선합니다."],
 ];
 
 const nav = `<nav aria-label="주요 메뉴">
-  <a href="/#services">서비스</a>
+  <a href="/#services">서비스 안내</a>
   <a href="/#areas">지역안내</a>
   <a href="/#pricing">가격안내</a>
   <a href="/#faq">자주묻는질문</a>
@@ -79,7 +79,7 @@ function layout({ title, description, canonical, body, schema }) {
         <strong class="footer-logo">GUGU</strong>
         <p>${brand}는 전국 출장마사지 상담과 방문 관리를 안내하는 프리미엄 케어 브랜드입니다. 모든 안내는 과장보다 확인 가능한 정보, 예약 전 설명, 이용 후 피드백을 기준으로 정리합니다.</p>
       </div>
-      <div><h2>서비스</h2>${services.slice(0, 4).map(([s]) => `<a href="/#services">${s}</a>`).join("")}</div>
+      <div><h2>서비스 안내</h2>${services.map(([slug, name]) => `<a href="/services/${slug}.html">${name}</a>`).join("")}</div>
       <div><h2>지역</h2>${regions.slice(0, 6).map(([slug, ko]) => `<a href="/regions/${slug}.html">${ko}</a>`).join("")}</div>
       <div><h2>고객센터</h2><a href="/#faq">자주묻는질문</a><a href="/#pricing">가격안내</a><a href="tel:${phone.replaceAll("-", "")}">${phone}</a></div>
     </div>
@@ -112,7 +112,7 @@ function home() {
     <section class="metrics" aria-label="운영 기준">
       <div><strong>예약 전</strong><span>총 금액 고지</span></div><div><strong>전국</strong><span>지역별 상담</span></div><div><strong>6종</strong><span>대표 관리</span></div><div><strong>24/7</strong><span>상담 접수</span></div>
     </section>
-    <section class="section" id="services"><p class="eyebrow">Our Services</p><h2>프리미엄 마사지 서비스</h2><p class="lead">목적과 컨디션에 맞춰 부드러운 릴랙스부터 집중 케어까지 선택할 수 있습니다.</p><div class="card-grid">${services.map(([name, desc]) => `<article class="service-card"><span>✦</span><h3>${name}</h3><p>${desc}</p></article>`).join("")}</div></section>
+    <section class="section" id="services"><p class="eyebrow">Service Guide</p><h2>서비스 안내</h2><p class="lead">목적과 컨디션에 맞춰 부드러운 릴랙스부터 집중 케어까지 선택할 수 있습니다.</p><div class="service-list" aria-label="서비스 안내 메뉴">${services.map(([slug, name]) => `<a href="/services/${slug}.html">${name}</a>`).join("")}</div><div class="card-grid">${services.map(([slug, name, desc]) => `<a class="service-card" href="/services/${slug}.html"><span>✦</span><h3>${name}</h3><p>${desc}</p></a>`).join("")}</div></section>
     <section class="section band" id="areas"><p class="eyebrow">Service Areas</p><h2>전국 서비스 지역</h2><p class="lead">지역명만 나열하지 않고, 권역별 이동 특성과 이용 상황을 반영한 안내 페이지를 제공합니다.</p><div class="area-grid">${regions.map(([slug, ko, en]) => `<a href="/regions/${slug}.html"><strong>${ko}</strong><span>${en}</span></a>`).join("")}</div></section>
     <section class="section"><p class="eyebrow">Why Choose Us</p><h2>${brand}를 선택하는 이유</h2><div class="reason-grid">${["예약 전 금액과 코스 범위를 먼저 설명합니다.","서비스 범위를 벗어나는 요청은 받지 않습니다.","지역별 이동 가능 시간을 무리하게 약속하지 않습니다.","고객 피드백을 반영해 안내 문구와 운영 기준을 갱신합니다."].map((t, i) => `<article><b>0${i + 1}</b><h3>${t}</h3><p>확인 가능한 정보와 현장 경험을 기준으로 안내해 처음 이용하는 고객도 절차를 쉽게 이해할 수 있게 돕습니다.</p></article>`).join("")}</div></section>
     <section class="section band" id="pricing"><p class="eyebrow">Pricing</p><h2>서비스 가격 안내</h2><p class="lead">아래 금액은 기본 안내이며 지역, 시간, 관리 구성에 따라 상담 시 최종 확인합니다.</p><div class="price-grid">${[["Basic","80,000원","60분","기본 릴랙스 관리"],["Premium","110,000원","90분","아로마 포함 추천 코스"],["Royal","140,000원","120분","전신 집중 맞춤 관리"]].map((p, i) => `<article class="${i === 1 ? "featured" : ""}"><h3>${p[0]} 코스</h3><strong>${p[1]}</strong><span>${p[2]}</span><p>${p[3]}</p><a class="button outline" href="tel:${phone.replaceAll("-", "")}">예약 문의</a></article>`).join("")}</div></section>
@@ -164,7 +164,7 @@ function regionPage([slug, ko, en, context, customer]) {
         <article><b>상담 기준</b><p>주소 권역, 희망 시간, 관리 목적, 공간 조건을 확인한 뒤 가능 여부를 안내합니다.</p></article>
       </div>
     </section>
-    <section class="section band"><p class="eyebrow">Available Care</p><h2>${ko}에서 상담 가능한 관리</h2><div class="card-grid">${services.map(([name, desc]) => `<article class="service-card"><span>✦</span><h3>${name}</h3><p>${desc}</p></article>`).join("")}</div></section>
+    <section class="section band"><p class="eyebrow">Available Care</p><h2>${ko}에서 상담 가능한 관리</h2><div class="card-grid">${services.map(([slug, name, desc]) => `<a class="service-card" href="/services/${slug}.html"><span>✦</span><h3>${name}</h3><p>${desc}</p></a>`).join("")}</div></section>
     ${regionArticle(ko, en, context, customer)}
     <section class="cta"><h2>${ko} 지역 상담이 필요하신가요?</h2><p>희망 시간과 위치를 알려주시면 예약 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
   </main>`;
@@ -185,9 +185,57 @@ function regionPage([slug, ko, en, context, customer]) {
   });
 }
 
+function serviceArticle([slug, name, desc, intent, method]) {
+  return `<article class="long-copy">
+    <h2>${name} 이용 전 확인할 점</h2>
+    <p>${name}는 ${desc}입니다. ${brand}는 서비스 이름만 보고 일괄적으로 진행하지 않고, 예약 상담에서 고객의 일정, 공간, 컨디션, 선호 압 강도, 피해야 할 부위를 먼저 확인합니다. 같은 ${name}라도 호텔에서 쉬는 고객과 장거리 운전 뒤 자택에서 이용하는 고객의 목적은 다를 수 있기 때문입니다.</p>
+    <p>추천 대상은 ${intent}입니다. 다만 마사지 안내는 의료 진단이나 치료가 아니며, 통증이 심하거나 질환이 의심되는 경우에는 의료기관 상담이 우선입니다. ${brand}의 서비스 안내는 과장된 효과를 약속하기보다 어떤 상황에서 어떤 관리 방향이 어울리는지 설명하는 데 목적이 있습니다.</p>
+    <p>진행 방식은 ${method} 예약 전에는 방문 지역, 희망 시간, 관리 시간, 준비 가능한 공간을 확인하고, 예약 확정 전에 총 금액을 다시 안내합니다. 관리 중 불편함이 있으면 바로 압 강도와 속도를 조절할 수 있으며, 특정 향이나 오일에 민감한 경우에는 상담 단계에서 미리 알려주셔야 합니다.</p>
+    <p>${name}를 처음 이용하는 고객에게 가장 중요한 것은 무리하지 않는 선택입니다. 강한 압이 항상 좋은 관리가 아니고, 긴 시간이 모든 고객에게 맞는 것도 아닙니다. ${brand}는 고객의 피로 유형과 이용 목적을 듣고 스웨디시, 아로마테라피, 딥티슈, 타이마사지, 스포츠마사지, 림프마사지 중 적절한 방향을 함께 안내합니다.</p>
+  </article>`;
+}
+
+function servicePage(service) {
+  const [slug, name, desc, intent, method] = service;
+  const body = `<main>
+    <section class="sub-hero">
+      <p class="eyebrow">Service Guide</p>
+      <h1>${name}</h1>
+      <p>${desc}</p>
+      <a class="button solid" href="tel:${phone.replaceAll("-", "")}">${name} 예약 문의</a>
+    </section>
+    <section class="section compact">
+      <div class="info-grid">
+        <article><b>추천 상황</b><p>${intent}</p></article>
+        <article><b>관리 기준</b><p>${method}</p></article>
+        <article><b>예약 확인</b><p>지역, 시간, 공간 조건, 선호 압 강도, 총 금액을 예약 전 안내합니다.</p></article>
+      </div>
+    </section>
+    <section class="section band"><p class="eyebrow">Service Menu</p><h2>서비스 안내</h2><div class="service-list">${services.map(([itemSlug, itemName]) => `<a href="/services/${itemSlug}.html" class="${itemSlug === slug ? "active" : ""}">${itemName}</a>`).join("")}</div></section>
+    ${serviceArticle(service)}
+    <section class="cta"><h2>${name} 상담이 필요하신가요?</h2><p>희망 지역과 시간을 알려주시면 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
+  </main>`;
+  return layout({
+    title: `${name} | ${brand} 서비스 안내`,
+    description: `${brand} ${name} 서비스의 추천 상황, 진행 기준, 예약 전 확인 사항을 투명하게 안내합니다.`,
+    canonical: `${siteUrl}/services/${slug}.html`,
+    body,
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: `${brand} ${name}`,
+      provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
+      serviceType: `${name} 출장마사지 상담 및 웰니스 관리 안내`,
+      url: `${siteUrl}/services/${slug}.html`
+    }
+  });
+}
+
 fs.mkdirSync("regions", { recursive: true });
+fs.mkdirSync("services", { recursive: true });
 fs.mkdirSync("assets", { recursive: true });
 fs.writeFileSync("index.html", home());
 for (const region of regions) fs.writeFileSync(path.join("regions", `${region[0]}.html`), regionPage(region));
-fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${regions.map(([slug]) => `  <url><loc>${siteUrl}/regions/${slug}.html</loc></url>`).join("\n")}\n</urlset>\n`);
+for (const service of services) fs.writeFileSync(path.join("services", `${service[0]}.html`), servicePage(service));
+fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${services.map(([slug]) => `  <url><loc>${siteUrl}/services/${slug}.html</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${siteUrl}/regions/${slug}.html</loc></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`);
