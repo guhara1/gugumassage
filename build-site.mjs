@@ -1,7 +1,7 @@
 ﻿import fs from "node:fs";
 import path from "node:path";
 
-const siteUrl = "https://gugumassage.pages.dev";
+const siteUrl = "https://gugumassage.club";
 const phone = "0508-202-4743";
 const brand = "구구마사지";
 
