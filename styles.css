@@ -65,7 +65,7 @@ nav a { color: #f6eee9; font-size: 15px; }
   text-align: center;
   position: relative;
   background:
-    linear-gradient(rgba(9, 8, 7, .35), rgba(9, 8, 7, .84)),
+    linear-gradient(rgba(9, 8, 7, .28), rgba(9, 8, 7, .88)),
     url("assets/og-image.svg") center/cover no-repeat;
 }
 .hero::after {
@@ -75,7 +75,12 @@ nav a { color: #f6eee9; font-size: 15px; }
   height: 120px;
   background: linear-gradient(transparent, var(--bg));
 }
-.hero-inner { position: relative; z-index: 1; width: min(900px, 92vw); }
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  width: min(840px, 92vw);
+  margin-top: -28px;
+}
 .eyebrow {
   color: var(--accent);
   text-transform: uppercase;
@@ -93,10 +98,31 @@ h1, h2 {
 h1 { font-size: clamp(52px, 8vw, 96px); }
 h2 { font-size: clamp(38px, 5vw, 64px); text-align: center; }
 h3 { margin: 12px 0; font-size: 22px; }
+.hero .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 26px;
+  border: 1px solid rgba(212, 137, 125, .65);
+  background: rgba(9, 8, 7, .38);
+}
+.hero h1 {
+  margin: 34px 0 18px;
+  color: rgba(255, 250, 245, .94);
+  font-size: clamp(44px, 7vw, 84px);
+  letter-spacing: 8px;
+  text-transform: uppercase;
+}
 .subtitle,
 .lead,
 .sub-hero p,
 .cta p { color: var(--muted); font-size: 18px; }
+.subtitle {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #d4a098;
+}
 
 .button {
   display: inline-flex;

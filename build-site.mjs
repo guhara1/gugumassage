@@ -104,7 +104,7 @@ function home() {
     <section class="hero">
       <div class="hero-inner">
         <p class="eyebrow">Korea's Premium Wellness Care</p>
-        <h1>${brand}</h1>
+        <h1>Premium Massage</h1>
         <p class="subtitle">전국 어디서나 조용하고 정돈된 출장마사지 상담과 방문 관리를 안내합니다.</p>
         <div class="hero-actions"><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="#areas">지역 보기</a></div>
       </div>
