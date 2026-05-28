@@ -263,6 +263,54 @@ h3 { margin: 12px 0; font-size: 22px; }
 }
 .area-grid strong { font-size: 22px; }
 .area-grid span { color: var(--muted); font-size: 12px; letter-spacing: 2px; }
+.district-grid {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  margin-top: 30px;
+}
+.district-grid a {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  justify-content: start;
+  gap: 14px;
+  min-height: 106px;
+  padding: 20px 18px;
+  text-align: left;
+  overflow: hidden;
+}
+.district-grid a::after {
+  content: ">";
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  color: var(--accent);
+  opacity: .7;
+}
+.district-grid strong {
+  display: block;
+  min-width: 56px;
+  color: var(--text);
+  font-size: 24px;
+  line-height: 1.18;
+  word-break: keep-all;
+}
+.district-grid span {
+  display: block;
+  padding-right: 20px;
+  color: #d7a097;
+  font-size: 13px;
+  line-height: 1.75;
+  letter-spacing: .5px;
+  word-break: keep-all;
+}
+.district-grid a:hover,
+.district-grid a:focus-visible {
+  border-color: var(--accent);
+  background: #241612;
+  transform: translateY(-2px);
+}
 
 .reason-grid,
 .price-grid,
@@ -487,6 +535,14 @@ thead th {
   .service-summary,
   .info-grid,
   .footer-grid { grid-template-columns: 1fr; }
+  .district-grid { grid-template-columns: 1fr; }
+  .district-grid a {
+    grid-template-columns: 64px 1fr;
+    min-height: 96px;
+    padding: 18px 16px;
+  }
+  .district-grid strong { font-size: 22px; }
+  .district-grid span { font-size: 12px; line-height: 1.65; }
   .metrics { gap: 24px; }
   .metrics div { border-right: 0; border-bottom: 1px solid var(--line); padding-bottom: 22px; }
   .quick-actions { left: 14px; right: 14px; grid-template-columns: 1fr 1fr; }
