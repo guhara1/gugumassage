@@ -225,6 +225,7 @@ ${verificationTags}${robotsTag}  <link rel="canonical" href="${canonical}">
   <meta property="og:description" content="${description}">
   <meta property="og:image" content="${siteUrl}/assets/og-image.svg">
   <meta property="og:url" content="${canonical}">
+  <link rel="alternate" type="application/rss+xml" title="${brand} RSS" href="${siteUrl}/rss.xml">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="shortcut icon" href="/assets/favicon.svg">
   <link rel="stylesheet" href="/styles.css">
@@ -1397,6 +1398,35 @@ const districtUrls = seoulDistricts.map(({ slug }) => districtCanonical("seoul",
 const adminAreaUrls = Object.entries(adminAreaGroups).flatMap(([parentSlug, group]) =>
   group.units.map(([unitSlug]) => districtCanonical(parentSlug, unitSlug))
 );
-fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${serviceCanonical(slug)}</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${areaCanonical(slug)}</loc></url>`).join("\n")}\n${districtUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n${adminAreaUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`);
-fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`);
+const today = "2026-05-28";
+const buildDate = new Date(`${today}T00:00:00+09:00`).toUTCString();
+const escapeXml = (value) => String(value)
+  .replaceAll("&", "&amp;")
+  .replaceAll("<", "&lt;")
+  .replaceAll(">", "&gt;")
+  .replaceAll('"', "&quot;")
+  .replaceAll("'", "&apos;");
+const sitemapEntries = [
+  { loc: `${siteUrl}/`, priority: "1.0", changefreq: "daily" },
+  ...serviceUrls.map((slug) => ({ loc: serviceCanonical(slug), priority: "0.9", changefreq: "weekly" })),
+  ...regions.map(([slug]) => ({ loc: areaCanonical(slug), priority: "0.9", changefreq: "weekly" })),
+  ...districtUrls.map((url) => ({ loc: url, priority: "0.8", changefreq: "weekly" })),
+  ...adminAreaUrls.map((url) => ({ loc: url, priority: "0.7", changefreq: "weekly" }))
+];
+const rssItems = [
+  { title: `${brand} 메인페이지`, loc: `${siteUrl}/`, description: "구구마사지 전국 출장마사지 서비스, 요금, 이용 방법, 출장 가능 지역 안내" },
+  ...services.map(([slug, name, desc]) => ({ title: `${name} 서비스 안내`, loc: serviceCanonical(slug), description: desc })),
+  ...regions.map(([slug, ko, , local, audience]) => ({ title: `${ko} 출장마사지 서비스 안내`, loc: areaCanonical(slug), description: `${local}에서 ${audience}를 위한 방문 관리 안내` })),
+  ...seoulDistricts.map((district) => ({ title: `${district.ko} 출장마사지 서비스 안내`, loc: districtCanonical("seoul", district.slug), description: district.desc })),
+  ...Object.entries(adminAreaGroups).flatMap(([parentSlug, group]) =>
+    group.units.map(([unitSlug, ko, hubs, movement]) => ({
+      title: `${ko} 출장마사지 서비스 안내`,
+      loc: districtCanonical(parentSlug, unitSlug),
+      description: `${group.label} ${ko} ${hubs} 권역 방문 관리 안내. ${movement}`
+    }))
+  )
+];
+fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries.map(({ loc, priority, changefreq }) => `  <url>\n    <loc>${escapeXml(loc)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`).join("\n")}\n</urlset>\n`);
+fs.writeFileSync("rss.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n  <channel>\n    <title>${escapeXml(brand)} 사이트 업데이트</title>\n    <link>${siteUrl}/</link>\n    <description>${escapeXml(`${brand} 서비스 안내, 출장 가능 지역, 지역별 예약 안내 업데이트`)}</description>\n    <language>ko-KR</language>\n    <lastBuildDate>${buildDate}</lastBuildDate>\n    <atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml" />\n${rssItems.map(({ title, loc, description }) => `    <item>\n      <title>${escapeXml(title)}</title>\n      <link>${escapeXml(loc)}</link>\n      <guid isPermaLink="true">${escapeXml(loc)}</guid>\n      <description>${escapeXml(description)}</description>\n      <pubDate>${buildDate}</pubDate>\n    </item>`).join("\n")}\n  </channel>\n</rss>\n`);
+fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\n\nUser-agent: Googlebot\nAllow: /\n\nUser-agent: Yeti\nAllow: /\n\nUser-agent: NaverBot\nAllow: /\n\nUser-agent: Daumoa\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\nSitemap: ${siteUrl}/rss.xml\n`);
 
