@@ -343,6 +343,11 @@ details[open] summary::after { content: "-"; }
 }
 .service-summary p { margin: 0; }
 .service-summary a { color: var(--text); }
+.byline {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  font-size: 14px;
+}
 .table-wrap {
   width: 100%;
   overflow-x: auto;
