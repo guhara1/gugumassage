@@ -22,6 +22,10 @@ const regions = [
   ["gyeongbuk", "경북", "Gyeongbuk", "포항, 구미, 경주, 안동 등 지역별 성격이 뚜렷한 넓은 권역", "출장, 여행, 현장 업무 후 안정적인 방문 관리를 원하는 고객"],
   ["gyeongnam", "경남", "Gyeongnam", "창원, 김해, 진주, 거제 등 산업과 주거가 넓게 분포한 지역", "현장 업무와 운전 피로를 풀고 균형 있는 휴식을 원하는 고객"],
   ["jeju", "제주", "Jeju", "제주시, 서귀포, 중문, 공항권을 중심으로 여행과 체류가 이어지는 섬", "여행 중 쌓인 보행 피로와 숙소 휴식을 함께 챙기려는 고객"],
+  ["gangwon", "강원", "Gangwon", "춘천, 원주, 강릉, 속초처럼 관광과 주거 동선이 넓게 이어지는 산악·해안 권역", "장거리 운전과 여행 일정 뒤 숙소에서 편안한 관리를 원하는 고객"],
+  ["chungcheong", "충청", "Chungcheong", "청주, 천안, 아산, 대전, 세종을 잇는 중부권 출장과 생활 동선", "업무 이동과 차량 이동이 잦아 목, 허리, 하체 피로가 쌓인 고객"],
+  ["jeolla", "전라", "Jeolla", "전주, 광주, 여수, 목포, 순천을 잇는 관광과 산업 일정이 함께 있는 권역", "여행과 출장 사이에 휴식 시간을 안정적으로 확보하고 싶은 고객"],
+  ["gyeongsang", "경상", "Gyeongsang", "부산, 대구, 울산, 창원, 포항 등 산업과 관광 거점이 넓게 분포한 권역", "현장 업무, 이동 피로, 숙소 휴식을 함께 고려하는 고객"],
 ];
 
 const services = [
@@ -33,12 +37,38 @@ const services = [
   ["lymph", "림프마사지", "가벼운 압과 일정한 방향의 터치로 붓기와 무거움을 덜어 주는 관리", "오래 서 있거나 다리와 몸이 무겁게 느껴지는 고객", "강한 자극보다 부드러운 흐름과 편안함을 우선합니다."],
 ];
 
+const serviceDropdown = [
+  ["dry", "건식 관리", "오일 사용 없이 압과 스트레칭 중심으로 몸의 긴장을 낮추는 관리", "오일이 부담스럽거나 옷을 갈아입는 과정 없이 담백한 관리를 원하는 고객", "목, 어깨, 등, 하체처럼 뻐근한 부위를 중심으로 압 강도를 확인합니다."],
+  ["aroma", "아로마 관리", "은은한 오일과 부드러운 터치로 휴식감을 높이는 관리", "향과 오일을 통한 이완감을 원하거나 피부 건조감이 있는 고객", "향 민감도와 오일 선호도를 예약 전 확인합니다."],
+  ["sports", "스포츠 관리", "활동량이 많은 고객의 근육 피로와 회복 리듬을 돕는 관리", "운동 후 피로, 현장 업무, 장거리 이동 뒤 몸이 무거운 고객", "활동량과 피로 부위를 확인해 회복 중심으로 진행합니다."],
+  ["couple", "커플 관리", "두 명이 같은 장소에서 순차 또는 동시 상담을 요청할 수 있는 관리", "여행, 기념일, 숙소 체류 중 함께 휴식을 원하는 고객", "공간 조건과 배정 가능 인원을 먼저 확인합니다."],
+  ["business-visit", "기업·숙소 방문 관리", "호텔, 숙소, 기업 일정에 맞춰 방문 조건을 확인하는 관리", "출장팀, 행사 후 휴식, 장기 체류 숙소 이용 고객", "방문 규정, 출입 방식, 결제 방식, 시간표를 예약 전 조율합니다."],
+];
+
+const navRegions = [
+  ["seoul", "서울"],
+  ["gyeonggi", "경기"],
+  ["incheon", "인천"],
+  ["busan", "부산"],
+  ["daegu", "대구"],
+  ["daejeon", "대전"],
+  ["gwangju", "광주"],
+  ["ulsan", "울산"],
+  ["sejong", "세종"],
+  ["gangwon", "강원"],
+  ["chungcheong", "충청"],
+  ["jeolla", "전라"],
+  ["gyeongsang", "경상"],
+  ["jeju", "제주"],
+];
+
 const nav = `<nav aria-label="주요 메뉴">
-  <a href="/#services">서비스 안내</a>
-  <a href="/#areas">지역안내</a>
-  <a href="/#pricing">가격안내</a>
-  <a href="/#faq">자주묻는질문</a>
-  <a href="/#contact">예약문의</a>
+  <div class="nav-item"><a href="/#services">서비스 안내</a><div class="dropdown">${serviceDropdown.map(([slug, name]) => `<a href="/services/${slug}.html">${name}</a>`).join("")}</div></div>
+  <div class="nav-item"><a href="/#areas">출장 가능 지역</a><div class="dropdown region-menu">${navRegions.map(([slug, name]) => `<a href="/regions/${slug}.html">${name}</a>`).join("")}</div></div>
+  <div class="nav-item"><a href="/#how-to">이용 방법</a><div class="dropdown"><a href="/#booking-process">예약 절차</a><a href="/#before-care">관리 전 준비사항</a><a href="/#payment-method">결제 방법</a><a href="/#cancel-refund">취소·환불 안내</a><a href="/#visit-notice">방문 유의사항</a></div></div>
+  <div class="nav-item"><a href="/#pricing">요금 안내</a><div class="dropdown"><a href="/#pricing">코스별 요금</a><a href="/#extra-fee">추가 요금</a><a href="/#night-distance">심야·장거리 출장비</a><a href="/#payment-method">결제 방식</a></div></div>
+  <a href="/#faq">FAQ</a>
+  <a href="/#contact">예약 문의</a>
 </nav>`;
 
 function layout({ title, description, canonical, body, schema }) {
@@ -80,8 +110,8 @@ function layout({ title, description, canonical, body, schema }) {
         <p>${brand}는 전국 출장마사지 상담과 방문 관리를 안내하는 프리미엄 케어 브랜드입니다. 모든 안내는 과장보다 확인 가능한 정보, 예약 전 설명, 이용 후 피드백을 기준으로 정리합니다.</p>
       </div>
       <div><h2>서비스 안내</h2>${services.map(([slug, name]) => `<a href="/services/${slug}.html">${name}</a>`).join("")}</div>
-      <div><h2>지역</h2>${regions.slice(0, 6).map(([slug, ko]) => `<a href="/regions/${slug}.html">${ko}</a>`).join("")}</div>
-      <div><h2>고객센터</h2><a href="/#faq">자주묻는질문</a><a href="/#pricing">가격안내</a><a href="tel:${phone.replaceAll("-", "")}">${phone}</a></div>
+      <div><h2>출장 가능 지역</h2>${navRegions.slice(0, 6).map(([slug, ko]) => `<a href="/regions/${slug}.html">${ko}</a>`).join("")}</div>
+      <div><h2>고객센터</h2><a href="/#faq">FAQ</a><a href="/#pricing">요금 안내</a><a href="tel:${phone.replaceAll("-", "")}">${phone}</a></div>
     </div>
     <p class="business">상호명: ${brand} | 대표 책임자: 고객센터 운영팀 | 이메일: contact@gugumassage.example | 건전한 휴식 관리 안내, 의료 행위 아님.</p>
     <p class="copyright">© 2026 ${brand}</p>
@@ -113,10 +143,11 @@ function home() {
       <div><strong>예약 전</strong><span>총 금액 고지</span></div><div><strong>전국</strong><span>지역별 상담</span></div><div><strong>6종</strong><span>대표 관리</span></div><div><strong>24/7</strong><span>상담 접수</span></div>
     </section>
     <section class="section" id="services"><p class="eyebrow">Service Guide</p><h2>서비스 안내</h2><p class="lead">목적과 컨디션에 맞춰 부드러운 릴랙스부터 집중 케어까지 선택할 수 있습니다.</p><div class="service-list" aria-label="서비스 안내 메뉴">${services.map(([slug, name]) => `<a href="/services/${slug}.html">${name}</a>`).join("")}</div><div class="card-grid">${services.map(([slug, name, desc]) => `<a class="service-card" href="/services/${slug}.html"><span>✦</span><h3>${name}</h3><p>${desc}</p></a>`).join("")}</div></section>
-    <section class="section band" id="areas"><p class="eyebrow">Service Areas</p><h2>전국 서비스 지역</h2><p class="lead">지역명만 나열하지 않고, 권역별 이동 특성과 이용 상황을 반영한 안내 페이지를 제공합니다.</p><div class="area-grid">${regions.map(([slug, ko, en]) => `<a href="/regions/${slug}.html"><strong>${ko}</strong><span>${en}</span></a>`).join("")}</div></section>
+    <section class="section band" id="areas"><p class="eyebrow">Service Areas</p><h2>출장 가능 지역</h2><p class="lead">지역명만 나열하지 않고, 권역별 이동 특성과 이용 상황을 반영한 안내 페이지를 제공합니다.</p><div class="area-grid">${navRegions.map(([slug, ko]) => `<a href="/regions/${slug}.html"><strong>${ko}</strong><span>출장마사지</span></a>`).join("")}</div></section>
+    <section class="section" id="how-to"><p class="eyebrow">How To Use</p><h2>이용 방법</h2><p class="lead">예약부터 방문까지 필요한 정보를 미리 확인하면 더 안정적으로 이용할 수 있습니다.</p><div class="reason-grid how-grid"><article id="booking-process"><b>01</b><h3>예약 절차</h3><p>전화 또는 문자로 지역, 희망 시간, 인원, 관리 목적을 알려주시면 가능 여부와 예상 비용을 안내합니다.</p></article><article id="before-care"><b>02</b><h3>관리 전 준비사항</h3><p>조용한 공간, 샤워 가능 여부, 주차와 출입 정보를 미리 확인하면 방문 준비가 빨라집니다.</p></article><article id="payment-method"><b>03</b><h3>결제 방법</h3><p>예약 확정 전 총 금액과 결제 방식을 확인하며, 현장 상황에 따른 추가 비용은 사전 안내를 원칙으로 합니다.</p></article><article id="cancel-refund"><b>04</b><h3>취소·환불 안내</h3><p>배정 전 취소와 방문 직전 취소 기준이 다를 수 있어 상담 시 시간 변경 가능 여부를 함께 확인합니다.</p></article><article id="visit-notice"><b>05</b><h3>방문 유의사항</h3><p>호텔과 숙소는 객실 방문 규정을 확인해야 하며, 서비스 범위를 벗어나는 요청은 운영 정책상 받지 않습니다.</p></article></div></section>
     <section class="section"><p class="eyebrow">Why Choose Us</p><h2>${brand}를 선택하는 이유</h2><div class="reason-grid">${["예약 전 금액과 코스 범위를 먼저 설명합니다.","서비스 범위를 벗어나는 요청은 받지 않습니다.","지역별 이동 가능 시간을 무리하게 약속하지 않습니다.","고객 피드백을 반영해 안내 문구와 운영 기준을 갱신합니다."].map((t, i) => `<article><b>0${i + 1}</b><h3>${t}</h3><p>확인 가능한 정보와 현장 경험을 기준으로 안내해 처음 이용하는 고객도 절차를 쉽게 이해할 수 있게 돕습니다.</p></article>`).join("")}</div></section>
-    <section class="section band" id="pricing"><p class="eyebrow">Pricing</p><h2>서비스 가격 안내</h2><p class="lead">아래 금액은 기본 안내이며 지역, 시간, 관리 구성에 따라 상담 시 최종 확인합니다.</p><div class="price-grid">${[["Basic","80,000원","60분","기본 릴랙스 관리"],["Premium","110,000원","90분","아로마 포함 추천 코스"],["Royal","140,000원","120분","전신 집중 맞춤 관리"]].map((p, i) => `<article class="${i === 1 ? "featured" : ""}"><h3>${p[0]} 코스</h3><strong>${p[1]}</strong><span>${p[2]}</span><p>${p[3]}</p><a class="button outline" href="tel:${phone.replaceAll("-", "")}">예약 문의</a></article>`).join("")}</div></section>
-    <section class="section faq" id="faq"><p class="eyebrow">FAQ</p><h2>자주 묻는 질문</h2>${["출장마사지 예약은 어떻게 하나요?","서비스 가격은 어떻게 되나요?","어떤 마사지 종류가 있나요?","운영 시간은 어떻게 되나요?"].map((q, i) => `<details ${i === 0 ? "open" : ""}><summary>${q}</summary><p>전화 또는 문자로 지역, 희망 시간, 관리 목적을 알려주시면 가능 여부와 예상 비용을 확인해 안내합니다. 예약 확정 전 총 금액과 준비 사항을 다시 설명합니다.</p></details>`).join("")}</section>
+    <section class="section band" id="pricing"><p class="eyebrow">Pricing</p><h2>요금 안내</h2><p class="lead">아래 금액은 기본 안내이며 지역, 시간, 관리 구성에 따라 상담 시 최종 확인합니다.</p><div class="price-grid">${[["Basic","80,000원","60분","기본 릴랙스 관리"],["Premium","110,000원","90분","아로마 포함 추천 코스"],["Royal","140,000원","120분","전신 집중 맞춤 관리"]].map((p, i) => `<article class="${i === 1 ? "featured" : ""}"><h3>${p[0]} 코스</h3><strong>${p[1]}</strong><span>${p[2]}</span><p>${p[3]}</p><a class="button outline" href="tel:${phone.replaceAll("-", "")}">예약 문의</a></article>`).join("")}</div><div class="fee-notes"><article id="extra-fee"><b>추가 요금</b><p>관리 시간 연장, 인원 추가, 특수 방문 조건은 예약 전 별도 안내합니다.</p></article><article id="night-distance"><b>심야·장거리 출장비</b><p>심야 시간, 외곽 이동, 주차 조건에 따라 출장비가 달라질 수 있습니다.</p></article></div></section>
+    <section class="section faq" id="faq"><p class="eyebrow">FAQ</p><h2>FAQ</h2>${["예약은 어떻게 하나요?","결제 방식은 어떻게 확인하나요?","방문 가능 장소는 어디인가요?","위생 관리는 어떻게 하나요?","관리사 배정은 어떻게 되나요?","취소 기준은 어떻게 되나요?"].map((q, i) => `<details ${i === 0 ? "open" : ""}><summary>${q}</summary><p>전화 또는 문자로 지역, 희망 시간, 관리 목적을 알려주시면 가능 여부와 예상 비용을 확인해 안내합니다. 예약 확정 전 총 금액과 준비 사항을 다시 설명합니다.</p></details>`).join("")}</section>
     <section class="cta"><h2>오늘의 회복을 시작하세요</h2><p>매일 상담 접수 · 전국 출장 · 예약 전 가격 안내 · 건전한 웰니스 관리</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
     ${homeArticle()}
   </main>`;
@@ -237,5 +268,9 @@ fs.mkdirSync("assets", { recursive: true });
 fs.writeFileSync("index.html", home());
 for (const region of regions) fs.writeFileSync(path.join("regions", `${region[0]}.html`), regionPage(region));
 for (const service of services) fs.writeFileSync(path.join("services", `${service[0]}.html`), servicePage(service));
-fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${services.map(([slug]) => `  <url><loc>${siteUrl}/services/${slug}.html</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${siteUrl}/regions/${slug}.html</loc></url>`).join("\n")}\n</urlset>\n`);
+for (const service of serviceDropdown.filter(([slug]) => !services.some(([serviceSlug]) => serviceSlug === slug))) {
+  fs.writeFileSync(path.join("services", `${service[0]}.html`), servicePage(service));
+}
+const serviceUrls = [...new Set([...services.map(([slug]) => slug), ...serviceDropdown.map(([slug]) => slug)])];
+fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${siteUrl}/services/${slug}.html</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${siteUrl}/regions/${slug}.html</loc></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`);
