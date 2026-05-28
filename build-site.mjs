@@ -1426,7 +1426,9 @@ const rssItems = [
     }))
   )
 ];
-fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries.map(({ loc, priority, changefreq }) => `  <url>\n    <loc>${escapeXml(loc)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`).join("\n")}\n</urlset>\n`);
+const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries.map(({ loc, priority, changefreq }) => `  <url>\n    <loc>${escapeXml(loc)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`).join("\n")}\n</urlset>\n`;
+fs.writeFileSync("sitemap.xml", sitemapXml);
+fs.writeFileSync("sitemap1.xml", sitemapXml);
 fs.writeFileSync("rss.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n  <channel>\n    <title>${escapeXml(brand)} 사이트 업데이트</title>\n    <link>${siteUrl}/</link>\n    <description>${escapeXml(`${brand} 서비스 안내, 출장 가능 지역, 지역별 예약 안내 업데이트`)}</description>\n    <language>ko-KR</language>\n    <lastBuildDate>${buildDate}</lastBuildDate>\n    <atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml" />\n${rssItems.map(({ title, loc, description }) => `    <item>\n      <title>${escapeXml(title)}</title>\n      <link>${escapeXml(loc)}</link>\n      <guid isPermaLink="true">${escapeXml(loc)}</guid>\n      <description>${escapeXml(description)}</description>\n      <pubDate>${buildDate}</pubDate>\n    </item>`).join("\n")}\n  </channel>\n</rss>\n`);
-fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\n\nUser-agent: Googlebot\nAllow: /\n\nUser-agent: Yeti\nAllow: /\n\nUser-agent: NaverBot\nAllow: /\n\nUser-agent: Daumoa\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\nSitemap: ${siteUrl}/rss.xml\n`);
+fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\n\nUser-agent: Googlebot\nAllow: /\n\nUser-agent: Yeti\nAllow: /\n\nUser-agent: NaverBot\nAllow: /\n\nUser-agent: Daumoa\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\nSitemap: ${siteUrl}/sitemap1.xml\nSitemap: ${siteUrl}/rss.xml\n`);
 
