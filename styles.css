@@ -317,6 +317,45 @@ details[open] summary::after { content: "-"; }
 }
 .long-copy h2 { text-align: left; font-size: clamp(30px, 4vw, 46px); }
 .long-copy p { margin: 20px 0; }
+.long-copy ul,
+.long-copy ol {
+  margin: 18px 0 28px;
+  padding-left: 24px;
+  color: var(--muted);
+}
+.long-copy li { margin: 8px 0; }
+.service-detail h2 { margin-top: 54px; }
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 24px 0 34px;
+  border: 1px solid var(--line);
+}
+table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  background: var(--panel);
+}
+th,
+td {
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  text-align: left;
+}
+th {
+  color: var(--text);
+  font-weight: 900;
+}
+thead th {
+  color: var(--accent);
+  background: rgba(212, 137, 125, .08);
+}
+.service-faq {
+  max-width: none;
+  padding: 0;
+}
 
 .sub-hero {
   min-height: 520px;
@@ -327,6 +366,18 @@ details[open] summary::after { content: "-"; }
   background:
     linear-gradient(rgba(9, 8, 7, .45), rgba(9, 8, 7, .92)),
     url("assets/og-image.svg") center/cover no-repeat;
+}
+.sub-hero h1 {
+  max-width: min(1040px, 92vw);
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(38px, 5.4vw, 72px);
+}
+.sub-hero p {
+  max-width: 880px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 18px;
 }
 .compact { padding-top: 70px; padding-bottom: 70px; }
 .info-grid { grid-template-columns: repeat(3, 1fr); margin-top: 0; }

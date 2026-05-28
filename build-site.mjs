@@ -29,7 +29,7 @@ const regions = [
 ];
 
 const services = [
-  ["swedish", "스웨디시", "부드러운 압과 긴 호흡으로 전신 긴장을 낮추는 릴랙스 관리", "조용한 휴식, 수면 전 안정감, 처음 이용하는 고객", "강한 압보다 일정한 리듬과 편안한 터치감을 우선합니다."],
+  ["swedish-massage", "스웨디시", "부드러운 압과 긴 호흡으로 전신 긴장을 낮추는 릴랙스 관리", "조용한 휴식, 수면 전 안정감, 처음 이용하는 고객", "강한 압보다 일정한 리듬과 편안한 터치감을 우선합니다."],
   ["aroma", "아로마테라피", "피부 자극이 적은 오일을 사용해 향과 터치로 안정감을 더하는 관리", "건조함, 긴장감, 향을 통한 휴식 분위기가 필요한 고객", "오일 선호도와 향 민감도를 확인한 뒤 진행합니다."],
   ["deep-tissue", "딥티슈", "등, 어깨, 하체처럼 뭉침이 잦은 부위를 천천히 풀어 주는 집중 관리", "장시간 앉아 있거나 특정 부위가 무겁게 느껴지는 고객", "불편 부위를 중심으로 압 강도를 단계적으로 조절합니다."],
   ["thai", "타이마사지", "스트레칭과 지압을 조합해 굳은 움직임을 부드럽게 만드는 관리", "몸이 뻣뻣하거나 가벼운 스트레칭을 원하는 고객", "무리한 꺾기보다 호흡에 맞춘 움직임을 기준으로 합니다."],
@@ -38,6 +38,7 @@ const services = [
 ];
 
 const serviceDropdown = [
+  ["swedish-massage", "스웨디시", "부드러운 압과 긴 호흡으로 전신 긴장을 낮추는 릴랙스 관리", "조용한 휴식, 수면 전 안정감, 처음 이용하는 고객", "강한 압보다 일정한 리듬과 편안한 터치감을 우선합니다."],
   ["dry", "건식 관리", "오일 사용 없이 압과 스트레칭 중심으로 몸의 긴장을 낮추는 관리", "오일이 부담스럽거나 옷을 갈아입는 과정 없이 담백한 관리를 원하는 고객", "목, 어깨, 등, 하체처럼 뻐근한 부위를 중심으로 압 강도를 확인합니다."],
   ["aroma", "아로마 관리", "은은한 오일과 부드러운 터치로 휴식감을 높이는 관리", "향과 오일을 통한 이완감을 원하거나 피부 건조감이 있는 고객", "향 민감도와 오일 선호도를 예약 전 확인합니다."],
   ["sports", "스포츠 관리", "활동량이 많은 고객의 근육 피로와 회복 리듬을 돕는 관리", "운동 후 피로, 현장 업무, 장거리 이동 뒤 몸이 무거운 고객", "활동량과 피로 부위를 확인해 회복 중심으로 진행합니다."],
@@ -63,13 +64,21 @@ const navRegions = [
 ];
 
 const nav = `<nav aria-label="주요 메뉴">
-  <div class="nav-item"><a href="/#services">서비스 안내</a><div class="dropdown">${serviceDropdown.map(([slug, name]) => `<a href="/services/${slug}.html">${name}</a>`).join("")}</div></div>
+  <div class="nav-item"><a href="/#services">서비스 안내</a><div class="dropdown">${serviceDropdown.map(([slug, name]) => `<a href="${serviceHref(slug)}">${name}</a>`).join("")}</div></div>
   <div class="nav-item"><a href="/#areas">출장 가능 지역</a><div class="dropdown region-menu">${navRegions.map(([slug, name]) => `<a href="/regions/${slug}.html">${name}</a>`).join("")}</div></div>
   <div class="nav-item"><a href="/#how-to">이용 방법</a><div class="dropdown"><a href="/#booking-process">예약 절차</a><a href="/#before-care">관리 전 준비사항</a><a href="/#payment-method">결제 방법</a><a href="/#cancel-refund">취소·환불 안내</a><a href="/#visit-notice">방문 유의사항</a></div></div>
   <div class="nav-item"><a href="/#pricing">요금 안내</a><div class="dropdown"><a href="/#pricing">코스별 요금</a><a href="/#extra-fee">추가 요금</a><a href="/#night-distance">심야·장거리 출장비</a><a href="/#payment-method">결제 방식</a></div></div>
   <a href="/#faq">FAQ</a>
   <a href="/#contact">예약 문의</a>
 </nav>`;
+
+function serviceHref(slug) {
+  return slug === "swedish-massage" ? "/services/swedish-massage/" : `/services/${slug}.html`;
+}
+
+function serviceCanonical(slug) {
+  return slug === "swedish-massage" ? `${siteUrl}/services/swedish-massage/` : `${siteUrl}/services/${slug}.html`;
+}
 
 function layout({ title, description, canonical, body, schema }) {
   return `<!doctype html>
@@ -109,7 +118,7 @@ function layout({ title, description, canonical, body, schema }) {
         <strong class="footer-logo">GUGU</strong>
         <p>${brand}는 전국 출장마사지 상담과 방문 관리를 안내하는 프리미엄 케어 브랜드입니다. 모든 안내는 과장보다 확인 가능한 정보, 예약 전 설명, 이용 후 피드백을 기준으로 정리합니다.</p>
       </div>
-      <div><h2>서비스 안내</h2>${services.map(([slug, name]) => `<a href="/services/${slug}.html">${name}</a>`).join("")}</div>
+      <div><h2>서비스 안내</h2>${services.map(([slug, name]) => `<a href="${serviceHref(slug)}">${name}</a>`).join("")}</div>
       <div><h2>출장 가능 지역</h2>${navRegions.slice(0, 6).map(([slug, ko]) => `<a href="/regions/${slug}.html">${ko}</a>`).join("")}</div>
       <div><h2>고객센터</h2><a href="/#faq">FAQ</a><a href="/#pricing">요금 안내</a><a href="tel:${phone.replaceAll("-", "")}">${phone}</a></div>
     </div>
@@ -142,7 +151,7 @@ function home() {
     <section class="metrics" aria-label="운영 기준">
       <div><strong>예약 전</strong><span>총 금액 고지</span></div><div><strong>전국</strong><span>지역별 상담</span></div><div><strong>6종</strong><span>대표 관리</span></div><div><strong>24/7</strong><span>상담 접수</span></div>
     </section>
-    <section class="section" id="services"><p class="eyebrow">Service Guide</p><h2>서비스 안내</h2><p class="lead">목적과 컨디션에 맞춰 부드러운 릴랙스부터 집중 케어까지 선택할 수 있습니다.</p><div class="service-list" aria-label="서비스 안내 메뉴">${services.map(([slug, name]) => `<a href="/services/${slug}.html">${name}</a>`).join("")}</div><div class="card-grid">${services.map(([slug, name, desc]) => `<a class="service-card" href="/services/${slug}.html"><span>✦</span><h3>${name}</h3><p>${desc}</p></a>`).join("")}</div></section>
+    <section class="section" id="services"><p class="eyebrow">Service Guide</p><h2>서비스 안내</h2><p class="lead">목적과 컨디션에 맞춰 부드러운 릴랙스부터 집중 케어까지 선택할 수 있습니다.</p><div class="service-list" aria-label="서비스 안내 메뉴">${services.map(([slug, name]) => `<a href="${serviceHref(slug)}">${name}</a>`).join("")}</div><div class="card-grid">${services.map(([slug, name, desc]) => `<a class="service-card" href="${serviceHref(slug)}"><span>✦</span><h3>${name}</h3><p>${desc}</p></a>`).join("")}</div></section>
     <section class="section band" id="areas"><p class="eyebrow">Service Areas</p><h2>출장 가능 지역</h2><p class="lead">지역명만 나열하지 않고, 권역별 이동 특성과 이용 상황을 반영한 안내 페이지를 제공합니다.</p><div class="area-grid">${navRegions.map(([slug, ko]) => `<a href="/regions/${slug}.html"><strong>${ko}</strong><span>출장마사지</span></a>`).join("")}</div></section>
     <section class="section" id="how-to"><p class="eyebrow">How To Use</p><h2>이용 방법</h2><p class="lead">예약부터 방문까지 필요한 정보를 미리 확인하면 더 안정적으로 이용할 수 있습니다.</p><div class="reason-grid how-grid"><article id="booking-process"><b>01</b><h3>예약 절차</h3><p>전화 또는 문자로 지역, 희망 시간, 인원, 관리 목적을 알려주시면 가능 여부와 예상 비용을 안내합니다.</p></article><article id="before-care"><b>02</b><h3>관리 전 준비사항</h3><p>조용한 공간, 샤워 가능 여부, 주차와 출입 정보를 미리 확인하면 방문 준비가 빨라집니다.</p></article><article id="payment-method"><b>03</b><h3>결제 방법</h3><p>예약 확정 전 총 금액과 결제 방식을 확인하며, 현장 상황에 따른 추가 비용은 사전 안내를 원칙으로 합니다.</p></article><article id="cancel-refund"><b>04</b><h3>취소·환불 안내</h3><p>배정 전 취소와 방문 직전 취소 기준이 다를 수 있어 상담 시 시간 변경 가능 여부를 함께 확인합니다.</p></article><article id="visit-notice"><b>05</b><h3>방문 유의사항</h3><p>호텔과 숙소는 객실 방문 규정을 확인해야 하며, 서비스 범위를 벗어나는 요청은 운영 정책상 받지 않습니다.</p></article></div></section>
     <section class="section"><p class="eyebrow">Why Choose Us</p><h2>${brand}를 선택하는 이유</h2><div class="reason-grid">${["예약 전 금액과 코스 범위를 먼저 설명합니다.","서비스 범위를 벗어나는 요청은 받지 않습니다.","지역별 이동 가능 시간을 무리하게 약속하지 않습니다.","고객 피드백을 반영해 안내 문구와 운영 기준을 갱신합니다."].map((t, i) => `<article><b>0${i + 1}</b><h3>${t}</h3><p>확인 가능한 정보와 현장 경험을 기준으로 안내해 처음 이용하는 고객도 절차를 쉽게 이해할 수 있게 돕습니다.</p></article>`).join("")}</div></section>
@@ -195,7 +204,7 @@ function regionPage([slug, ko, en, context, customer]) {
         <article><b>상담 기준</b><p>주소 권역, 희망 시간, 관리 목적, 공간 조건을 확인한 뒤 가능 여부를 안내합니다.</p></article>
       </div>
     </section>
-    <section class="section band"><p class="eyebrow">Available Care</p><h2>${ko}에서 상담 가능한 관리</h2><div class="card-grid">${services.map(([slug, name, desc]) => `<a class="service-card" href="/services/${slug}.html"><span>✦</span><h3>${name}</h3><p>${desc}</p></a>`).join("")}</div></section>
+    <section class="section band"><p class="eyebrow">Available Care</p><h2>${ko}에서 상담 가능한 관리</h2><div class="card-grid">${services.map(([slug, name, desc]) => `<a class="service-card" href="${serviceHref(slug)}"><span>✦</span><h3>${name}</h3><p>${desc}</p></a>`).join("")}</div></section>
     ${regionArticle(ko, en, context, customer)}
     <section class="cta"><h2>${ko} 지역 상담이 필요하신가요?</h2><p>희망 시간과 위치를 알려주시면 예약 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
   </main>`;
@@ -226,6 +235,93 @@ function serviceArticle([slug, name, desc, intent, method]) {
   </article>`;
 }
 
+function swedishMassagePage() {
+  const body = `<main>
+    <section class="sub-hero">
+      <p class="eyebrow">Swedish Massage</p>
+      <h1>스웨디시 출장마사지 서비스 안내</h1>
+      <p>스웨디시는 부드러운 압과 긴 호흡의 터치로 전신의 긴장을 완화하는 릴랙스 중심 관리입니다. 강한 압보다 편안한 흐름과 안정감을 선호하는 고객에게 적합하며, 바쁜 일상 후 몸과 마음을 차분하게 정리하는 데 도움을 줍니다.</p>
+      <a class="button solid" href="tel:${phone.replaceAll("-", "")}">스웨디시 예약 문의</a>
+    </section>
+    <article class="long-copy service-detail">
+      <h2>스웨디시 마사지란?</h2>
+      <p>스웨디시 마사지는 부드러운 터치와 일정한 리듬을 바탕으로 몸의 긴장을 낮추는 전신 릴랙스 관리입니다. 손의 흐름을 길게 이어 가며 압을 천천히 조절하기 때문에 강한 지압이 부담스러운 고객도 비교적 편안하게 선택할 수 있습니다.</p>
+      <p>이 관리는 특정 부위를 세게 누르는 방식보다 전신의 흐름과 안정감을 중요하게 봅니다. 그래서 피로한 부위를 무리하게 자극하기보다 고객의 호흡과 컨디션에 맞춰 편안한 압을 찾는 것이 핵심입니다.</p>
+      <h2>스웨디시 관리가 필요한 경우</h2>
+      <ul>
+        <li>전신 긴장이 쌓여 몸이 무겁게 느껴지는 경우</li>
+        <li>강한 압이나 깊은 지압이 부담스러운 경우</li>
+        <li>조용하고 편안한 휴식 시간이 필요한 경우</li>
+        <li>수면 전 몸을 가볍게 정리하고 싶은 경우</li>
+        <li>장시간 앉아서 일해 목, 어깨, 허리가 뻐근한 경우</li>
+      </ul>
+      <h2>스웨디시 마사지의 특징</h2>
+      <p>스웨디시의 가장 큰 특징은 부드러운 터치와 일정한 압 조절입니다. 전신 중심으로 진행하며, 고객이 편안하게 느끼는 범위 안에서 압과 속도를 맞춥니다. 관리 공간의 조도, 온도, 소음 같은 분위기도 만족도에 영향을 주기 때문에 예약 전 방문 환경을 함께 확인합니다.</p>
+      <p>필요한 경우 피부 자극이 적은 오일을 사용해 마찰을 줄이고 움직임을 부드럽게 이어 갑니다. 특정 향이나 오일에 민감한 고객은 상담 단계에서 미리 알려주시면 관리 방향을 조정할 수 있습니다.</p>
+      <h2>관리 진행 방식</h2>
+      <ol>
+        <li>전화 또는 문자로 예약을 접수합니다.</li>
+        <li>출장 가능 지역과 예상 이동 시간을 확인합니다.</li>
+        <li>고객 컨디션, 선호 압 강도, 피해야 할 부위를 확인합니다.</li>
+        <li>관리받을 공간, 샤워 가능 여부, 주차와 출입 조건을 준비합니다.</li>
+        <li>스웨디시 관리를 진행하며 불편함이 있으면 압과 속도를 조절합니다.</li>
+        <li>마무리 후 이용 중 불편했던 점과 다음 예약 시 참고할 내용을 확인합니다.</li>
+      </ol>
+      <h2>추천 관리 시간</h2>
+      <div class="info-grid">
+        <article><b>60분</b><p>가볍게 전신을 풀고 싶은 고객에게 적합합니다. 처음 이용하거나 짧은 휴식 시간이 필요할 때 선택하기 좋습니다.</p></article>
+        <article><b>90분</b><p>전신 릴랙스를 충분히 원하는 고객에게 권장합니다. 상체와 하체를 균형 있게 관리하기에 무리가 적습니다.</p></article>
+        <article><b>120분</b><p>여유 있게 깊은 휴식을 원하는 고객에게 어울립니다. 이동 피로가 크거나 숙소에서 충분히 쉬고 싶은 경우에 적합합니다.</p></article>
+      </div>
+      <h2>스웨디시와 다른 마사지의 차이</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>구분</th><th>스웨디시</th><th>스포츠마사지</th><th>타이마사지</th></tr></thead>
+          <tbody>
+            <tr><th>압 강도</th><td>부드러운 편</td><td>중간~강한 편</td><td>스트레칭 중심</td></tr>
+            <tr><th>목적</th><td>릴랙스</td><td>근육 피로 완화</td><td>유연성·움직임 개선</td></tr>
+            <tr><th>추천 대상</th><td>편안한 관리를 원하는 고객</td><td>활동량이 많은 고객</td><td>몸이 뻣뻣한 고객</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h2>이용 전 준비사항</h2>
+      <ul>
+        <li>관리받을 공간을 미리 확보해 주세요.</li>
+        <li>샤워 또는 간단한 공간 정돈을 마치면 진행이 수월합니다.</li>
+        <li>과식이나 음주 직후 이용은 자제하는 것이 좋습니다.</li>
+        <li>원하는 압 강도와 불편한 부위를 사전에 알려주세요.</li>
+        <li>오일이나 향에 민감한 경우 예약 상담에서 먼저 말씀해 주세요.</li>
+      </ul>
+      <h2>예약 전 확인사항</h2>
+      <p>예약 전에는 출장 가능 지역, 예약 가능 시간, 관리 코스와 소요 시간, 추가 출장비 여부, 결제 방식을 확인합니다. 호텔과 숙소는 객실 방문 규정이 다를 수 있어 프런트 안내나 출입 조건도 함께 확인하면 좋습니다.</p>
+      <h2>스웨디시 자주 묻는 질문</h2>
+      <div class="faq service-faq">
+        <details open><summary>스웨디시는 어떤 분에게 적합한가요?</summary><p>강한 압보다 편안한 흐름을 선호하고, 전신 릴랙스 중심의 관리를 원하는 고객에게 적합합니다.</p></details>
+        <details><summary>압이 강한 관리인가요?</summary><p>스웨디시는 대체로 부드러운 압을 사용합니다. 다만 고객의 선호에 따라 가능한 범위 안에서 강도를 조절합니다.</p></details>
+        <details><summary>오일을 사용하나요?</summary><p>일반적으로 오일을 사용할 수 있으며, 향이나 피부 민감도가 있는 경우 예약 전 미리 알려주시면 됩니다.</p></details>
+        <details><summary>출장 가능한 지역은 어디인가요?</summary><p>서울, 경기, 인천, 부산, 대구, 대전, 광주, 울산, 세종, 강원, 충청, 전라, 경상, 제주 등 지역별 가능 여부를 상담 시 확인합니다.</p></details>
+        <details><summary>예약은 어떻게 하나요?</summary><p>전화 또는 문자로 지역, 희망 시간, 관리 시간, 방문 장소 조건을 알려주시면 가능 여부와 총 금액을 안내합니다.</p></details>
+        <details><summary>관리 시간은 어떻게 선택하면 좋나요?</summary><p>가벼운 전신 관리는 60분, 충분한 릴랙스는 90분, 여유 있는 휴식은 120분을 기준으로 선택할 수 있습니다.</p></details>
+      </div>
+    </article>
+    <section class="cta"><h2>스웨디시 상담이 필요하신가요?</h2><p>희망 지역과 시간을 알려주시면 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
+  </main>`;
+  return layout({
+    title: "스웨디시 출장마사지 서비스 안내 | 부드러운 전신 릴랙스 관리",
+    description: "스웨디시 출장마사지의 특징, 추천 대상, 관리 방식, 이용 전 준비사항을 안내합니다. 부드러운 압과 편안한 흐름의 전신 릴랙스 관리를 확인해 보세요.",
+    canonical: `${siteUrl}/services/swedish-massage/`,
+    body,
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: "스웨디시 출장마사지",
+      provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
+      serviceType: "스웨디시 출장마사지 서비스",
+      url: `${siteUrl}/services/swedish-massage/`
+    }
+  });
+}
+
 function servicePage(service) {
   const [slug, name, desc, intent, method] = service;
   const body = `<main>
@@ -242,14 +338,14 @@ function servicePage(service) {
         <article><b>예약 확인</b><p>지역, 시간, 공간 조건, 선호 압 강도, 총 금액을 예약 전 안내합니다.</p></article>
       </div>
     </section>
-    <section class="section band"><p class="eyebrow">Service Menu</p><h2>서비스 안내</h2><div class="service-list">${services.map(([itemSlug, itemName]) => `<a href="/services/${itemSlug}.html" class="${itemSlug === slug ? "active" : ""}">${itemName}</a>`).join("")}</div></section>
+    <section class="section band"><p class="eyebrow">Service Menu</p><h2>서비스 안내</h2><div class="service-list">${services.map(([itemSlug, itemName]) => `<a href="${serviceHref(itemSlug)}" class="${itemSlug === slug ? "active" : ""}">${itemName}</a>`).join("")}</div></section>
     ${serviceArticle(service)}
     <section class="cta"><h2>${name} 상담이 필요하신가요?</h2><p>희망 지역과 시간을 알려주시면 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
   </main>`;
   return layout({
     title: `${name} | ${brand} 서비스 안내`,
     description: `${brand} ${name} 서비스의 추천 상황, 진행 기준, 예약 전 확인 사항을 투명하게 안내합니다.`,
-    canonical: `${siteUrl}/services/${slug}.html`,
+    canonical: serviceCanonical(slug),
     body,
     schema: {
       "@context": "https://schema.org",
@@ -257,7 +353,7 @@ function servicePage(service) {
       name: `${brand} ${name}`,
       provider: { "@type": "LocalBusiness", name: brand, telephone: phone },
       serviceType: `${name} 출장마사지 상담 및 웰니스 관리 안내`,
-      url: `${siteUrl}/services/${slug}.html`
+      url: serviceCanonical(slug)
     }
   });
 }
@@ -267,10 +363,30 @@ fs.mkdirSync("services", { recursive: true });
 fs.mkdirSync("assets", { recursive: true });
 fs.writeFileSync("index.html", home());
 for (const region of regions) fs.writeFileSync(path.join("regions", `${region[0]}.html`), regionPage(region));
-for (const service of services) fs.writeFileSync(path.join("services", `${service[0]}.html`), servicePage(service));
+for (const service of services) {
+  if (service[0] === "swedish-massage") {
+    fs.mkdirSync(path.join("services", "swedish-massage"), { recursive: true });
+    fs.writeFileSync(path.join("services", "swedish-massage", "index.html"), swedishMassagePage());
+  } else {
+    fs.writeFileSync(path.join("services", `${service[0]}.html`), servicePage(service));
+  }
+}
 for (const service of serviceDropdown.filter(([slug]) => !services.some(([serviceSlug]) => serviceSlug === slug))) {
   fs.writeFileSync(path.join("services", `${service[0]}.html`), servicePage(service));
 }
+fs.writeFileSync(path.join("services", "swedish.html"), `<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url=/services/swedish-massage/">
+  <link rel="canonical" href="${siteUrl}/services/swedish-massage/">
+  <title>스웨디시 출장마사지 서비스 안내로 이동</title>
+</head>
+<body>
+  <p><a href="/services/swedish-massage/">스웨디시 출장마사지 서비스 안내</a> 페이지로 이동합니다.</p>
+</body>
+</html>`);
 const serviceUrls = [...new Set([...services.map(([slug]) => slug), ...serviceDropdown.map(([slug]) => slug)])];
-fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${siteUrl}/services/${slug}.html</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${siteUrl}/regions/${slug}.html</loc></url>`).join("\n")}\n</urlset>\n`);
+fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${serviceCanonical(slug)}</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${siteUrl}/regions/${slug}.html</loc></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`);
