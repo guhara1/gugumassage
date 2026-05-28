@@ -167,6 +167,8 @@ function layout({ title, description, canonical, body, schema }) {
   <meta property="og:description" content="${description}">
   <meta property="og:image" content="${siteUrl}/assets/og-image.svg">
   <meta property="og:url" content="${canonical}">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="shortcut icon" href="/assets/favicon.svg">
   <link rel="stylesheet" href="/styles.css">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
 </head>

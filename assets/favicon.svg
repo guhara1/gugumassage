@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">GUGU favicon</title>
+  <rect width="64" height="64" rx="8" fill="#090807"/>
+  <rect x="5" y="5" width="54" height="54" rx="6" fill="none" stroke="#3a2420" stroke-width="2"/>
+  <text x="32" y="39" text-anchor="middle" fill="#d4897d" font-family="Georgia, serif" font-size="24" font-weight="700" letter-spacing="2">GG</text>
+  <path d="M18 47h28" stroke="#e3b449" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+</svg>
