@@ -205,6 +205,13 @@ function districtCanonical(parentSlug, districtSlug) {
 }
 
 function layout({ title, description, canonical, body, schema, robots }) {
+  const verificationTags = canonical === `${siteUrl}/`
+    ? `  <meta name="naver-site-verification" content="b02242d4dbddbd4ab9b652a0e9741b1ecdbf6d88">
+  <meta name="google-site-verification" content="Thez9awP1XI45EPoOGC5apckYcRsJMzHzTJ29w7yZV4">
+`
+    : "";
+  const robotsTag = robots ? `  <meta name="robots" content="${robots}">
+` : "";
   return `<!doctype html>
 <html lang="ko">
 <head>
@@ -212,8 +219,7 @@ function layout({ title, description, canonical, body, schema, robots }) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title}</title>
   <meta name="description" content="${description}">
-  ${robots ? `<meta name="robots" content="${robots}">` : ""}
-  <link rel="canonical" href="${canonical}">
+${verificationTags}${robotsTag}  <link rel="canonical" href="${canonical}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
