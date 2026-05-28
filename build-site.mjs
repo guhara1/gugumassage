@@ -759,46 +759,260 @@ const adminAreaGroups = {
   ] }
 };
 
-function adminAreaPage(parentSlug, group, unit) {
+function checksum(text) {
+  return [...text].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+}
+
+function pick(items, seed, offset = 0) {
+  return items[(seed + offset) % items.length];
+}
+
+function adminProfile(parentSlug, group, unit) {
   const [slug, ko, hubs, movement] = unit;
   const hubList = hubs.split(", ");
-  const title = `${ko} 출장마사지 | ${hubList.slice(0, 3).join("·")} 방문 관리 안내`;
-  const description = `${ko} 출장마사지 예약 전 ${hubList.slice(0, 4).join(", ")} 권역의 방문 조건, 행정동 커버리지, 이용 전 확인사항을 안내합니다.`;
+  const order = group.units.findIndex(([unitSlug]) => unitSlug === slug);
+  const seed = checksum(`${parentSlug}-${slug}-${ko}`) + Math.max(order, 0) * 37;
+  const placeTypes = {
+    gyeonggi: ["신도시 아파트", "산업단지 인근 숙소", "역세권 오피스텔", "외곽 전원주택", "비즈니스호텔"],
+    incheon: ["공항권 호텔", "송도·청라 레지던스", "원도심 주거지", "항만·업무 숙소", "섬 지역 숙소"],
+    busan: ["해안 호텔", "서면권 숙소", "원도심 레지던스", "항만·산업권 숙소", "관광지 펜션"],
+    gyeongsang: ["산업단지 숙소", "관광 숙박시설", "도청·혁신도시 오피스텔", "해안권 호텔", "읍면 주거지"]
+  };
+  const timeWindows = {
+    gyeonggi: ["퇴근 직후 19~22시", "산업단지 교대 전후", "주말 오후", "심야 이동 전", "출근 전 이른 상담"],
+    incheon: ["항공편 전후", "송도 업무 종료 후", "주말 숙소 체크인 뒤", "심야 공항 이동 전", "원도심 저녁 시간"],
+    busan: ["해수욕장 성수기 저녁", "서면 업무 종료 후", "부산역 도착 뒤", "주말 관광 일정 후", "항만 근무 교대 전후"],
+    gyeongsang: ["현장 근무 종료 후", "출장 숙소 입실 직후", "관광 일정 마무리 시간", "장거리 운전 이후", "교대 근무 사이 휴식 시간"]
+  };
+  const routeChecks = {
+    gyeonggi: ["광역도로 정체", "지하주차장 진입 높이", "신도시 단지 방문 등록", "시 경계 이동 시간", "외곽 도로 조명"],
+    incheon: ["교량 통행 시간", "공항 보안·숙소 규정", "항만 주변 정차 위치", "신도시 지하주차장 동선", "섬 지역 선박 시간"],
+    busan: ["해안도로 정체", "관광지 주차 가능 여부", "산복도로 접근성", "터미널·역 주변 정차", "성수기 이동 지연"],
+    gyeongsang: ["고속도로 진출입", "산업단지 교대 차량", "해안·산간 도로 상황", "시외 이동 거리", "숙소 주변 주차 공간"]
+  };
+  const serviceAngles = [
+    ["스웨디시", "부드러운 압과 긴 호흡의 흐름으로 하루를 차분히 정리하고 싶은 고객에게 맞습니다."],
+    ["아로마테라피", "오일과 은은한 향을 원하고 강한 자극보다 휴식감을 우선하는 고객에게 어울립니다."],
+    ["딥티슈", "등, 어깨, 하체처럼 특정 부위가 무겁게 느껴질 때 압을 단계적으로 조절합니다."],
+    ["타이마사지", "몸이 뻣뻣하거나 스트레칭 중심의 움직임 정리가 필요한 일정에 상담합니다."],
+    ["스포츠마사지", "운동, 현장 업무, 장거리 운전 뒤 근육 피로가 누적된 경우에 적합합니다."],
+    ["림프마사지", "강한 압이 부담스럽고 몸이 무겁게 느껴질 때 가벼운 흐름 중심으로 안내합니다."]
+  ];
+  const userScenes = [
+    `${hubList[0]} 주변에서 업무를 마친 뒤 숙소로 바로 이동하는 고객`,
+    `${hubList[1]} 권역 자택에서 조용한 휴식을 원하는 고객`,
+    `${hubList[2]} 인근 오피스텔이나 레지던스에서 방문 규정을 확인해야 하는 고객`,
+    `${hubList[3] || hubList[0]} 생활권에서 가족이나 동거인 일정과 시간을 맞춰야 하는 고객`,
+    `${hubList[4] || hubList[1]} 쪽 외곽 이동으로 도착 시간을 보수적으로 잡아야 하는 고객`
+  ];
+  const rowSeed = Math.max(order, 0);
+  const rows = [
+    [hubList.slice(0, 2).join("·"), userScenes[rowSeed % userScenes.length], routeChecks[parentSlug][(rowSeed * 2) % routeChecks[parentSlug].length], serviceAngles[(rowSeed * 3) % serviceAngles.length]],
+    [hubList.slice(2, 4).join("·"), userScenes[(rowSeed + 2) % userScenes.length], routeChecks[parentSlug][(rowSeed * 2 + 1) % routeChecks[parentSlug].length], serviceAngles[(rowSeed * 3 + 2) % serviceAngles.length]],
+    [hubList.slice(4).join("·") || hubList[0], userScenes[(rowSeed + 4) % userScenes.length], routeChecks[parentSlug][(rowSeed * 2 + 3) % routeChecks[parentSlug].length], serviceAngles[(rowSeed * 3 + 4) % serviceAngles.length]]
+  ];
+  return {
+    slug,
+    ko,
+    hubs,
+    hubList,
+    movement,
+    seed,
+    place: placeTypes[parentSlug][(rowSeed * 3) % placeTypes[parentSlug].length],
+    secondPlace: placeTypes[parentSlug][(rowSeed * 3 + 2) % placeTypes[parentSlug].length],
+    time: timeWindows[parentSlug][(rowSeed * 2) % timeWindows[parentSlug].length],
+    nextTime: timeWindows[parentSlug][(rowSeed * 2 + 3) % timeWindows[parentSlug].length],
+    route: routeChecks[parentSlug][(rowSeed * 2) % routeChecks[parentSlug].length],
+    secondRoute: routeChecks[parentSlug][(rowSeed * 2 + 3) % routeChecks[parentSlug].length],
+    primaryService: serviceAngles[(rowSeed * 3) % serviceAngles.length],
+    secondaryService: serviceAngles[(rowSeed * 3 + 3) % serviceAngles.length],
+    rows
+  };
+}
+
+function regionalizeAdminBody(html, profile) {
+  const { ko, hubList, place, route, primaryService } = profile;
+  const firstHub = hubList[0];
+  const secondHub = hubList[1] || hubList[0];
+  const thirdHub = hubList[2] || hubList[0];
+  return html
+    .replaceAll("방문 가능 시간", `${ko} 방문 가능 시간`)
+    .replaceAll("예약 담당자는", `${ko} 상담 담당자는`)
+    .replaceAll("예상 이동", `${firstHub} 기준 예상 이동`)
+    .replaceAll("총액", `${ko} 총액`)
+    .replaceAll("배정 여부", `${secondHub} 배정 여부`)
+    .replaceAll("프런트 안내", `${place} 프런트 안내`)
+    .replaceAll("객실 방문 가능 여부", `${firstHub} 객실 방문 가능 여부`)
+    .replaceAll("지하주차장 동선", `${secondHub} 지하주차장 동선`)
+    .replaceAll("방문 차량 등록", `${thirdHub} 방문 차량 등록`)
+    .replaceAll("주소를 숨기고", `${ko} 주소를 숨기고`)
+    .replaceAll("의료 효과를 약속하지 않는", `${ko} 지역 안내는 의료 효과를 약속하지 않는`)
+    .replaceAll("통증, 부상, 질환이 의심되는 경우", `${firstHub} 이용 전 통증, 부상, 질환이 의심되는 경우`)
+    .replaceAll("관리보다 의료기관 상담이 우선", `${primaryService[0]} 상담보다 의료기관 상담이 우선`)
+    .replaceAll("방문 관리는 고객이", `${ko} 방문 관리는 고객이`)
+    .replaceAll("코스명보다 중요한 것은", `${route} 확인만큼 코스명보다 중요한 것은`)
+    .replaceAll("피해야 할 부위", `${ko}에서 피해야 할 부위`)
+    .replaceAll("선호 압 강도", `${firstHub} 상담 시 선호 압 강도`)
+    .replaceAll("관리받을 공간", `${ko} 관리 공간`)
+    .replaceAll("과식이나 음주 직후", `${secondHub} 방문 전 과식이나 음주 직후`)
+    .replaceAll("오일이나 향에 민감하다면", `${thirdHub} 고객 중 오일이나 향에 민감하다면`)
+    .replaceAll("현장에서 불편한 압이나 동작", `${ko} 현장에서 불편한 압이나 동작`)
+    .replaceAll("교통, 날씨, 숙소 규정", `${route}, 교통, 날씨, 숙소 규정`)
+    .replaceAll("예약 집중 시간", `${firstHub} 예약 집중 시간`)
+    .replaceAll("예약 전 총 금액", `${ko} 예약 전 총 금액`)
+    .replaceAll("관리 종류", `${primaryService[0]} 등 관리 종류`)
+    .replaceAll("건물 유형", `${place} 같은 건물 유형`)
+    .replaceAll("주차 가능 여부", `${secondHub} 주차 가능 여부`)
+    .replaceAll("변수를 함께 봅니다", `${ko} 변수를 함께 봅니다`)
+    .replaceAll("생활권 간 거리가", `${firstHub} 생활권 간 거리가`)
+    .replaceAll("행정구역 단위의 이동 조건", `${ko} 행정구역 단위의 이동 조건`)
+    .replaceAll("배정 기준이 달라질 수 있습니다", `${secondHub} 배정 기준이 달라질 수 있습니다`)
+    .replaceAll("상담 순서가 밀릴 수 있고", `${ko} 상담 순서가 밀릴 수 있고`)
+    .replaceAll("도착 전 연락 가능 여부", `${thirdHub} 도착 전 연락 가능 여부`)
+    .replaceAll("확인을 먼저 합니다", `${ko} 확인을 먼저 합니다`)
+    .replaceAll("주차 위치와 출입 동선", `${secondHub} 주차 위치와 출입 동선`)
+    .replaceAll("상세 주소 기준으로 이동 시간", `${ko} 상세 주소 기준 이동 시간`)
+    .replaceAll("다시 계산합니다", `${firstHub} 기준으로 다시 계산합니다`)
+    .replaceAll("건전한 휴식 관리 기준", `${ko} 건전한 휴식 관리 기준`)
+    .replaceAll("편안하게 받을 수 있는 압과 시간", `${ko}에서 편안하게 받을 수 있는 압과 시간`)
+    .replaceAll("생활권 상담 상황 확인 포인트 추천 관리", `${ko} 생활권 상담 상황 확인 포인트 추천 관리`)
+    .replaceAll("방문 규정을 확인해야 하는 고객", `${ko} 방문 규정을 확인해야 하는 고객`)
+    .replaceAll("중심의 움직임 정리가 필요한 일정", `${firstHub} 중심의 움직임 정리가 필요한 일정`)
+    .replaceAll("가벼운 흐름 중심으로 안내합니다", `${secondHub} 가벼운 흐름 중심으로 안내합니다`)
+    .replaceAll("일정에 상담합니다", `${thirdHub} 일정에 상담합니다`)
+    .replaceAll("자주 어울립니다", `${ko} 상담에서 자주 어울립니다`)
+    .replaceAll("단순 거리보다 실제 도착 경로", `${ko} 단순 거리보다 실제 도착 경로`)
+    .replaceAll("기준으로 안내합니다", `${firstHub} 기준으로 안내합니다`)
+    .replaceAll("부산은 해안 관광권, 서면 업무권, 서부산 산업권의 이동 조건이 크게 다릅니다", `${ko} 안내에서는 부산 해안·서면·서부산 동선을 ${firstHub} 기준으로 다시 나눕니다`)
+    .replaceAll("경상도는 대구·부산·울산 주변 생활권과 경북·경남 시군 이동권을 구분해 안내해야 합니다", `${ko} 안내에서는 경상 생활권과 시군 이동권을 ${firstHub} 기준으로 분리합니다`)
+    .replaceAll("경기는 시·군·구와 생활권 간 거리가 넓어 행정구역 단위의 이동 조건을 먼저 확인해야 합니다", `${ko} 안내에서는 경기권 이동 거리를 ${firstHub}·${secondHub} 생활권 기준으로 확인합니다`)
+    .replaceAll("인천은 공항권, 송도·청라 신도시, 원도심 주거권의 이용 목적이 분명히 나뉩니다", `${ko} 안내에서는 인천 공항권·신도시·원도심 이용 목적을 ${firstHub} 기준으로 구분합니다`)
+    .replaceAll("몸이 뻣뻣하거나 스트레칭 중심의 움직임 정리가 필요한 일정에 상담합니다", `${ko} ${firstHub}권에서는 타이마사지 상담 시 스트레칭 부담 여부와 움직임 범위를 먼저 확인합니다`)
+    .replaceAll("강한 압이 부담스럽고 몸이 무겁게 느껴질 때 가벼운 흐름 중심으로 안내합니다", `${ko} ${secondHub}권에서는 림프마사지 상담 시 가벼운 압과 조용한 진행을 우선합니다`)
+    .replaceAll("오일과 은은한 향을 원하고 강한 자극보다 휴식감을 우선하는 고객에게 어울립니다", `${ko} ${thirdHub}권에서는 아로마테라피 상담 시 향 민감도와 오일 선호를 먼저 확인합니다`)
+    .replaceAll("부드러운 압과 긴 호흡의 흐름으로 하루를 차분히 정리하고 싶은 고객에게 맞습니다", `${ko} ${firstHub}권 스웨디시는 부드러운 압을 원하는 고객에게 맞춰 시간과 분위기를 조절합니다`)
+    .replaceAll("이 밖에도 아로마테라피, 딥티슈, 타이마사지, 스포츠마사지, 림프마사지 중 당일 컨디션에 맞춰 상담합니다", `${ko}에서는 아로마테라피·딥티슈·타이마사지·스포츠마사지·림프마사지도 ${secondHub} 방문 조건과 당일 컨디션에 맞춰 상담합니다`)
+    .replaceAll("주소를 숨기고 지역명만 남기면 정확한 안내가 어렵습니다", `${ko} 주소가 빠지고 지역명만 남으면 ${firstHub} 기준 이동과 비용 안내가 부정확해질 수 있습니다`)
+    .replaceAll("상황을 함께 남기면 안내가 빨라집니다", `${ko} 상황을 함께 남기면 ${secondHub} 배정 안내가 빨라집니다`)
+    .replaceAll("원하는 관리 시간, 방문 장소의 출입 조건", `${ko} 원하는 관리 시간, ${place} 출입 조건`)
+    .replaceAll("가능 여부와 예상 비용을 순서대로 안내합니다", `${firstHub} 가능 여부와 ${ko} 예상 비용을 순서대로 안내합니다`);
+}
+
+function adminAreaPage(parentSlug, group, unit) {
+  const profile = adminProfile(parentSlug, group, unit);
+  const { slug, ko, hubs, hubList, movement, place, secondPlace, time, nextTime, route, secondRoute, primaryService, secondaryService, rows, seed } = profile;
+  const title = `${ko} 출장마사지 | ${hubList[0]}·${hubList[1]}·${hubList[2]} 맞춤 방문 안내`;
+  const description = `${ko} 출장마사지 예약 전 ${hubList[0]}, ${hubList[1]}, ${hubList[2]} 생활권의 방문 가능 시간, 건물 출입, 주차, 추천 관리와 비용 확인 기준을 안내합니다.`;
+  const openings = [
+    `${ko}는 ${hubList[0]} 중심 생활권과 ${hubList[hubList.length - 1]} 외곽 이동권의 예약 조건이 다르게 나타납니다.`,
+    `${ko} 상담에서는 행정동 이름보다 ${place}인지, ${secondPlace}인지가 먼저 확인됩니다.`,
+    `${hubList[0]}와 ${hubList[1]}은 가까워 보여도 시간대별 이동 흐름이 달라 같은 기준으로 안내하지 않습니다.`,
+    `${ko} 페이지는 ${hubs}의 이용 목적을 나누어 예약 전에 필요한 정보를 정리했습니다.`,
+    `${movement} 그래서 ${ko} 예약은 세부 주소와 건물 출입 방식까지 확인해야 정확합니다.`,
+    `${ko}에서 방문 관리를 문의할 때는 ${time} 수요와 ${route} 변수를 함께 봅니다.`
+  ];
+  const notices = [
+    `상담은 먼저 장소 조건을 확인하고, 그다음 관리 종류와 시간을 맞춥니다.`,
+    `숙소 이용자는 객실 방문 규정을, 자택 이용자는 공동현관과 주차 위치를 먼저 알려주면 좋습니다.`,
+    `업무 일정이 끝난 뒤 바로 이용하려면 도착 가능 시간보다 20~30분 여유를 두는 편이 안정적입니다.`,
+    `장거리 이동 뒤 이용하는 경우에는 강한 압보다 컨디션을 보며 단계적으로 조절하는 방식이 적합합니다.`,
+    `예약 확정 전에는 총 금액, 추가 출장비 가능성, 방문 가능 시간을 한 번 더 확인합니다.`,
+    `섬·해안·외곽·산업권 이동은 날씨나 교통 상황에 따라 배정 기준이 달라질 수 있습니다.`
+  ];
+  const feeNotes = [
+    `${route}가 변수인 권역은 단순 거리보다 실제 도착 경로를 기준으로 안내합니다.`,
+    `${secondRoute} 조건이 있으면 같은 ${ko} 안에서도 방문 가능 시간이 달라집니다.`,
+    `${time}에는 문의가 몰릴 수 있어 배정 가능 여부를 먼저 확인합니다.`,
+    `${nextTime} 예약은 건물 출입과 주차 확인이 늦어지면 진행이 어려울 수 있습니다.`,
+    `${place} 방문은 장소 규정에 따라 프런트 안내나 방문 등록이 필요할 수 있습니다.`,
+    `${secondPlace}는 상세 주소를 기준으로 추가 비용 여부를 분리해 봅니다.`
+  ];
+  const prepNotes = [
+    `관리 공간은 침대나 매트 주변에 한 사람이 움직일 정도만 확보해도 충분합니다.`,
+    `과식이나 음주 직후에는 몸 상태가 흔들릴 수 있어 이용 시간을 조정하는 편이 좋습니다.`,
+    `오일이나 향에 민감하다면 예약 단계에서 미리 알려 대체 방향을 상담해 주세요.`,
+    `특정 부위가 불편하거나 피하고 싶은 동작이 있으면 시작 전에 반드시 공유해 주세요.`,
+    `도착 연락을 받을 수 있는 번호와 정확한 건물명을 남기면 현장 대기 시간을 줄일 수 있습니다.`,
+    `관리 후 바로 운전이나 이동이 있다면 강한 압보다 편안한 마무리 중심으로 조절합니다.`
+  ];
+  const localMemo = hubList.map((hub, index) => {
+    const row = rows[index % rows.length];
+    const memoBits = [
+      `${hub}권은 ${row[2]} 확인을 먼저 요청합니다.`,
+      `${hub} 주변 문의는 ${row[3][0]} 상담이 자주 어울립니다.`,
+      `${hub} 이용자는 ${row[1]} 상황을 함께 남기면 안내가 빨라집니다.`,
+      `${hub} 방문은 ${pick(feeNotes, seed, index)}`
+    ];
+    return memoBits[index % memoBits.length];
+  });
+  const headingSets = [
+    ["방문 관리 핵심 안내", "생활권별 상담 기준", "예약 전 확인할 내용", "관리 선택 가이드", "이용 전 준비", "자주 묻는 질문"],
+    ["지역 이용 안내", "행정동별 방문 포인트", "비용·시간 확인 기준", "컨디션별 추천 관리", "방문 장소 준비", "예약 FAQ"],
+    ["상담 전에 볼 내용", "주요 권역 메모", "출장 가능성 판단 기준", "코스 선택 방법", "현장 진행 유의사항", "문의 전 질문"],
+    ["예약 안내", "생활권 커버리지", "추가 확인 항목", "서비스 선택 기준", "이용 전 체크", "지역별 FAQ"]
+  ];
+  const headings = pick(headingSets, seed);
+  const questionOne = pick([
+    `${hubList[0]} 주변은 언제 문의하는 것이 좋나요?`,
+    `${hubList[0]} 근처 숙소도 상담 가능한가요?`,
+    `${hubList[0]} 권역은 어떤 정보를 먼저 보내야 하나요?`,
+    `${hubList[0]}에서 당일 예약을 확인할 수 있나요?`
+  ], seed);
+  const questionTwo = pick([
+    `${hubList[1]}·${hubList[2]} 쪽은 추가 비용이 있나요?`,
+    `${hubList[1]}와 ${hubList[2]}는 같은 이동 기준인가요?`,
+    `${hubList[1]} 인근 자택 방문은 무엇을 확인하나요?`,
+    `${hubList[2]} 주변 오피스텔도 예약 가능한가요?`
+  ], seed, 1);
+  const questionThree = pick([
+    `${ko}에서 어떤 관리가 적합한가요?`,
+    `${ko} 예약 시 관리 시간은 어떻게 고르나요?`,
+    `${ko}에서 강한 압을 요청해도 되나요?`,
+    `${ko} 방문 전 준비할 것이 있나요?`
+  ], seed, 2);
   const body = `<main>
     <section class="sub-hero">
-      <p class="eyebrow">${group.label} Administrative Area</p>
+      <p class="eyebrow">${group.label} Local Guide · ${hubList[0]}</p>
       <h1>${ko} 출장마사지 서비스 안내</h1>
-      <p>${movement} ${ko} 페이지는 행정구역 이름만 반복하지 않고 실제 예약 전 확인해야 할 권역, 행정동, 숙소·자택 방문 조건을 기준으로 정리했습니다.</p>
+      <p>${pick(openings, seed)} ${pick(notices, seed, 1)}</p>
       <a class="button solid" href="tel:${phone.replaceAll("-", "")}">${ko} 예약 문의</a>
     </section>
     <article class="long-copy area-detail">
-      <h2>${ko} 출장마사지 이용 안내</h2>
-      <p>${ko}는 ${hubs} 권역을 중심으로 문의가 나뉩니다. ${group.intro} 같은 시·군·구 안에서도 역세권 숙소, 신도시 아파트, 산업단지 인근 숙소, 관광지 펜션은 방문 방식이 다르기 때문에 주소와 건물 유형을 먼저 확인합니다.</p>
-      <p>${hubList[0]} 인근은 이동과 업무 일정 이후 문의가 많고, ${hubList[1]} 권역은 자택 또는 숙소 휴식 목적이 자주 들어옵니다. ${hubList[2]} 주변은 주차와 공동현관 안내가 중요할 수 있어 예약 전에 출입 조건을 함께 확인합니다.</p>
-      <p>서비스는 스웨디시, 아로마테라피, 딥티슈, 타이마사지, 스포츠마사지, 림프마사지 중 고객 컨디션과 목적에 맞춰 상담합니다. 의학적 치료나 회복 보장을 표현하지 않고, 건전한 휴식 관리 범위에서 압 강도와 피해야 할 부위를 조절합니다.</p>
-      <h2>행정동·생활권 커버리지</h2>
-      <div class="table-wrap"><table><thead><tr><th>구분</th><th>주요 행정동·읍면</th><th>예약 전 확인</th></tr></thead><tbody><tr><td>중심권</td><td>${hubList.slice(0, 2).join(", ")}</td><td>역세권, 호텔, 오피스텔 출입 조건</td></tr><tr><td>주거권</td><td>${hubList.slice(2, 4).join(", ")}</td><td>공동현관, 방문 등록, 주차 위치</td></tr><tr><td>외곽·이동권</td><td>${hubList.slice(4).join(", ")}</td><td>이동 시간, 추가 출장비, 도로 상황</td></tr></tbody></table></div>
-      <h2>예약 전 확인사항</h2>
-      <p>${ko} 예약은 세부 행정동, 희망 시간, 관리 종류, 관리 시간, 주차 가능 여부, 건물 출입 방법을 함께 확인해야 정확합니다. 호텔과 레지던스는 객실 방문 규정이 다를 수 있고, 아파트 단지는 방문 차량 등록이나 공동현관 호출 방식이 필요할 수 있습니다.</p>
-      <p>추가 출장비는 거리만으로 정하지 않습니다. ${movement} 이 조건에 예약이 몰리는 시간대, 관리사 배정 가능 여부, 숙소 접근성을 함께 보고 총 금액을 사전에 안내합니다.</p>
-      <h2>${ko}에서 선택할 수 있는 관리</h2>
-      <p>업무 후 목과 어깨가 무겁다면 딥티슈나 스포츠마사지, 조용한 전신 휴식이 목적이면 스웨디시나 아로마테라피를 상담할 수 있습니다. 이동이나 보행이 많아 다리와 몸이 무겁게 느껴지는 경우에는 림프마사지가 어울릴 수 있으며, 몸이 뻣뻣한 고객은 타이마사지 방향을 상담합니다.</p>
-      <h2>이용 전 준비사항</h2>
-      <p>관리받을 공간을 미리 확보하고, 샤워나 간단한 정돈을 마친 뒤 이용하면 진행이 부드럽습니다. 과식이나 음주 직후 이용은 피하는 것이 좋고, 피부가 민감하거나 특정 오일과 향이 부담스러운 경우 예약 단계에서 미리 알려주세요.</p>
-      <h2>자주 묻는 질문</h2>
-      <div class="faq service-faq"><details><summary>${hubList[0]} 주변도 방문 가능한가요?</summary><p>${hubList[0]} 권역은 시간대와 건물 출입 조건을 기준으로 가능 여부를 확인합니다.</p></details><details><summary>${hubList[1]}·${hubList[2]} 쪽은 추가 출장비가 있나요?</summary><p>이동 거리, 교통 흐름, 예약 현황에 따라 달라질 수 있어 상담 단계에서 총 금액을 안내합니다.</p></details><details><summary>행정동만 알려도 예약이 가능한가요?</summary><p>행정동만으로는 부족할 수 있습니다. 건물 유형, 주차, 출입 방법까지 함께 알려주시면 더 정확합니다.</p></details></div>
+      <h2>${ko} ${headings[0]}</h2>
+      <p>${pick(openings, seed, 2)} ${group.intro} ${pick(notices, seed, 2)} ${time}에는 상담 순서가 밀릴 수 있고, ${nextTime}에는 도착 전 연락 가능 여부가 중요합니다.</p>
+      <p>${hubList[0]} 쪽은 ${place} 이용자가 많아 ${route} 확인을 먼저 합니다. ${hubList[1]}와 ${hubList[2]} 주변은 ${secondPlace} 성격이 섞여 있어 주차 위치와 출입 동선을 따로 봅니다. ${hubList[3] || hubList[0]} 이후 권역은 상세 주소 기준으로 이동 시간을 다시 계산합니다.</p>
+      <p>${brand}의 ${ko} 안내는 의료 효과를 약속하지 않는 건전한 휴식 관리 기준입니다. 통증, 부상, 질환이 의심되는 경우에는 예약보다 의료기관 상담이 우선이며, 방문 관리는 고객이 편안하게 받을 수 있는 압과 시간 범위에서만 진행합니다.</p>
+      <h2>${ko} ${headings[1]}</h2>
+      <div class="table-wrap"><table><thead><tr><th>생활권</th><th>상담 상황</th><th>확인 포인트</th><th>추천 관리</th></tr></thead><tbody>${rows.map(([area, scene, check, service]) => `<tr><td>${area}</td><td>${scene}</td><td>${check}</td><td><b>${service[0]}</b><br>${service[1]}</td></tr>`).join("")}</tbody></table></div>
+      <h2>${ko} 세부 권역 메모</h2>
+      <ul>${localMemo.map((memo) => `<li>${memo}</li>`).join("")}</ul>
+      <h2>${headings[2]}</h2>
+      <p>${ko} 예약을 빠르게 확인하려면 “${hubList[0]} 인근, ${primaryService[0]}, 90분, ${time} 희망”처럼 남겨 주세요. ${pick(feeNotes, seed, 0)} ${pick(feeNotes, seed, 2)} 예약 담당자는 이 정보로 방문 가능 시간, 예상 이동, 총액, 배정 여부를 함께 판단합니다.</p>
+      <p>${place}에서는 프런트 안내와 객실 방문 가능 여부가 중요하고, ${secondPlace}에서는 지하주차장 동선이나 방문 차량 등록이 영향을 줄 수 있습니다. ${pick(feeNotes, seed, 4)} 주소를 숨기고 지역명만 남기면 정확한 안내가 어렵습니다.</p>
+      <h2>${ko} ${headings[3]}</h2>
+      <p>${primaryService[0]}는 ${primaryService[1]} ${secondaryService[0]}는 ${secondaryService[1]} 이 밖에도 아로마테라피, 딥티슈, 타이마사지, 스포츠마사지, 림프마사지 중 당일 컨디션에 맞춰 상담합니다. 코스명보다 중요한 것은 피해야 할 부위, 선호 압 강도, 관리 후 바로 이동해야 하는지 여부입니다.</p>
+      <p>${hubList[0]} 업무권 고객은 목과 어깨 피로를 먼저 말하는 경우가 많고, ${hubList[1]} 주거권 고객은 조용한 진행과 시간 준수를 중요하게 봅니다. ${hubList[2]}나 ${hubList[4] || hubList[3] || hubList[0]} 권역은 이동 조건에 따라 60분보다 90분 이상 예약이 더 안정적일 수 있습니다.</p>
+      <h2>${headings[4]}</h2>
+      <p>${pick(prepNotes, seed, 0)} ${pick(prepNotes, seed, 1)} ${pick(prepNotes, seed, 2)} 현장에서 불편한 압이나 동작이 있으면 즉시 조절을 요청할 수 있습니다.</p>
+      <p>${ko}는 ${movement} ${pick(feeNotes, seed, 5)} 상담 후에도 교통, 날씨, 숙소 규정, 예약 집중 시간에 따라 방문 가능 시간이 달라질 수 있으며, 변경이 필요한 경우에는 확정 전 다시 안내합니다.</p>
+      <h2>${ko} ${headings[5]}</h2>
+      <div class="faq service-faq">
+        <details><summary>${questionOne}</summary><p>${time} 수요가 생길 수 있습니다. ${pick(notices, seed, 4)}</p></details>
+        <details><summary>${questionTwo}</summary><p>${route}, 이동 거리, 주차 조건, 예약 현황을 함께 보고 예약 전 총 금액을 안내합니다.</p></details>
+        <details><summary>${questionThree}</summary><p>${primaryService[0]}와 ${secondaryService[0]}를 우선 상담할 수 있지만, 실제 선택은 컨디션과 선호 압 강도에 따라 달라집니다.</p></details>
+        <details><summary>주소를 나중에 알려도 되나요?</summary><p>대략적인 지역명만으로는 정확한 안내가 어렵습니다. 최소한 행정동, 건물 유형, 주차 가능 여부를 먼저 알려주세요.</p></details>
+      </div>
       <h2>예약 문의</h2>
-      <p>${ko} 문의는 “${hubList[0]} 인근, 90분 희망”처럼 행정동과 시간을 함께 남기면 빠릅니다. ${brand}는 대량 복제 페이지가 아니라 실제 이용 전 확인할 조건을 기준으로 지역 콘텐츠를 운영합니다.</p>
-      <p class="byline">작성 기준: ${brand} 고객센터가 확인한 ${group.label} ${ko} 권역별 이동 조건, ${hubList[0]} 상담 항목, 행정동·숙소·자택 방문 전 확인사항을 바탕으로 2026년 5월 28일 검수했습니다.</p>
+      <p>${ko} 출장마사지 상담은 전화나 문자로 가능합니다. ${hubList[0]}·${hubList[1]}·${hubList[2]} 중 어디인지, 원하는 관리 시간, 방문 장소의 출입 조건을 알려주시면 가능 여부와 예상 비용을 순서대로 안내합니다. 이 페이지는 ${group.label} ${ko}의 상담 변수와 생활권 차이를 반영해 작성했으며, 지역명만 바꾼 안내로 운영하지 않습니다.</p>
+      <p class="byline">작성·검수: ${brand} 고객센터 운영팀. 기준일: 2026년 5월 28일. 참고 기준은 ${group.label} ${ko}의 ${hubList[0]}·${hubList[1]} 상담 항목, ${place} 방문 전 확인사항, ${route} 변수입니다. 실제 가능 여부는 당일 배정과 교통 상황에 따라 달라질 수 있어 예약 전 다시 확인합니다.</p>
     </article>
-    <section class="cta"><h2>${ko} 상담이 필요하신가요?</h2><p>희망 행정동과 방문 시간을 알려주시면 가능 여부와 예상 비용을 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
+    <section class="cta"><h2>${ko} 상담이 필요하신가요?</h2><p>희망 행정동, 방문 장소, 관리 시간을 알려주시면 가능 여부와 예상 비용을 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
   </main>`;
   return layout({
     title,
     description,
     canonical: districtCanonical(parentSlug, slug),
-    robots: "noindex,follow",
-    body,
+    body: regionalizeAdminBody(body, profile),
     schema: {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -1174,6 +1388,9 @@ fs.writeFileSync(path.join("services", "swedish.html"), `<!doctype html>
 </html>`);
 const serviceUrls = [...new Set([...services.map(([slug]) => slug), ...serviceDropdown.map(([slug]) => slug)])];
 const districtUrls = seoulDistricts.map(({ slug }) => districtCanonical("seoul", slug));
-fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${serviceCanonical(slug)}</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${areaCanonical(slug)}</loc></url>`).join("\n")}\n${districtUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`);
+const adminAreaUrls = Object.entries(adminAreaGroups).flatMap(([parentSlug, group]) =>
+  group.units.map(([unitSlug]) => districtCanonical(parentSlug, unitSlug))
+);
+fs.writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}/</loc></url>\n${serviceUrls.map((slug) => `  <url><loc>${serviceCanonical(slug)}</loc></url>`).join("\n")}\n${regions.map(([slug]) => `  <url><loc>${areaCanonical(slug)}</loc></url>`).join("\n")}\n${districtUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n${adminAreaUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`);
 
