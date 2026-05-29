@@ -171,9 +171,51 @@ const navRegions = [
   ["jeju", "제주"],
 ];
 
+const magazinePosts = [
+  {
+    slug: "booking-checklist-before-mobile-massage",
+    title: "출장마사지 예약 전 확인해야 할 7가지",
+    description: "출장마사지 예약 전 지역, 방문 장소, 관리 시간, 출장비, 위생, 결제, 취소 기준을 어떻게 확인하면 좋은지 안내합니다.",
+    keyword: "출장마사지 예약 전 확인사항",
+    date: "2026-05-29",
+    intro: "출장마사지는 원하는 장소에서 관리를 받을 수 있다는 장점이 있지만, 예약 전에 확인할 정보가 부족하면 방문 시간, 비용, 장소 조건에서 혼선이 생길 수 있습니다. 이 글은 특정 코스를 홍보하기보다 처음 이용하는 고객이 상담 전에 준비하면 좋은 항목을 정리한 안내문입니다.",
+    sections: [
+      ["1. 이용 지역과 상세 주소를 먼저 정리하세요", "지역명만으로는 정확한 방문 가능 여부를 판단하기 어렵습니다. 같은 서울이라도 강남 오피스텔, 마포 숙소, 강서 공항권은 이동 시간과 출입 조건이 다릅니다. 경기나 부산처럼 이동 범위가 넓은 지역은 시·군·구뿐 아니라 행정동, 건물명, 주차 가능 여부까지 확인해야 합니다. 예약 문의를 남길 때는 “수원 영통구, 90분, 오후 9시 희망”처럼 구체적으로 작성하는 편이 좋습니다."],
+      ["2. 방문 장소의 규정을 확인하세요", "호텔, 레지던스, 오피스텔, 아파트, 펜션은 방문 규정이 다릅니다. 호텔은 객실 방문 가능 여부와 프런트 안내 방식이 중요하고, 아파트는 공동현관 호출이나 방문 차량 등록이 필요할 수 있습니다. 관리사가 도착한 뒤 출입이 어려워지면 예약 시간이 줄어들거나 일정이 변경될 수 있으므로, 장소 조건은 예약 전 단계에서 확인하는 것이 안전합니다."],
+      ["3. 관리 목적을 과장 없이 설명하세요", "출장마사지는 의료 행위가 아니라 휴식과 컨디션 관리를 위한 웰니스 서비스입니다. 통증 치료, 질병 개선, 완치 같은 기대를 기준으로 예약하면 적절하지 않습니다. 대신 “오래 앉아 있어 어깨가 무겁다”, “강한 압은 부담스럽다”, “수면 전 조용한 관리를 원한다”처럼 현재 컨디션과 선호도를 설명하면 상담이 더 정확해집니다."],
+      ["4. 코스명보다 압 강도와 시간을 먼저 생각하세요", "스웨디시, 아로마테라피, 딥티슈, 타이마사지, 스포츠마사지, 림프마사지처럼 코스명은 다양하지만 실제 만족도는 압 강도, 관리 시간, 피해야 할 부위에서 갈립니다. 처음 이용한다면 60분은 가벼운 전신 확인, 90분은 여유 있는 관리, 120분은 충분한 휴식을 원할 때 선택하는 방식으로 생각하면 쉽습니다."],
+      ["5. 추가 출장비와 총 금액을 예약 전에 확인하세요", "추가 출장비는 단순 거리만으로 정해지지 않습니다. 심야 시간, 장거리 이동, 주차 조건, 교통 상황, 예약 집중 시간에 따라 달라질 수 있습니다. 신뢰할 수 있는 안내라면 예약 전에 관리 시간, 코스, 지역, 추가 비용 여부, 결제 방식을 함께 설명해야 합니다. 총 금액을 확인하지 않은 상태에서 예약을 확정하는 것은 피하는 편이 좋습니다."],
+      ["6. 위생과 준비사항을 확인하세요", "관리 전에는 공간을 간단히 정리하고, 오일 사용 여부나 향 민감도를 미리 알려야 합니다. 피부가 민감하거나 특정 제품이 부담스러운 경우 상담 단계에서 공유하세요. 과식이나 음주 직후에는 몸 상태가 불안정할 수 있어 이용을 권하지 않습니다. 건전한 서비스 범위와 방문 매너를 서로 확인하는 것도 중요합니다."],
+      ["7. 취소와 시간 변경 기준을 확인하세요", "출장 서비스는 이동이 포함되기 때문에 갑작스러운 취소나 주소 변경이 전체 일정에 영향을 줍니다. 예약 전에는 취소 가능 시간, 지연 시 처리 방식, 장소 출입이 어려운 경우의 기준을 확인해 두는 것이 좋습니다. 특히 심야나 외곽 지역은 대체 배정이 어려울 수 있으므로 정확한 주소와 연락 가능한 번호를 남겨야 합니다."],
+      ["8. 상담 내용을 짧게 기록해 두세요", "예약이 확정되면 지역, 시간, 코스, 관리 시간, 총 금액, 추가 출장비 여부를 문자로 남겨 두는 것이 좋습니다. 말로만 확인하면 도착 시간이나 비용을 다시 확인해야 하는 상황이 생길 수 있습니다. 짧은 기록은 고객과 상담자 모두에게 기준이 되며, 다음 이용 때도 선호 압 강도와 피해야 할 부위를 더 빠르게 전달하는 데 도움이 됩니다."]
+    ],
+    conclusion: "출장마사지 예약은 빠른 상담보다 정확한 정보 확인이 중요합니다. 지역, 시간, 장소, 코스, 압 강도, 총 금액을 먼저 정리하면 불필요한 오해를 줄일 수 있습니다. 구구마사지는 과장된 효과보다 예약 전 확인 가능한 정보를 기준으로 안내하며, 고객이 편안한 범위 안에서 휴식 관리를 선택할 수 있도록 돕습니다."
+  },
+  {
+    slug: "swedish-aroma-deeptissue-difference",
+    title: "스웨디시·아로마테라피·딥티슈 차이와 선택 기준",
+    description: "스웨디시, 아로마테라피, 딥티슈 마사지의 차이와 추천 상황, 이용 전 확인사항을 비교해 안내합니다.",
+    keyword: "스웨디시 아로마 딥티슈 차이",
+    date: "2026-05-29",
+    intro: "마사지 코스를 고를 때 가장 많이 헷갈리는 이름이 스웨디시, 아로마테라피, 딥티슈입니다. 세 코스는 모두 전신 휴식과 컨디션 관리를 목적으로 상담할 수 있지만, 압의 느낌, 오일 사용 방식, 추천 상황이 다릅니다. 이 글은 과장된 효과를 말하기보다 예약 전에 어떤 기준으로 선택하면 좋은지 정리했습니다.",
+    sections: [
+      ["스웨디시는 부드러운 흐름을 중시합니다", "스웨디시는 강한 지압보다 부드러운 압과 긴 호흡의 흐름을 중심으로 전신 긴장을 낮추는 릴랙스 관리에 가깝습니다. 처음 출장마사지를 이용하거나 강한 압이 부담스러운 고객, 수면 전 조용히 몸을 정리하고 싶은 고객에게 적합합니다. 압이 약하다는 뜻은 아니며, 일정한 리듬과 편안한 터치감을 우선한다는 의미입니다."],
+      ["아로마테라피는 오일과 향의 편안함을 더합니다", "아로마테라피는 오일을 활용해 피부 마찰을 줄이고, 향과 촉감을 함께 느끼는 관리입니다. 건조함이 부담스럽거나 차분한 분위기를 원하는 고객에게 잘 맞습니다. 다만 향에 민감하거나 특정 오일 사용이 부담스러운 경우에는 반드시 예약 전에 알려야 합니다. 오일을 사용한다고 해서 의학적 개선을 보장하는 것은 아니며, 휴식 목적의 관리로 이해하는 것이 안전합니다."],
+      ["딥티슈는 부위 집중과 깊은 압을 상담합니다", "딥티슈는 등, 어깨, 하체처럼 무겁게 느껴지는 부위를 천천히 확인하며 깊은 압을 사용할 수 있는 관리입니다. 장시간 앉아서 일하거나 특정 부위 피로가 큰 고객이 상담하는 경우가 많습니다. 하지만 통증 치료나 재활을 의미하지 않습니다. 심한 통증, 부상 의심, 질환이 있다면 마사지 예약보다 의료기관 상담이 먼저입니다."],
+      ["세 코스의 가장 큰 차이는 압과 목적입니다", "스웨디시는 부드러운 전신 흐름, 아로마테라피는 오일과 향을 통한 편안한 분위기, 딥티슈는 부위별 깊은 압 상담에 초점이 있습니다. 편안한 휴식을 원한다면 스웨디시, 향과 오일의 부드러운 느낌을 원한다면 아로마테라피, 특정 부위의 묵직함을 중심으로 상담하고 싶다면 딥티슈를 고려할 수 있습니다."],
+      ["처음 이용한다면 90분 코스가 무난합니다", "60분은 주요 부위를 빠르게 확인하기 좋고, 90분은 전신을 비교적 여유 있게 관리하기 좋습니다. 120분은 숙소나 자택에서 충분한 휴식 시간을 확보했을 때 어울립니다. 처음 이용한다면 너무 강한 압을 요청하기보다 중간 정도의 압에서 시작해 현장에서 조절하는 방식이 안전합니다."],
+      ["예약 전에는 피해야 할 부위를 말해야 합니다", "목, 허리, 무릎, 어깨처럼 불편한 부위가 있거나 특정 동작이 부담스럽다면 시작 전에 알려야 합니다. 피부가 민감한 경우, 오일이나 향이 부담스러운 경우, 관리 후 바로 운전이나 이동이 필요한 경우도 상담 단계에서 공유하는 것이 좋습니다. 이런 정보는 코스 선택보다 더 중요할 때가 많습니다."],
+      ["좋은 선택 기준은 ‘이름’보다 ‘상황’입니다", "코스명을 먼저 정하지 못했다면 현재 상황을 설명하는 방식이 좋습니다. 예를 들어 “강한 압은 부담스럽고 조용히 쉬고 싶다”면 스웨디시 방향, “오일을 사용한 부드러운 관리를 원한다”면 아로마테라피 방향, “등과 어깨를 중심으로 깊은 압을 상담하고 싶다”면 딥티슈 방향으로 안내받을 수 있습니다."],
+      ["출장 환경도 코스 선택에 영향을 줍니다", "호텔 객실처럼 조용한 휴식이 가능한 장소라면 스웨디시나 아로마테라피가 편안할 수 있고, 출장 숙소에서 짧게 부위를 확인해야 한다면 딥티슈 상담이 더 알맞을 수 있습니다. 오피스텔이나 자택에서는 공간, 소음, 타월 준비 여부도 함께 고려합니다. 결국 좋은 선택은 코스 이름 하나가 아니라 장소와 컨디션, 시간의 조합에서 나옵니다."]
+    ],
+    conclusion: "스웨디시, 아로마테라피, 딥티슈는 서로 경쟁하는 코스가 아니라 고객의 컨디션과 선호도에 따라 선택 기준이 달라지는 관리입니다. 구구마사지는 의료 효과를 약속하지 않고, 예약 전 확인 가능한 정보와 고객의 편안함을 기준으로 상담합니다. 코스 선택이 어렵다면 지역, 희망 시간, 선호 압 강도, 피해야 할 부위를 먼저 알려주는 것이 가장 좋습니다."
+  }
+];
+
 const nav = `<nav aria-label="주요 메뉴">
   <div class="nav-item"><a href="/#services">서비스 안내</a><div class="dropdown">${serviceDropdown.map(([slug, name]) => `<a href="${serviceHref(slug)}">${name}</a>`).join("")}</div></div>
   <div class="nav-item"><a href="/#areas">출장 가능 지역</a><div class="dropdown region-menu">${navRegions.map(([slug, name]) => `<a href="${areaHref(slug)}">${name}</a>`).join("")}</div></div>
+  <a href="/magazine/">매거진</a>
   <div class="nav-item"><a href="/#how-to">이용 방법</a><div class="dropdown"><a href="/#booking-process">예약 절차</a><a href="/#before-care">관리 전 준비사항</a><a href="/#payment-method">결제 방법</a><a href="/#cancel-refund">취소·환불 안내</a><a href="/#visit-notice">방문 유의사항</a></div></div>
   <div class="nav-item"><a href="/#pricing">요금 안내</a><div class="dropdown"><a href="/#pricing">코스별 요금</a><a href="/#extra-fee">추가 요금</a><a href="/#night-distance">심야·장거리 출장비</a><a href="/#payment-method">결제 방식</a></div></div>
   <a href="/#faq">FAQ</a>
@@ -202,6 +244,14 @@ function districtHref(parentSlug, districtSlug) {
 
 function districtCanonical(parentSlug, districtSlug) {
   return `${siteUrl}/areas/${parentSlug}/${districtSlug}/`;
+}
+
+function magazineHref(slug) {
+  return `/magazine/${slug}/`;
+}
+
+function magazineCanonical(slug = "") {
+  return slug ? `${siteUrl}/magazine/${slug}/` : `${siteUrl}/magazine/`;
 }
 
 function layout({ title, description, canonical, body, schema, robots }) {
@@ -262,6 +312,85 @@ ${verificationTags}${robotsTag}  <link rel="canonical" href="${canonical}">
   <script src="/script.js"></script>
 </body>
 </html>`;
+}
+
+function magazineIndexPage() {
+  const body = `<main>
+    <section class="sub-hero">
+      <p class="eyebrow">Magazine</p>
+      <h1>구구마사지 매거진</h1>
+      <p>출장마사지 예약 전 확인할 점, 코스 선택 기준, 지역별 방문 관리 이용 팁을 과장 없이 정리합니다. 모든 글은 고객센터 상담 기준과 실제 예약 전 확인 항목을 바탕으로 검수합니다.</p>
+    </section>
+    <section class="section">
+      <p class="eyebrow">Latest Articles</p>
+      <h2>최근 글</h2>
+      <div class="card-grid magazine-grid">
+        ${magazinePosts.map((post) => `<article class="service-card magazine-card">
+          <span>${post.date}</span>
+          <h3>${post.title}</h3>
+          <p>${post.description}</p>
+          <a class="button outline" href="${magazineHref(post.slug)}">글 읽기</a>
+        </article>`).join("")}
+      </div>
+    </section>
+  </main>`;
+  return layout({
+    title: `매거진 | ${brand} 출장마사지 이용 가이드`,
+    description: "구구마사지 매거진에서 출장마사지 예약 전 확인사항, 코스 선택 기준, 이용 전 준비사항을 확인하세요.",
+    canonical: magazineCanonical(),
+    body,
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      name: `${brand} 매거진`,
+      url: magazineCanonical(),
+      publisher: { "@type": "Organization", name: brand, telephone: phone }
+    }
+  });
+}
+
+function magazinePostPage(post) {
+  const articleBody = `${post.intro}\n${post.sections.map(([heading, text]) => `${heading}\n${text}`).join("\n")}\n${post.conclusion}`;
+  const body = `<main>
+    <section class="sub-hero">
+      <p class="eyebrow">Magazine · ${post.date}</p>
+      <h1>${post.title}</h1>
+      <p>${post.description}</p>
+      <a class="button outline" href="/magazine/">매거진 목록</a>
+    </section>
+    <article class="long-copy magazine-article">
+      <p>${post.intro}</p>
+      ${post.sections.map(([heading, text]) => `<h2>${heading}</h2><p>${text}</p>`).join("")}
+      <h2>정리</h2>
+      <p>${post.conclusion}</p>
+      <p class="byline">작성·검수: ${brand} 고객센터 운영팀. 기준일: ${post.date}. 이 글은 예약 상담에서 반복적으로 확인되는 지역, 장소, 코스, 압 강도, 비용 안내 항목을 바탕으로 작성했으며 의료 행위나 치료 효과를 안내하지 않습니다.</p>
+    </article>
+    <section class="cta"><h2>예약 전 상담이 필요하신가요?</h2><p>지역, 희망 시간, 원하는 관리 방향을 알려주시면 가능 여부와 확인사항을 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
+  </main>`;
+  return layout({
+    title: `${post.title} | ${brand} 매거진`,
+    description: post.description,
+    canonical: magazineCanonical(post.slug),
+    body,
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.description,
+      articleBody,
+      datePublished: post.date,
+      dateModified: post.date,
+      author: { "@type": "Organization", name: `${brand} 고객센터 운영팀` },
+      publisher: {
+        "@type": "Organization",
+        name: brand,
+        logo: { "@type": "ImageObject", url: `${siteUrl}/assets/og-image.svg` }
+      },
+      mainEntityOfPage: magazineCanonical(post.slug),
+      image: `${siteUrl}/assets/og-image.svg`,
+      keywords: post.keyword
+    }
+  });
 }
 
 function homeArticle() {
@@ -1336,6 +1465,7 @@ function servicePage(service) {
 fs.mkdirSync("regions", { recursive: true });
 fs.mkdirSync("services", { recursive: true });
 fs.mkdirSync("areas", { recursive: true });
+fs.mkdirSync("magazine", { recursive: true });
 fs.mkdirSync("assets", { recursive: true });
 fs.writeFileSync("index.html", home());
 for (const region of regions) {
@@ -1393,12 +1523,18 @@ fs.writeFileSync(path.join("services", "swedish.html"), `<!doctype html>
   <p><a href="/services/swedish-massage/">스웨디시 출장마사지 서비스 안내</a> 페이지로 이동합니다.</p>
 </body>
 </html>`);
+fs.writeFileSync(path.join("magazine", "index.html"), magazineIndexPage());
+for (const post of magazinePosts) {
+  fs.mkdirSync(path.join("magazine", post.slug), { recursive: true });
+  fs.writeFileSync(path.join("magazine", post.slug, "index.html"), magazinePostPage(post));
+}
 const serviceUrls = [...new Set([...services.map(([slug]) => slug), ...serviceDropdown.map(([slug]) => slug)])];
 const districtUrls = seoulDistricts.map(({ slug }) => districtCanonical("seoul", slug));
 const adminAreaUrls = Object.entries(adminAreaGroups).flatMap(([parentSlug, group]) =>
   group.units.map(([unitSlug]) => districtCanonical(parentSlug, unitSlug))
 );
-const today = "2026-05-28";
+const magazineUrls = [magazineCanonical(), ...magazinePosts.map((post) => magazineCanonical(post.slug))];
+const today = "2026-05-29";
 const buildDate = new Date(`${today}T00:00:00+09:00`).toUTCString();
 const escapeXml = (value) => String(value)
   .replaceAll("&", "&amp;")
@@ -1408,6 +1544,7 @@ const escapeXml = (value) => String(value)
   .replaceAll("'", "&apos;");
 const sitemapEntries = [
   { loc: `${siteUrl}/`, priority: "1.0", changefreq: "daily" },
+  ...magazineUrls.map((url) => ({ loc: url, priority: "0.8", changefreq: "weekly" })),
   ...serviceUrls.map((slug) => ({ loc: serviceCanonical(slug), priority: "0.9", changefreq: "weekly" })),
   ...regions.map(([slug]) => ({ loc: areaCanonical(slug), priority: "0.9", changefreq: "weekly" })),
   ...districtUrls.map((url) => ({ loc: url, priority: "0.8", changefreq: "weekly" })),
@@ -1415,6 +1552,7 @@ const sitemapEntries = [
 ];
 const rssItems = [
   { title: `${brand} 메인페이지`, loc: `${siteUrl}/`, description: "구구마사지 전국 출장마사지 서비스, 요금, 이용 방법, 출장 가능 지역 안내" },
+  ...magazinePosts.map((post) => ({ title: post.title, loc: magazineCanonical(post.slug), description: post.description })),
   ...services.map(([slug, name, desc]) => ({ title: `${name} 서비스 안내`, loc: serviceCanonical(slug), description: desc })),
   ...regions.map(([slug, ko, , local, audience]) => ({ title: `${ko} 출장마사지 서비스 안내`, loc: areaCanonical(slug), description: `${local}에서 ${audience}를 위한 방문 관리 안내` })),
   ...seoulDistricts.map((district) => ({ title: `${district.ko} 출장마사지 서비스 안내`, loc: districtCanonical("seoul", district.slug), description: district.desc })),
