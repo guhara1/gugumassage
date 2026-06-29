@@ -1569,7 +1569,7 @@ function reviewsSection(title, reviews) {
       </div>
       <div class="review-grid">
         ${reviews.map((r) => `<article class="review-card">
-          <div class="review-stars" aria-label="${r.rating}점 만점에 5점">${reviewStars(r.rating)}</div>
+          <div class="review-stars" aria-label="5점 만점에 ${r.rating}점">${reviewStars(r.rating)}</div>
           <h3>${r.title}</h3>
           <p>${r.body}</p>
           <footer><b>${r.author}</b><span>${r.date} 이용</span></footer>
