@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="전북 출장마사지 서비스 안내">
+  <defs>
+    <radialGradient id="bg-jeonbuk" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#5f4f2c"/>
+      <stop offset="0.52" stop-color="#2c241a"/>
+      <stop offset="1" stop-color="#080706"/>
+    </radialGradient>
+    <linearGradient id="acc-jeonbuk" x1="0" x2="1">
+      <stop offset="0" stop-color="#d8c47f"/>
+      <stop offset="1" stop-color="#e5b94c"/>
+    </linearGradient>
+    <filter id="blur-jeonbuk"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="600" height="420" fill="url(#bg-jeonbuk)"/>
+  <circle cx="118" cy="92" r="96" fill="#d8c47f" opacity=".22" filter="url(#blur-jeonbuk)"/>
+  <circle cx="498" cy="356" r="124" fill="#5f4f2c" opacity=".34" filter="url(#blur-jeonbuk)"/>
+  <path d="M0 310 C150 262 270 344 390 302 S560 250 600 286" fill="none" stroke="#d8c47f" stroke-width="2" opacity=".42"/>
+  <path d="M0 356 C170 316 300 380 440 340 S600 304 600 328" fill="none" stroke="#e5b94c" stroke-width="1.2" opacity=".22"/>
+  <text x="44" y="206" fill="#fffaf5" font-family="Georgia, 'Noto Serif KR', serif" font-size="66" font-weight="400">전북</text>
+  <text x="48" y="246" fill="url(#acc-jeonbuk)" font-family="Georgia, serif" font-size="19" letter-spacing="7">JEONBUK</text>
+  <text x="48" y="280" fill="#d4a098" font-family="'Noto Sans KR', sans-serif" font-size="15" letter-spacing="2">출장마사지 · 방문 관리 안내</text>
+</svg>

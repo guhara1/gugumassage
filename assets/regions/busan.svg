@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="부산 출장마사지 서비스 안내">
+  <defs>
+    <radialGradient id="bg-busan" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#2f5b53"/>
+      <stop offset="0.52" stop-color="#1f2a2b"/>
+      <stop offset="1" stop-color="#080706"/>
+    </radialGradient>
+    <linearGradient id="acc-busan" x1="0" x2="1">
+      <stop offset="0" stop-color="#7fc8b0"/>
+      <stop offset="1" stop-color="#e5b94c"/>
+    </linearGradient>
+    <filter id="blur-busan"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="600" height="420" fill="url(#bg-busan)"/>
+  <circle cx="118" cy="92" r="96" fill="#7fc8b0" opacity=".22" filter="url(#blur-busan)"/>
+  <circle cx="498" cy="356" r="124" fill="#2f5b53" opacity=".34" filter="url(#blur-busan)"/>
+  <path d="M0 297 C150 249 270 331 390 289 S560 237 600 273" fill="none" stroke="#7fc8b0" stroke-width="2" opacity=".42"/>
+  <path d="M0 343 C170 303 300 367 440 327 S600 291 600 315" fill="none" stroke="#e5b94c" stroke-width="1.2" opacity=".22"/>
+  <text x="44" y="206" fill="#fffaf5" font-family="Georgia, 'Noto Serif KR', serif" font-size="66" font-weight="400">부산</text>
+  <text x="48" y="246" fill="url(#acc-busan)" font-family="Georgia, serif" font-size="19" letter-spacing="7">BUSAN</text>
+  <text x="48" y="280" fill="#d4a098" font-family="'Noto Sans KR', sans-serif" font-size="15" letter-spacing="2">출장마사지 · 방문 관리 안내</text>
+</svg>

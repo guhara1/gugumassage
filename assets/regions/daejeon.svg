@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="대전 출장마사지 서비스 안내">
+  <defs>
+    <radialGradient id="bg-daejeon" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#5f4f2c"/>
+      <stop offset="0.52" stop-color="#2c241a"/>
+      <stop offset="1" stop-color="#080706"/>
+    </radialGradient>
+    <linearGradient id="acc-daejeon" x1="0" x2="1">
+      <stop offset="0" stop-color="#d8c47f"/>
+      <stop offset="1" stop-color="#e5b94c"/>
+    </linearGradient>
+    <filter id="blur-daejeon"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="600" height="420" fill="url(#bg-daejeon)"/>
+  <circle cx="118" cy="92" r="96" fill="#d8c47f" opacity=".22" filter="url(#blur-daejeon)"/>
+  <circle cx="498" cy="356" r="124" fill="#5f4f2c" opacity=".34" filter="url(#blur-daejeon)"/>
+  <path d="M0 286 C150 238 270 320 390 278 S560 226 600 262" fill="none" stroke="#d8c47f" stroke-width="2" opacity=".42"/>
+  <path d="M0 332 C170 292 300 356 440 316 S600 280 600 304" fill="none" stroke="#e5b94c" stroke-width="1.2" opacity=".22"/>
+  <text x="44" y="206" fill="#fffaf5" font-family="Georgia, 'Noto Serif KR', serif" font-size="66" font-weight="400">대전</text>
+  <text x="48" y="246" fill="url(#acc-daejeon)" font-family="Georgia, serif" font-size="19" letter-spacing="7">DAEJEON</text>
+  <text x="48" y="280" fill="#d4a098" font-family="'Noto Sans KR', sans-serif" font-size="15" letter-spacing="2">출장마사지 · 방문 관리 안내</text>
+</svg>

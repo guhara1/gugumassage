@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="전라 출장마사지 서비스 안내">
+  <defs>
+    <radialGradient id="bg-jeolla" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#3f3a63"/>
+      <stop offset="0.52" stop-color="#221d2c"/>
+      <stop offset="1" stop-color="#080706"/>
+    </radialGradient>
+    <linearGradient id="acc-jeolla" x1="0" x2="1">
+      <stop offset="0" stop-color="#9b9be0"/>
+      <stop offset="1" stop-color="#e5b94c"/>
+    </linearGradient>
+    <filter id="blur-jeolla"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="600" height="420" fill="url(#bg-jeolla)"/>
+  <circle cx="118" cy="92" r="96" fill="#9b9be0" opacity=".22" filter="url(#blur-jeolla)"/>
+  <circle cx="498" cy="356" r="124" fill="#3f3a63" opacity=".34" filter="url(#blur-jeolla)"/>
+  <path d="M0 311 C150 263 270 345 390 303 S560 251 600 287" fill="none" stroke="#9b9be0" stroke-width="2" opacity=".42"/>
+  <path d="M0 357 C170 317 300 381 440 341 S600 305 600 329" fill="none" stroke="#e5b94c" stroke-width="1.2" opacity=".22"/>
+  <text x="44" y="206" fill="#fffaf5" font-family="Georgia, 'Noto Serif KR', serif" font-size="66" font-weight="400">전라</text>
+  <text x="48" y="246" fill="url(#acc-jeolla)" font-family="Georgia, serif" font-size="19" letter-spacing="7">JEOLLA</text>
+  <text x="48" y="280" fill="#d4a098" font-family="'Noto Sans KR', sans-serif" font-size="15" letter-spacing="2">출장마사지 · 방문 관리 안내</text>
+</svg>

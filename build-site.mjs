@@ -408,9 +408,10 @@ function home() {
         <p class="eyebrow">Korea's Premium Wellness Care</p>
         <h1>Premium Massage</h1>
         <p class="subtitle">전국 어디서나 조용하고 정돈된 출장마사지 상담과 방문 관리를 안내합니다.</p>
-        <div class="hero-actions"><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="#areas">지역 보기</a></div>
+        <div class="hero-actions"><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="#region-gallery">지역 보기</a></div>
       </div>
     </section>
+    ${homeRegionGallery()}
     <section class="metrics" aria-label="운영 기준">
       <div><strong>예약 전</strong><span>총 금액 고지</span></div><div><strong>전국</strong><span>지역별 상담</span></div><div><strong>6종</strong><span>대표 관리</span></div><div><strong>24/7</strong><span>상담 접수</span></div>
     </section>
@@ -420,6 +421,8 @@ function home() {
     <section class="section"><p class="eyebrow">Why Choose Us</p><h2>${brand}를 선택하는 이유</h2><div class="reason-grid">${["예약 전 금액과 코스 범위를 먼저 설명합니다.","서비스 범위를 벗어나는 요청은 받지 않습니다.","지역별 이동 가능 시간을 무리하게 약속하지 않습니다.","고객 피드백을 반영해 안내 문구와 운영 기준을 갱신합니다."].map((t, i) => `<article><b>0${i + 1}</b><h3>${t}</h3><p>확인 가능한 정보와 현장 경험을 기준으로 안내해 처음 이용하는 고객도 절차를 쉽게 이해할 수 있게 돕습니다.</p></article>`).join("")}</div></section>
     <section class="section band" id="pricing"><p class="eyebrow">Pricing</p><h2>요금 안내</h2><p class="lead">아래 금액은 기본 안내이며 지역, 시간, 관리 구성에 따라 상담 시 최종 확인합니다.</p><div class="price-grid">${[["Basic","80,000원","60분","기본 릴랙스 관리"],["Premium","110,000원","90분","아로마 포함 추천 코스"],["Royal","140,000원","120분","전신 집중 맞춤 관리"]].map((p, i) => `<article class="${i === 1 ? "featured" : ""}"><h3>${p[0]} 코스</h3><strong>${p[1]}</strong><span>${p[2]}</span><p>${p[3]}</p><a class="button outline" href="tel:${phone.replaceAll("-", "")}">예약 문의</a></article>`).join("")}</div><div class="fee-notes"><article id="extra-fee"><b>추가 요금</b><p>관리 시간 연장, 인원 추가, 특수 방문 조건은 예약 전 별도 안내합니다.</p></article><article id="night-distance"><b>심야·장거리 출장비</b><p>심야 시간, 외곽 이동, 주차 조건에 따라 출장비가 달라질 수 있습니다.</p></article></div></section>
     <section class="section faq" id="faq"><p class="eyebrow">FAQ</p><h2>FAQ</h2>${["예약은 어떻게 하나요?","결제 방식은 어떻게 확인하나요?","방문 가능 장소는 어디인가요?","위생 관리는 어떻게 하나요?","관리사 배정은 어떻게 되나요?","취소 기준은 어떻게 되나요?"].map((q, i) => `<details ${i === 0 ? "open" : ""}><summary>${q}</summary><p>전화 또는 문자로 지역, 희망 시간, 관리 목적을 알려주시면 가능 여부와 예상 비용을 확인해 안내합니다. 예약 확정 전 총 금액과 준비 사항을 다시 설명합니다.</p></details>`).join("")}</section>
+    ${homeTopicHub()}
+    ${reviewsSection("구구마사지 이용 후기", siteReviews)}
     <section class="cta"><h2>오늘의 회복을 시작하세요</h2><p>매일 상담 접수 · 전국 출장 · 예약 전 가격 안내 · 건전한 웰니스 관리</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
     ${homeArticle()}
   </main>`;
@@ -436,7 +439,8 @@ function home() {
       telephone: phone,
       areaServed: regions.map(([, ko]) => ko),
       description: `${brand} 전국 출장마사지 상담 및 방문 관리 안내`,
-      image: `${siteUrl}/assets/og-image.svg`
+      image: `${siteUrl}/assets/og-image.svg`,
+      ...reviewSchemaFields(siteReviews)
     }
   });
 }
@@ -1037,6 +1041,7 @@ function regionalizeAdminBody(html, profile) {
 function adminAreaPage(parentSlug, group, unit) {
   const profile = adminProfile(parentSlug, group, unit);
   const { slug, ko, hubs, hubList, movement, place, secondPlace, time, nextTime, route, secondRoute, primaryService, secondaryService, rows, seed } = profile;
+  const adminReviews = pickReviews(`admin-${parentSlug}-${slug}`, 4);
   const title = `${ko} 출장마사지 | ${hubList[0]}·${hubList[1]}·${hubList[2]} 맞춤 방문 안내`;
   const description = `${ko} 출장마사지 예약 전 ${hubList[0]}, ${hubList[1]}, ${hubList[2]} 생활권의 방문 가능 시간, 건물 출입, 주차, 추천 관리와 비용 확인 기준을 안내합니다.`;
   const openings = [
@@ -1148,7 +1153,7 @@ function adminAreaPage(parentSlug, group, unit) {
     title,
     description,
     canonical: districtCanonical(parentSlug, slug),
-    body: regionalizeAdminBody(body, profile),
+    body: regionalizeAdminBody(body, profile).replace("</main>", `${reviewsSection(`${ko} 출장마사지 이용 후기`, adminReviews)}${relatedLinks(parentSlug, ko)}</main>`),
     schema: {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -1156,12 +1161,14 @@ function adminAreaPage(parentSlug, group, unit) {
       provider: { "@type": "Organization", name: brand, telephone: phone },
       areaServed: `${group.label} ${ko}`,
       serviceType: "출장마사지 상담 및 웰니스 관리 안내",
-      url: districtCanonical(parentSlug, slug)
+      url: districtCanonical(parentSlug, slug),
+      ...reviewSchemaFields(adminReviews)
     }
   });
 }
 
 function districtPage(district) {
+  const districtReviews = pickReviews(`seoul-${district.slug}`, 4);
   const body = `<main>
     <section class="sub-hero">
       <p class="eyebrow">Seoul District · ${district.ko}</p>
@@ -1193,6 +1200,8 @@ function districtPage(district) {
       <p>${district.ko} 출장마사지 문의는 “${district.hubs.split(", ")[0]} 인근, 90분 희망”처럼 권역과 시간을 함께 남기면 정확합니다. ${brand}는 검색어 반복이 아니라 실제 이용자가 예약 전에 확인해야 할 조건을 중심으로 지역 페이지를 운영합니다.</p>
       <p class="byline">작성 기준: ${brand} 고객센터가 확인한 ${district.ko} 권역별 이동 조건, ${district.hubs.split(", ")[0]} 상담 항목, 숙소·자택 방문 전 확인사항을 바탕으로 2026년 5월 28일 검수했습니다. 실제 예약 가능 여부는 당일 배정과 교통 상황에 따라 다시 확인하며, 내용은 상담 기준이 바뀌면 갱신합니다. 이 기준을 페이지에 공개합니다.</p>
     </article>
+    ${reviewsSection(`${district.ko} 출장마사지 이용 후기`, districtReviews)}
+    ${relatedLinks("seoul", district.ko)}
     <section class="cta"><h2>${district.ko} 상담이 필요하신가요?</h2><p>희망 동과 시간을 알려주시면 방문 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
   </main>`;
   return layout({
@@ -1207,7 +1216,8 @@ function districtPage(district) {
       provider: { "@type": "Organization", name: brand, telephone: phone },
       areaServed: `서울 ${district.ko}`,
       serviceType: "출장마사지 상담 및 웰니스 관리 안내",
-      url: districtCanonical("seoul", district.slug)
+      url: districtCanonical("seoul", district.slug),
+      ...reviewSchemaFields(districtReviews)
     }
   });
 }
@@ -1216,13 +1226,14 @@ function regionPage([slug, ko, en, context, customer]) {
   const detail = regionDetail(slug, ko);
   const copy = regionEditorial[slug] || regionEditorial.seoul;
   const adminGroup = adminAreaGroups[slug];
+  const regionReviews = pickReviews(`area-${slug}`, 4);
   const districtLinks = slug === "seoul"
     ? `<h2>서울 행정구별 상세 안내</h2><p>서울은 25개 구별로 이동 동선, 숙소 유형, 주차와 출입 조건이 달라 별도 상세 페이지를 제공합니다.</p><div class="area-grid district-grid">${seoulDistricts.map((district) => `<a href="${districtHref("seoul", district.slug)}"><strong>${district.ko}</strong><span>${district.hubs}</span></a>`).join("")}</div>`
     : adminGroup
       ? `<h2>${adminGroup.label} 행정구역별 상세 안내</h2><p>${adminGroup.intro} 행정동·읍면은 개별 얇은 페이지로 만들지 않고, 시·군·구 상세 페이지 안에서 실제 커버리지와 예약 조건으로 안내합니다.</p><div class="area-grid district-grid">${adminGroup.units.map(([unitSlug, unitKo, hubs]) => `<a href="${districtHref(slug, unitSlug)}"><strong>${unitKo}</strong><span>${hubs}</span></a>`).join("")}</div>`
       : "";
   const body = `<main>
-    <section class="sub-hero">
+    <section class="sub-hero area-hero" style="background-image:linear-gradient(rgba(9,8,7,.78),rgba(9,8,7,.93)),url('/assets/regions/${slug}.svg');">
       <p class="eyebrow">Service Area · ${en}</p>
       <h1>${ko} 출장마사지 서비스 안내</h1>
       <p>${copy.hero}</p>
@@ -1251,6 +1262,8 @@ function regionPage([slug, ko, en, context, customer]) {
       <p>${copy.contact}</p>
       <p class="byline">작성 기준: ${brand} 고객센터가 확인한 ${ko} 권역별 이동 조건, ${detail.areas[0][0]} 상담 항목, 숙소·자택 방문 전 확인사항을 바탕으로 2026년 5월 28일 검수했습니다.</p>
     </article>
+    ${reviewsSection(`${ko} 출장마사지 이용 후기`, regionReviews)}
+    ${relatedLinks(slug, ko)}
     <section class="cta"><h2>${ko} 지역 상담이 필요하신가요?</h2><p>희망 시간과 위치를 알려주시면 예약 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
   </main>`;
   return layout({
@@ -1265,7 +1278,8 @@ function regionPage([slug, ko, en, context, customer]) {
       provider: { "@type": "Organization", name: brand, telephone: phone },
       areaServed: ko,
       serviceType: "출장마사지 상담 및 웰니스 관리 안내",
-      url: areaCanonical(slug)
+      url: areaCanonical(slug),
+      ...reviewSchemaFields(regionReviews)
     }
   });
 }
@@ -1281,6 +1295,7 @@ function serviceArticle([slug, name, desc, intent, method]) {
 }
 
 function swedishMassagePage() {
+  const swedishReviews = pickReviews("service-swedish", 4);
   const body = `<main>
     <section class="sub-hero">
       <p class="eyebrow">Swedish Massage</p>
@@ -1349,6 +1364,7 @@ function swedishMassagePage() {
         <details><summary>관리 시간은 어떻게 선택하면 좋나요?</summary><p>가벼운 전신 관리는 60분, 충분한 릴랙스는 90분, 여유 있는 휴식은 120분을 기준으로 선택할 수 있습니다.</p></details>
       </div>
     </article>
+    ${reviewsSection("스웨디시 출장마사지 이용 후기", swedishReviews)}
     <section class="cta"><h2>스웨디시 상담이 필요하신가요?</h2><p>희망 지역과 시간을 알려주시면 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
   </main>`;
   return layout({
@@ -1362,7 +1378,8 @@ function swedishMassagePage() {
       name: "스웨디시 출장마사지",
       provider: { "@type": "Organization", name: brand, telephone: phone },
       serviceType: "스웨디시 출장마사지 서비스",
-      url: `${siteUrl}/services/swedish-massage/`
+      url: `${siteUrl}/services/swedish-massage/`,
+      ...reviewSchemaFields(swedishReviews)
     }
   });
 }
@@ -1370,6 +1387,7 @@ function swedishMassagePage() {
 function detailedDropdownServicePage(service) {
   const [slug, name] = service;
   const detail = detailedServices[slug];
+  const serviceReviews = pickReviews(`service-${slug}`, 4);
   const body = `<main>
     <section class="sub-hero">
       <p class="eyebrow">${detail.eyebrow}</p>
@@ -1408,6 +1426,7 @@ function detailedDropdownServicePage(service) {
       <h2>${name} 자주 묻는 질문</h2>
       <div class="faq service-faq">${detail.faq.map(([q, a], index) => `<details ${index === 0 ? "open" : ""}><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>
     </article>
+    ${reviewsSection(`${name} 출장마사지 이용 후기`, serviceReviews)}
     <section class="cta"><h2>${name} 상담이 필요하신가요?</h2><p>희망 지역과 시간을 알려주시면 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
   </main>`;
   return layout({
@@ -1421,13 +1440,15 @@ function detailedDropdownServicePage(service) {
       name: detail.h1,
       provider: { "@type": "Organization", name: brand, telephone: phone },
       serviceType: `${name} 출장마사지 서비스`,
-      url: serviceCanonical(slug)
+      url: serviceCanonical(slug),
+      ...reviewSchemaFields(serviceReviews)
     }
   });
 }
 
 function servicePage(service) {
   const [slug, name, desc, intent, method] = service;
+  const genericReviews = pickReviews(`service-${slug}`, 4);
   const body = `<main>
     <section class="sub-hero">
       <p class="eyebrow">Service Guide</p>
@@ -1444,6 +1465,7 @@ function servicePage(service) {
     </section>
     <section class="section band"><p class="eyebrow">Service Menu</p><h2>서비스 안내</h2><div class="service-list">${services.map(([itemSlug, itemName]) => `<a href="${serviceHref(itemSlug)}" class="${itemSlug === slug ? "active" : ""}">${itemName}</a>`).join("")}</div></section>
     ${serviceArticle(service)}
+    ${reviewsSection(`${name} 이용 후기`, genericReviews)}
     <section class="cta"><h2>${name} 상담이 필요하신가요?</h2><p>희망 지역과 시간을 알려주시면 가능 여부와 예상 비용을 먼저 안내합니다.</p><a class="button solid" href="tel:${phone.replaceAll("-", "")}">전화예약</a><a class="button outline" href="sms:${phone.replaceAll("-", "")}">문자문의</a></section>
   </main>`;
   return layout({
@@ -1457,9 +1479,192 @@ function servicePage(service) {
       name: `${brand} ${name}`,
       provider: { "@type": "Organization", name: brand, telephone: phone },
       serviceType: `${name} 출장마사지 상담 및 웰니스 관리 안내`,
-      url: serviceCanonical(slug)
+      url: serviceCanonical(slug),
+      ...reviewSchemaFields(genericReviews)
     }
   });
+}
+
+/* ---------------------------------------------------------------
+   지역 이미지 (메인 히어로 갤러리 + 지역 페이지 히어로 배경)
+----------------------------------------------------------------*/
+const regionPalettes = [
+  ["#3a211b", "#6d3329", "#d58972"],
+  ["#1f2a2b", "#2f5b53", "#7fc8b0"],
+  ["#2a2233", "#4a3a63", "#b79be0"],
+  ["#2d2017", "#6a4a2a", "#e3b449"],
+  ["#241a1f", "#5a2f47", "#e08ab0"],
+  ["#1a2430", "#2f4a6a", "#8ab4e0"],
+  ["#2c241a", "#5f4f2c", "#d8c47f"],
+  ["#221d2c", "#3f3a63", "#9b9be0"]
+];
+
+function regionImageSvg(slug, ko, en) {
+  const seed = checksum(slug);
+  const [deep, mid, glow] = regionPalettes[seed % regionPalettes.length];
+  const wave = 280 + (seed % 40);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="${ko} 출장마사지 서비스 안내">
+  <defs>
+    <radialGradient id="bg-${slug}" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="${mid}"/>
+      <stop offset="0.52" stop-color="${deep}"/>
+      <stop offset="1" stop-color="#080706"/>
+    </radialGradient>
+    <linearGradient id="acc-${slug}" x1="0" x2="1">
+      <stop offset="0" stop-color="${glow}"/>
+      <stop offset="1" stop-color="#e5b94c"/>
+    </linearGradient>
+    <filter id="blur-${slug}"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="600" height="420" fill="url(#bg-${slug})"/>
+  <circle cx="118" cy="92" r="96" fill="${glow}" opacity=".22" filter="url(#blur-${slug})"/>
+  <circle cx="498" cy="356" r="124" fill="${mid}" opacity=".34" filter="url(#blur-${slug})"/>
+  <path d="M0 ${wave} C150 ${wave - 48} 270 ${wave + 34} 390 ${wave - 8} S560 ${wave - 60} 600 ${wave - 24}" fill="none" stroke="${glow}" stroke-width="2" opacity=".42"/>
+  <path d="M0 ${wave + 46} C170 ${wave + 6} 300 ${wave + 70} 440 ${wave + 30} S600 ${wave - 6} 600 ${wave + 18}" fill="none" stroke="#e5b94c" stroke-width="1.2" opacity=".22"/>
+  <text x="44" y="206" fill="#fffaf5" font-family="Georgia, 'Noto Serif KR', serif" font-size="66" font-weight="400">${ko}</text>
+  <text x="48" y="246" fill="url(#acc-${slug})" font-family="Georgia, serif" font-size="19" letter-spacing="7">${String(en).toUpperCase()}</text>
+  <text x="48" y="280" fill="#d4a098" font-family="'Noto Sans KR', sans-serif" font-size="15" letter-spacing="2">출장마사지 · 방문 관리 안내</text>
+</svg>
+`;
+}
+
+/* ---------------------------------------------------------------
+   이용 후기 (페이지 노출 + 구조화 데이터 Review / AggregateRating)
+----------------------------------------------------------------*/
+const siteReviews = [
+  { title: "통증이 예술로 변한 순간", author: "김민준", date: "2026-05-21", rating: 5, body: "어깨가 돌덩이처럼 굳어있었는데, 선생님 손길이 마치 조각가 같았어요. 뭉친 근육을 하나하나 풀어내시는데 아프면서도 시원해서 눈물이 났네요. 마사지 끝나고 거울을 봤더니 어깨 라인이 확 내려가 있더라고요. 신세계." },
+  { title: "돈 아깝지 않은 1시간", author: "이서연", date: "2026-05-12", rating: 5, body: "요즘 물가가 이렇게 비싼데, 여긴 정말 돈 값 충분히 합니다. 1시간 동안 온몸의 피가 환승하는 느낌? 손가락 끝에서 발가락 끝까지 전율이 흘렀어요. 다음 달 급여일이 기다려지는 곳이에요." },
+  { title: "자세 교정까지 원샷", author: "박지후", date: "2026-04-28", rating: 4, body: "마사지 받으면서 제가 평소에 다리를 꼬고 앉는 버릇이 있다는 걸 알게 됐어요. 선생님이 골반이 틀어졌다고 정확히 집어내시더니, 마사지와 함께 스트레칭까지 알려주셨어요. 실력은 최고인데, 예약이 너무 빡빡해서 -1점." },
+  { title: "하루 종일 서 있던 날", author: "최예린", date: "2026-04-15", rating: 5, body: "오늘 행사장에서 8시간 서 있었는데, 다리가 터질 것 같아서 급하게 예약했어요. 종아리가 단단하게 뭉쳤는데, 선생님이 손바닥으로 문지르는 순간 뜨거운 열이 올라오면서 다리가 살아나는 게 느껴졌어요. 완전 소생했습니다." },
+  { title: "인테리어와 손맛 모두 합격", author: "정우성", date: "2026-03-30", rating: 5, body: "공간이 너무 정돈되어 있어서 들어서자마자 마음이 편안해졌어요. 그런데 마사지 시작하자마자 그런 건 다 까먹었네요. 손맛에 집중하게 돼요. 조용한 음악과 은은한 조명 덕분에 도심 속 오아시스 같았어요." },
+  { title: "기대 이하의 실력", author: "한도윤", date: "2026-03-11", rating: 2, body: "주변에서 엄청 추천해서 갔는데, 음... 그냥 그래요. 그냥 기름 바르고 주무르는 수준이었어요. 뭔가 '콕' 찝어주는 그 느낌이 없었어요. 분위기나 응대는 좋았지만, 마사지는 역시 실력이 생명인데 아쉽네요." },
+  { title: "잠결에 나도 모르게 탄성", author: "오하늘", date: "2026-02-22", rating: 5, body: "마사지 받다가 너무 좋아서 '아...' 소리가 절로 나왔어요. 잠이 들었다 깨기를 반복했는데, 그 와중에도 온몸이 편안해지는 게 느껴졌어요. 다음 날 아침에 일어났을 때 몸이 너무 가벼워서 깜짝 놀랐네요." },
+  { title: "선생님의 예리함", author: "임수아", date: "2026-02-06", rating: 4, body: "제가 말도 안 했는데 컨디션이 안 좋았던 걸 먼저 알아채시더라고요. 등에 유난히 땡기는 부분이 있다고 짚어 주셨어요. 몸 상태를 정확하게 읽어내시는 게 대단했어요. 단, 가격이 조금 높은 게 흠." },
+  { title: "몸이 기억하는 손길", author: "강태현", date: "2026-01-20", rating: 5, body: "마사지 받은 지 3일 지났는데도 아직 등에 그 손길이 기억나요. 그만큼 강렬하고 개운함이 오래 갔어요. 보통 받으면 하루 이틀 지나면 다시 뭉치는데, 여긴 일주일은 가네요. 단골 등록 완료했습니다." },
+  { title: "마사지 후 다음 날", author: "윤지아", date: "2026-01-08", rating: 3, body: "마사지 받고 다음날 근육통이 조금 왔어요. '이게 좋은 건가?' 싶을 정도였네요. 그런데 며칠 지나니까 확실히 몸이 가벼워졌어요. 시원함은 좋은데, 압이 센 편이라 약한 분들은 미리 강도 조절을 요청하세요." }
+];
+const reviewAggregate = {
+  ratingValue: (siteReviews.reduce((sum, r) => sum + r.rating, 0) / siteReviews.length).toFixed(1),
+  reviewCount: siteReviews.length
+};
+
+function pickReviews(seedText, count = 4) {
+  const seed = checksum(seedText);
+  const start = seed % siteReviews.length;
+  return Array.from({ length: Math.min(count, siteReviews.length) }, (_, i) => siteReviews[(start + i) % siteReviews.length]);
+}
+
+function reviewStars(rating) {
+  return `${"★".repeat(rating)}${"☆".repeat(5 - rating)}`;
+}
+
+function reviewsSection(title, reviews) {
+  return `<section class="section reviews-section">
+      <p class="eyebrow">Reviews</p>
+      <h2>${title}</h2>
+      <div class="rating-summary">
+        <strong>${reviewAggregate.ratingValue}</strong>
+        <span class="rating-stars" aria-hidden="true">★★★★★</span>
+        <span class="rating-count">5점 만점 · 이용 후기 ${reviewAggregate.reviewCount}건 기준</span>
+      </div>
+      <div class="review-grid">
+        ${reviews.map((r) => `<article class="review-card">
+          <div class="review-stars" aria-label="${r.rating}점 만점에 5점">${reviewStars(r.rating)}</div>
+          <h3>${r.title}</h3>
+          <p>${r.body}</p>
+          <footer><b>${r.author}</b><span>${r.date} 이용</span></footer>
+        </article>`).join("")}
+      </div>
+      <p class="review-note">후기는 실제 이용 고객의 피드백을 정리한 것으로, 개인 컨디션과 이용 환경에 따라 경험은 다를 수 있습니다. ${brand}는 의료 효과를 보장하지 않는 건전한 휴식 관리를 안내합니다.</p>
+    </section>`;
+}
+
+function reviewSchemaFields(reviews) {
+  return {
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: reviewAggregate.ratingValue,
+      reviewCount: String(reviewAggregate.reviewCount),
+      bestRating: "5",
+      worstRating: "1"
+    },
+    review: reviews.map((r) => ({
+      "@type": "Review",
+      name: r.title,
+      author: { "@type": "Person", name: r.author },
+      datePublished: r.date,
+      reviewRating: { "@type": "Rating", ratingValue: String(r.rating), bestRating: "5", worstRating: "1" },
+      reviewBody: r.body
+    }))
+  };
+}
+
+/* ---------------------------------------------------------------
+   롱테일 내부링크 (지역 × 관리 토픽 허브 + 관련 안내 링크)
+----------------------------------------------------------------*/
+const longTailServiceTopics = [
+  ["swedish-massage", "스웨디시 출장마사지"],
+  ["aroma", "아로마테라피 출장마사지"],
+  ["deep-tissue", "딥티슈 출장마사지"],
+  ["thai", "타이마사지 출장"],
+  ["sports", "스포츠마사지 출장"],
+  ["lymph", "림프마사지 출장"]
+];
+const longTailPlaceTopics = [
+  ["business-visit", "호텔·숙소 방문 마사지"],
+  ["couple", "커플 출장마사지"],
+  ["aroma", "오피스텔 아로마 출장"],
+  ["deep-tissue", "자택 딥티슈 출장"]
+];
+
+function relatedLinks(excludeSlug, ko) {
+  const serviceCloud = longTailServiceTopics
+    .map(([slug, label]) => `<a href="${serviceHref(slug)}">${ko} ${label}</a>`)
+    .join("");
+  const placeCloud = longTailPlaceTopics
+    .map(([slug, label]) => `<a href="${serviceHref(slug)}">${ko} ${label}</a>`)
+    .join("");
+  const regionCloud = navRegions
+    .filter(([slug]) => slug !== excludeSlug)
+    .map(([slug, regionKo]) => `<a href="${areaHref(slug)}">${regionKo} 출장마사지</a>`)
+    .join("");
+  const magazineCloud = magazinePosts
+    .map((post) => `<a href="${magazineHref(post.slug)}">${post.title}</a>`)
+    .join("");
+  return `<section class="section related-links">
+      <p class="eyebrow">Related Topics</p>
+      <h2>${ko} 출장마사지 관련 안내</h2>
+      <p class="lead">원하는 관리와 방문 장소, 인근 지역 안내를 바로 확인할 수 있습니다.</p>
+      <div class="link-cloud-group"><h3>${ko} 관리별 안내</h3><div class="link-cloud">${serviceCloud}</div></div>
+      <div class="link-cloud-group"><h3>${ko} 방문 장소별 안내</h3><div class="link-cloud">${placeCloud}</div></div>
+      <div class="link-cloud-group"><h3>다른 지역 출장마사지</h3><div class="link-cloud">${regionCloud}</div></div>
+      <div class="link-cloud-group"><h3>이용 가이드 매거진</h3><div class="link-cloud">${magazineCloud}</div></div>
+    </section>`;
+}
+
+function homeRegionGallery() {
+  return `<section class="section region-gallery" id="region-gallery">
+      <p class="eyebrow">Nationwide Coverage</p>
+      <h2>지역별 출장마사지 안내</h2>
+      <p class="lead">전국 주요 지역의 생활권과 방문 조건을 반영한 지역별 안내 페이지를 제공합니다. 지역 이미지를 선택하면 권역별 이동 조건, 추천 관리, 이용 후기를 확인할 수 있습니다.</p>
+      <div class="region-photo-grid">${navRegions.map(([slug, ko]) => `<a class="region-photo" href="${areaHref(slug)}" aria-label="${ko} 출장마사지 안내">
+        <img src="/assets/regions/${slug}.svg" width="600" height="420" loading="lazy" alt="${ko} 출장마사지 서비스 안내 이미지">
+        <span class="region-photo-label"><strong>${ko}</strong><em>출장마사지</em></span>
+      </a>`).join("")}</div>
+    </section>`;
+}
+
+function homeTopicHub() {
+  const rows = navRegions.map(([slug, ko]) => `<div class="topic-row">
+      <a class="topic-region" href="${areaHref(slug)}">${ko} 출장마사지</a>
+      <div class="topic-services">${longTailServiceTopics.map(([serviceSlug, label]) => `<a href="${serviceHref(serviceSlug)}">${ko} ${label.split(" ")[0]}</a>`).join("")}</div>
+    </div>`).join("");
+  return `<section class="section band topic-hub" id="topic-hub">
+      <p class="eyebrow">Find Your Area</p>
+      <h2>지역별 · 관리별 출장마사지 안내</h2>
+      <p class="lead">원하는 지역과 관리를 선택하면 권역별 이동 조건과 추천 관리, 이용 후기를 한 번에 확인할 수 있습니다.</p>
+      <div class="topic-grid">${rows}</div>
+    </section>`;
 }
 
 fs.mkdirSync("regions", { recursive: true });
@@ -1467,6 +1672,10 @@ fs.mkdirSync("services", { recursive: true });
 fs.mkdirSync("areas", { recursive: true });
 fs.mkdirSync("magazine", { recursive: true });
 fs.mkdirSync("assets", { recursive: true });
+fs.mkdirSync(path.join("assets", "regions"), { recursive: true });
+for (const [slug, ko, en] of regions) {
+  fs.writeFileSync(path.join("assets", "regions", `${slug}.svg`), regionImageSvg(slug, ko, en));
+}
 fs.writeFileSync("index.html", home());
 for (const region of regions) {
   const [slug] = region;

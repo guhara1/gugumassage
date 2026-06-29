@@ -493,6 +493,154 @@ thead th {
 .business,
 .copyright { max-width: var(--max); margin: 14px auto; text-align: center; font-size: 13px; }
 
+/* ---- 지역 이미지 갤러리 (메인 히어로 하단) ---- */
+.region-gallery { padding-top: 80px; }
+.region-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+.region-photo {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel-2);
+  aspect-ratio: 3 / 2;
+  transition: transform .25s ease, border-color .25s ease;
+}
+.region-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.region-photo-label {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 14px 16px;
+  background: linear-gradient(transparent, rgba(9, 8, 7, .85));
+}
+.region-photo-label strong { font-size: 20px; color: var(--text); }
+.region-photo-label em { font-style: normal; font-size: 12px; letter-spacing: 2px; color: var(--soft); }
+.region-photo:hover { transform: translateY(-4px); border-color: var(--accent); }
+
+/* ---- 지역 페이지 히어로 배경 이미지 ---- */
+.area-hero {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ---- 이용 후기 ---- */
+.reviews-section { text-align: center; }
+.rating-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 30px 0 8px;
+}
+.rating-summary strong {
+  font-family: Georgia, serif;
+  font-size: 48px;
+  color: var(--gold);
+  line-height: 1;
+}
+.rating-stars { color: var(--gold); font-size: 22px; letter-spacing: 3px; }
+.rating-count { color: var(--muted); font-size: 14px; }
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 40px;
+  text-align: left;
+}
+.review-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 26px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.review-card .review-stars { color: var(--gold); font-size: 17px; letter-spacing: 2px; }
+.review-card h3 { margin: 0; font-family: inherit; font-size: 17px; color: var(--soft); }
+.review-card p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.75; }
+.review-card footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.review-card footer b { color: var(--text); }
+.review-card footer span { color: var(--muted); }
+.review-note { max-width: 760px; margin: 34px auto 0; color: var(--muted); font-size: 13px; }
+
+/* ---- 롱테일 내부링크 ---- */
+.related-links .link-cloud-group { max-width: var(--max); margin: 30px auto 0; }
+.related-links h3 {
+  margin: 0 0 14px;
+  font-family: inherit;
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-weight: 800;
+}
+.link-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+.link-cloud a {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 16px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--soft);
+  font-size: 14px;
+  transition: border-color .2s ease, color .2s ease;
+}
+.link-cloud a:hover { border-color: var(--accent); color: var(--text); }
+
+/* ---- 지역 × 관리 토픽 허브 (메인) ---- */
+.topic-grid { display: grid; gap: 14px; margin-top: 48px; }
+.topic-row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.topic-region {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  color: var(--text);
+  font-weight: 700;
+}
+.topic-region:hover { color: var(--accent); }
+.topic-services { display: flex; flex-wrap: wrap; gap: 8px; }
+.topic-services a {
+  padding: 6px 13px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.topic-services a:hover { border-color: var(--accent); color: var(--soft); }
+
 @media (max-width: 900px) {
   .site-header { height: auto; min-height: 76px; }
   nav { display: none; position: absolute; inset: 76px 0 auto; background: #120d0b; padding: 20px; border-bottom: 1px solid var(--line); }
@@ -543,6 +691,9 @@ thead th {
   }
   .district-grid strong { font-size: 22px; }
   .district-grid span { font-size: 12px; line-height: 1.65; }
+  .region-photo-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .review-grid { grid-template-columns: 1fr; }
+  .topic-row { grid-template-columns: 1fr; gap: 12px; align-items: start; }
   .metrics { gap: 24px; }
   .metrics div { border-right: 0; border-bottom: 1px solid var(--line); padding-bottom: 22px; }
   .quick-actions { left: 14px; right: 14px; grid-template-columns: 1fr 1fr; }

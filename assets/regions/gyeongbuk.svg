@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="경북 출장마사지 서비스 안내">
+  <defs>
+    <radialGradient id="bg-gyeongbuk" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#6a4a2a"/>
+      <stop offset="0.52" stop-color="#2d2017"/>
+      <stop offset="1" stop-color="#080706"/>
+    </radialGradient>
+    <linearGradient id="acc-gyeongbuk" x1="0" x2="1">
+      <stop offset="0" stop-color="#e3b449"/>
+      <stop offset="1" stop-color="#e5b94c"/>
+    </linearGradient>
+    <filter id="blur-gyeongbuk"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="600" height="420" fill="url(#bg-gyeongbuk)"/>
+  <circle cx="118" cy="92" r="96" fill="#e3b449" opacity=".22" filter="url(#blur-gyeongbuk)"/>
+  <circle cx="498" cy="356" r="124" fill="#6a4a2a" opacity=".34" filter="url(#blur-gyeongbuk)"/>
+  <path d="M0 291 C150 243 270 325 390 283 S560 231 600 267" fill="none" stroke="#e3b449" stroke-width="2" opacity=".42"/>
+  <path d="M0 337 C170 297 300 361 440 321 S600 285 600 309" fill="none" stroke="#e5b94c" stroke-width="1.2" opacity=".22"/>
+  <text x="44" y="206" fill="#fffaf5" font-family="Georgia, 'Noto Serif KR', serif" font-size="66" font-weight="400">경북</text>
+  <text x="48" y="246" fill="url(#acc-gyeongbuk)" font-family="Georgia, serif" font-size="19" letter-spacing="7">GYEONGBUK</text>
+  <text x="48" y="280" fill="#d4a098" font-family="'Noto Sans KR', sans-serif" font-size="15" letter-spacing="2">출장마사지 · 방문 관리 안내</text>
+</svg>
