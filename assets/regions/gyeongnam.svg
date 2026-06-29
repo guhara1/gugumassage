@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="경남 출장마사지 서비스 안내">
+  <defs>
+    <radialGradient id="bg-gyeongnam" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#2f4a6a"/>
+      <stop offset="0.52" stop-color="#1a2430"/>
+      <stop offset="1" stop-color="#080706"/>
+    </radialGradient>
+    <linearGradient id="acc-gyeongnam" x1="0" x2="1">
+      <stop offset="0" stop-color="#8ab4e0"/>
+      <stop offset="1" stop-color="#e5b94c"/>
+    </linearGradient>
+    <filter id="blur-gyeongnam"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="600" height="420" fill="url(#bg-gyeongnam)"/>
+  <circle cx="118" cy="92" r="96" fill="#8ab4e0" opacity=".22" filter="url(#blur-gyeongnam)"/>
+  <circle cx="498" cy="356" r="124" fill="#2f4a6a" opacity=".34" filter="url(#blur-gyeongnam)"/>
+  <path d="M0 285 C150 237 270 319 390 277 S560 225 600 261" fill="none" stroke="#8ab4e0" stroke-width="2" opacity=".42"/>
+  <path d="M0 331 C170 291 300 355 440 315 S600 279 600 303" fill="none" stroke="#e5b94c" stroke-width="1.2" opacity=".22"/>
+  <text x="44" y="206" fill="#fffaf5" font-family="Georgia, 'Noto Serif KR', serif" font-size="66" font-weight="400">경남</text>
+  <text x="48" y="246" fill="url(#acc-gyeongnam)" font-family="Georgia, serif" font-size="19" letter-spacing="7">GYEONGNAM</text>
+  <text x="48" y="280" fill="#d4a098" font-family="'Noto Sans KR', sans-serif" font-size="15" letter-spacing="2">출장마사지 · 방문 관리 안내</text>
+</svg>

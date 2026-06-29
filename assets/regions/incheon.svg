@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="인천 출장마사지 서비스 안내">
+  <defs>
+    <radialGradient id="bg-incheon" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#5a2f47"/>
+      <stop offset="0.52" stop-color="#241a1f"/>
+      <stop offset="1" stop-color="#080706"/>
+    </radialGradient>
+    <linearGradient id="acc-incheon" x1="0" x2="1">
+      <stop offset="0" stop-color="#e08ab0"/>
+      <stop offset="1" stop-color="#e5b94c"/>
+    </linearGradient>
+    <filter id="blur-incheon"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="600" height="420" fill="url(#bg-incheon)"/>
+  <circle cx="118" cy="92" r="96" fill="#e08ab0" opacity=".22" filter="url(#blur-incheon)"/>
+  <circle cx="498" cy="356" r="124" fill="#5a2f47" opacity=".34" filter="url(#blur-incheon)"/>
+  <path d="M0 300 C150 252 270 334 390 292 S560 240 600 276" fill="none" stroke="#e08ab0" stroke-width="2" opacity=".42"/>
+  <path d="M0 346 C170 306 300 370 440 330 S600 294 600 318" fill="none" stroke="#e5b94c" stroke-width="1.2" opacity=".22"/>
+  <text x="44" y="206" fill="#fffaf5" font-family="Georgia, 'Noto Serif KR', serif" font-size="66" font-weight="400">인천</text>
+  <text x="48" y="246" fill="url(#acc-incheon)" font-family="Georgia, serif" font-size="19" letter-spacing="7">INCHEON</text>
+  <text x="48" y="280" fill="#d4a098" font-family="'Noto Sans KR', sans-serif" font-size="15" letter-spacing="2">출장마사지 · 방문 관리 안내</text>
+</svg>

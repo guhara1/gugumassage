@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-label="광주 출장마사지 서비스 안내">
+  <defs>
+    <radialGradient id="bg-gwangju" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#6a4a2a"/>
+      <stop offset="0.52" stop-color="#2d2017"/>
+      <stop offset="1" stop-color="#080706"/>
+    </radialGradient>
+    <linearGradient id="acc-gwangju" x1="0" x2="1">
+      <stop offset="0" stop-color="#e3b449"/>
+      <stop offset="1" stop-color="#e5b94c"/>
+    </linearGradient>
+    <filter id="blur-gwangju"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="600" height="420" fill="url(#bg-gwangju)"/>
+  <circle cx="118" cy="92" r="96" fill="#e3b449" opacity=".22" filter="url(#blur-gwangju)"/>
+  <circle cx="498" cy="356" r="124" fill="#6a4a2a" opacity=".34" filter="url(#blur-gwangju)"/>
+  <path d="M0 315 C150 267 270 349 390 307 S560 255 600 291" fill="none" stroke="#e3b449" stroke-width="2" opacity=".42"/>
+  <path d="M0 361 C170 321 300 385 440 345 S600 309 600 333" fill="none" stroke="#e5b94c" stroke-width="1.2" opacity=".22"/>
+  <text x="44" y="206" fill="#fffaf5" font-family="Georgia, 'Noto Serif KR', serif" font-size="66" font-weight="400">광주</text>
+  <text x="48" y="246" fill="url(#acc-gwangju)" font-family="Georgia, serif" font-size="19" letter-spacing="7">GWANGJU</text>
+  <text x="48" y="280" fill="#d4a098" font-family="'Noto Sans KR', sans-serif" font-size="15" letter-spacing="2">출장마사지 · 방문 관리 안내</text>
+</svg>
