@@ -256,8 +256,8 @@ function magazineCanonical(slug = "") {
 
 function layout({ title, description, canonical, body, schema, robots }) {
   const verificationTags = canonical === `${siteUrl}/`
-    ? `  <meta name="naver-site-verification" content="b02242d4dbddbd4ab9b652a0e9741b1ecdbf6d88">
-  <meta name="google-site-verification" content="Thez9awP1XI45EPoOGC5apckYcRsJMzHzTJ29w7yZV4">
+    ? `  <meta name="google-site-verification" content="tPIRpBE9XgyOjVsgPxTn0fHCVh71aDm4P9jUYOu23DI">
+  <meta name="naver-site-verification" content="0a21460710d5ca8c8b5ae086479e0f5f5102f3c6">
 `
     : "";
   const robotsTag = robots ? `  <meta name="robots" content="${robots}">
