@@ -13,6 +13,6 @@ Allow: /
 User-agent: Daumoa
 Allow: /
 
-Sitemap: https://gugumassage.club/sitemap.xml
-Sitemap: https://gugumassage.club/sitemap1.xml
-Sitemap: https://gugumassage.club/rss.xml
+Sitemap: https://gugumassage.shop/sitemap.xml
+Sitemap: https://gugumassage.shop/sitemap1.xml
+Sitemap: https://gugumassage.shop/rss.xml

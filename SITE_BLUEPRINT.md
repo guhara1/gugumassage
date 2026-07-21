@@ -1,6 +1,6 @@
 # 구구마사지 사이트 제작 설계서
 
-이 문서는 `gugumassage.club` 사이트를 어떤 기준으로 만들었는지 정리한 재사용용 제작 노트입니다. 다음에 비슷한 출장마사지, 지역 SEO, 서비스 안내형 정적 사이트를 만들 때 메인 페이지 디자인, 지역 페이지 구조, 콘텐츠 원칙, 검색엔진 대응 방식을 다시 활용하기 위한 기준서입니다.
+이 문서는 `gugumassage.shop` 사이트를 어떤 기준으로 만들었는지 정리한 재사용용 제작 노트입니다. 다음에 비슷한 출장마사지, 지역 SEO, 서비스 안내형 정적 사이트를 만들 때 메인 페이지 디자인, 지역 페이지 구조, 콘텐츠 원칙, 검색엔진 대응 방식을 다시 활용하기 위한 기준서입니다.
 
 ## 1. 사이트 제작 목표
 
@@ -445,9 +445,9 @@ Allow: /
 User-agent: Daumoa
 Allow: /
 
-Sitemap: https://gugumassage.club/sitemap.xml
-Sitemap: https://gugumassage.club/sitemap1.xml
-Sitemap: https://gugumassage.club/rss.xml
+Sitemap: https://gugumassage.shop/sitemap.xml
+Sitemap: https://gugumassage.shop/sitemap1.xml
+Sitemap: https://gugumassage.shop/rss.xml
 ```
 
 ## 13. 사이트 인증 설정
@@ -468,10 +468,10 @@ Sitemap: https://gugumassage.club/rss.xml
 최종 도메인은 다음으로 변경했습니다.
 
 ```text
-https://gugumassage.club
+https://gugumassage.shop
 ```
 
-사이트 내 canonical, og:url, sitemap, RSS, robots는 모두 `gugumassage.club` 기준입니다.
+사이트 내 canonical, og:url, sitemap, RSS, robots는 모두 `gugumassage.shop` 기준입니다.
 
 다음 사이트에서도 커스텀 도메인을 연결한 뒤에는 반드시 아래 항목을 새 도메인 기준으로 바꿔야 합니다.
 
@@ -493,7 +493,7 @@ Service url
 ```text
 GitHub 저장소 main 브랜치
 → Cloudflare Pages 자동 배포
-→ gugumassage.club 라이브 반영
+→ gugumassage.shop 라이브 반영
 ```
 
 작업 후 항상 아래 순서로 확인했습니다.
@@ -577,11 +577,11 @@ favicon
 현재 사이트 확인 URL입니다.
 
 ```text
-https://gugumassage.club/
-https://gugumassage.club/sitemap.xml
-https://gugumassage.club/sitemap1.xml
-https://gugumassage.club/rss.xml
-https://gugumassage.club/robots.txt
+https://gugumassage.shop/
+https://gugumassage.shop/sitemap.xml
+https://gugumassage.shop/sitemap1.xml
+https://gugumassage.shop/rss.xml
+https://gugumassage.shop/robots.txt
 ```
 
 ## 20. 핵심 결론
